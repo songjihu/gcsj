@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':fragmentation', ':fragmentation_core'

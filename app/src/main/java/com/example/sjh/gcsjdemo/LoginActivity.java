@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
@@ -44,7 +43,6 @@ import java.sql.Statement;
 import java.util.concurrent.CountDownLatch;
 
 import Entity.UserInfo;
-import MyThread.LoginThread;
 
 /**
  * A login screen that offers login via email/password.
