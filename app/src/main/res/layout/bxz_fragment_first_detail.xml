@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg_second"
-                android:transitionName="@string/image_transition"/>
+                android:transitionName="image_transition"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

@@ -6,20 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.yokeyword.sample.R;
-import me.yokeyword.sample.demo_zhihu.base.BaseMainFragment;
-import me.yokeyword.sample.demo_zhihu.ui.fragment.second.child.ViewPagerFragment;
+import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.base.BaseMainFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
+
 
 /**
  * Created by YoKeyword on 16/6/3.
  */
-public class ZhihuSecondFragment extends BaseMainFragment {
+public class BxzSecondFragment extends BaseMainFragment {
 
-    public static ZhihuSecondFragment newInstance() {
+    public static BxzSecondFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        ZhihuSecondFragment fragment = new ZhihuSecondFragment();
+        BxzSecondFragment fragment = new BxzSecondFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -27,7 +28,7 @@ public class ZhihuSecondFragment extends BaseMainFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.zhihu_fragment_second, container, false);
+        View view = inflater.inflate(R.layout.bxz_fragment_second, container, false);
         return view;
     }
 

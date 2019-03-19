@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sjh.gcsjdemo.R;
+
 import me.yokeyword.fragmentation.SupportFragment;
-import me.yokeyword.sample.R;
-import me.yokeyword.sample.demo_zhihu.adapter.ZhihuPagerFragmentAdapter;
+
+import com.example.sjh.gcsjdemo.adapter.BxzPagerFragmentAdapter;
 
 /**
  * Created by YoKeyword on 16/6/5.
@@ -31,7 +33,7 @@ public class ViewPagerFragment extends SupportFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.zhihu_fragment_second_pager, container, false);
+        View view = inflater.inflate(R.layout.bxz_fragment_second_pager, container, false);
         initView(view);
         return view;
     }
@@ -44,7 +46,7 @@ public class ViewPagerFragment extends SupportFragment {
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
 
-        mViewPager.setAdapter(new ZhihuPagerFragmentAdapter(getChildFragmentManager(),
+        mViewPager.setAdapter(new BxzPagerFragmentAdapter(getChildFragmentManager(),
                 getString(R.string.recommend), getString(R.string.hot), getString(R.string.favorite),
                 getString(R.string.more)));
         mTab.setupWithViewPager(mViewPager);

@@ -8,16 +8,16 @@ import android.support.v4.app.ActivityCompat;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.SupportFragment;
-import com.example.sjh.gcsjdemo.R;
+
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.ui.fragment.first.BxzFirstFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.BxzFourthFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.child.MeFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.second.ZhihuSecondFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.second.BxzSecondFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.third.ZhihuThirdFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.third.BxzThirdFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.child.ShopFragment;
 import com.example.sjh.gcsjdemo.ui.view.BottomBar;
 import com.example.sjh.gcsjdemo.ui.view.BottomBarTab;
@@ -39,14 +39,14 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.zhihu_activity_main);
+        setContentView(R.layout.bxz_activity_main);
 
-        SupportFragment firstFragment = findFragment(ZhihuFirstFragment.class);
+        SupportFragment firstFragment = findFragment(BxzFirstFragment.class);
         if (firstFragment == null) {
-            mFragments[FIRST] = ZhihuFirstFragment.newInstance();
-            mFragments[SECOND] = ZhihuSecondFragment.newInstance();
-            mFragments[THIRD] = ZhihuThirdFragment.newInstance();
-            mFragments[FOURTH] = ZhihuFourthFragment.newInstance();
+            mFragments[FIRST] = BxzFirstFragment.newInstance();
+            mFragments[SECOND] = BxzSecondFragment.newInstance();
+            mFragments[THIRD] = BxzThirdFragment.newInstance();
+            mFragments[FOURTH] = BxzFourthFragment.newInstance();
 
             loadMultipleRootFragment(R.id.fl_container, FIRST,
                     mFragments[FIRST],
@@ -58,9 +58,9 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
 
             // 这里我们需要拿到mFragments的引用
             mFragments[FIRST] = firstFragment;
-            mFragments[SECOND] = findFragment(ZhihuSecondFragment.class);
-            mFragments[THIRD] = findFragment(ZhihuThirdFragment.class);
-            mFragments[FOURTH] = findFragment(ZhihuFourthFragment.class);
+            mFragments[SECOND] = findFragment(BxzSecondFragment.class);
+            mFragments[THIRD] = findFragment(BxzThirdFragment.class);
+            mFragments[FOURTH] = findFragment(BxzFourthFragment.class);
         }
 
         initView();
@@ -92,13 +92,13 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
 
                 // 如果不在该类别Fragment的主页,则回到主页;
                 if (count > 1) {
-                    if (currentFragment instanceof ZhihuFirstFragment) {
+                    if (currentFragment instanceof BxzFirstFragment) {
                         currentFragment.popToChild(FirstHomeFragment.class, false);
-                    } else if (currentFragment instanceof ZhihuSecondFragment) {
+                    } else if (currentFragment instanceof BxzSecondFragment) {
                         currentFragment.popToChild(ViewPagerFragment.class, false);
-                    } else if (currentFragment instanceof ZhihuThirdFragment) {
+                    } else if (currentFragment instanceof BxzThirdFragment) {
                         currentFragment.popToChild(ShopFragment.class, false);
-                    } else if (currentFragment instanceof ZhihuFourthFragment) {
+                    } else if (currentFragment instanceof BxzFourthFragment) {
                         currentFragment.popToChild(MeFragment.class, false);
                     }
                     return;

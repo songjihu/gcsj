@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.sjh.gcsjdemo.R;
+
 import me.yokeyword.fragmentation.SupportFragment;
-import me.yokeyword.sample.R;
+
 
 /**
  * Created by YoKeyword on 16/6/5.
@@ -36,7 +38,7 @@ public class OtherPagerFragment extends SupportFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.zhihu_fragment_second_pager_other, container, false);
+        View view = inflater.inflate(R.layout.bxz_fragment_second_pager_other, container, false);
         initView(view);
         return view;
     }
