@@ -12,4 +12,10 @@
     <dimen name="two_dp">2dp</dimen>
     <dimen name="five_dp">5dp</dimen>
 
+    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+
+    <dimen name="bottombar_height">48dp</dimen>
+    <dimen name="bottombar_wechat_height">52dp</dimen>
 </resources>
