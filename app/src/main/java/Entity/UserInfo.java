@@ -1,33 +1,40 @@
 package Entity;
 
 public class UserInfo {
-    private String userid;
-    private String userpwd;
+    private String userId;
+    private String userPwd;
     private String rpwd;
+    private String userName;
 
-    public String getUserid() {
-        return userid;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getUserpwd() {
-        return userpwd;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserPwd() {
+        return userPwd;
+    }
+
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
     }
 
     public String getRpwd() {
         return rpwd;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-
-    public void setUserpwd(String userpwd) {
-        this.userpwd = userpwd;
-    }
-
     public void setRpwd(String rpwd) {
         this.rpwd = rpwd;
     }
 
+    public String getUserName() {
+        return userName;
+    }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

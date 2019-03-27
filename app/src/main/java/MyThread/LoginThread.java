@@ -25,8 +25,8 @@ public class LoginThread extends Thread {
 
     public LoginThread(String id, String password)
     {
-        uu.setUserid(id);
-        uu.setUserpwd(password);
+        uu.setUserId(id);
+        uu.setUserPwd(password);
 
     }
     public void run()
@@ -36,7 +36,7 @@ public class LoginThread extends Thread {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
-            String sql="SELECT userpwd FROM `user` WHERE userid = "+uu.getUserid();
+            String sql="SELECT userpwd FROM `user` WHERE userid = "+uu.getUserId();
             Statement st=(Statement)cn.createStatement();
             ResultSet rs=st.executeQuery(sql);
             while(rs.next()){
