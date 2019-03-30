@@ -212,7 +212,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private boolean isPasswordValid(String email, String password) {
 
         final UserInfo uuu = new UserInfo();
-        uuu.setUserid(email);
+        uuu.setUserId(email);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
@@ -220,7 +220,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
-                    String sql="SELECT userpwd FROM `user` WHERE userid = "+uuu.getUserid();
+                    String sql="SELECT userpwd FROM `user` WHERE userid = "+uuu.getUserId();
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
