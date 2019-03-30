@@ -214,6 +214,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         final UserInfo uuu = new UserInfo();
         uuu.setUserId(email);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
+        /*
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -260,7 +261,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
            // Toast.makeText(getApplicationContext(),answer,Toast.LENGTH_LONG).show();
-
+*/
+        return true;
     }
 
     /**
