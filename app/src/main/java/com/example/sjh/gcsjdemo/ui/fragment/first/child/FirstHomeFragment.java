@@ -9,18 +9,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
+
+import com.example.sjh.gcsjdemo.MessageEvent;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.MainActivity;
 import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
@@ -42,6 +47,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     private boolean mInAtTop = true;
     private int mScrollTotal;
+    private String uTitles = new String();
+
+
 
     private String[] mTitles = new String[]{
             "Use imagery to express a distinctive voice and exemplify creative excellence.",
@@ -70,17 +78,37 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bxz_fragment_first_home, container, false);
         EventBusActivityScope.getDefault(_mActivity).register(this);
+        EventBus.getDefault().register(this);
         initView(view);
         return view;
     }
 
-    private void initView(View view) {
+    /*
+    // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show();
+    }
+*/
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEvent(String data) {
+        uTitles=data;
+        Log.i("**********",data);
+    }
+
+
+
+    public void initView(View view) {
+
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mRecy = (RecyclerView) view.findViewById(R.id.recy);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
 
-        mToolbar.setTitle(R.string.home);
+
+
+        mToolbar.setTitle(uTitles);
 
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setOnRefreshListener(this);
@@ -183,5 +211,14 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     public void onDestroyView() {
         super.onDestroyView();
         EventBusActivityScope.getDefault(_mActivity).unregister(this);
+        EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
 }

@@ -14,10 +14,12 @@ import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstHomeFragment;
  */
 public class BxzFirstFragment extends BaseMainFragment {
 
-    public static BxzFirstFragment newInstance() {
+    public static BxzFirstFragment newInstance(String name) {
+
+        //传递用户姓名
 
         Bundle args = new Bundle();
-
+        args.putString("username", name);
         BxzFirstFragment fragment = new BxzFirstFragment();
         fragment.setArguments(args);
         return fragment;
@@ -37,5 +39,16 @@ public class BxzFirstFragment extends BaseMainFragment {
         if (findChildFragment(FirstHomeFragment.class) == null) {
             loadRootFragment(R.id.fl_first_container, FirstHomeFragment.newInstance());
         }
+    }
+
+    //传递参数
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setNmae(String name) {
+        this.name  = name;
     }
 }

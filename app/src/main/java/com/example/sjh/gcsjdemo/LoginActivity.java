@@ -32,6 +32,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,14 +74,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    public String UserName=new String();
+    public static int getRequestReadContacts() {
+        return REQUEST_READ_CONTACTS;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R. id.email);
         populateAutoComplete();
+        EventBus.getDefault().post("777777");
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -198,7 +205,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-            startActivity(new Intent(LoginActivity.this, com.example.sjh.gcsjdemo.MainActivity.class));
+            //用Bundle携带数据
+            //新建一个显式意图，第一个参数为当前Activity类对象，第二个参数为你要打开的Activity类
+            Intent intent =new Intent(LoginActivity.this,com.example.sjh.gcsjdemo.MainActivity.class);
+
+            //用Bundle携带数据
+            Bundle bundle=new Bundle();
+            //传递name参数为name到下一层
+            bundle.putString("name",email);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
@@ -214,6 +230,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         final UserInfo uuu = new UserInfo();
         uuu.setUserId(email);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
+
         /*
         new Thread(new Runnable() {
             @Override

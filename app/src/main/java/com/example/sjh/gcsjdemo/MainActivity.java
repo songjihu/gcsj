@@ -3,6 +3,8 @@ package com.example.sjh.gcsjdemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+import android.view.Window;
 
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
@@ -21,6 +23,13 @@ import com.example.sjh.gcsjdemo.ui.fragment.third.BxzThirdFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.child.ShopFragment;
 import com.example.sjh.gcsjdemo.ui.view.BottomBar;
 import com.example.sjh.gcsjdemo.ui.view.BottomBarTab;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import com.example.sjh.gcsjdemo.MessageEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 类知乎 复杂嵌套Demo tip: 多使用右上角的"查看栈视图"
@@ -31,19 +40,38 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
     public static final int SECOND = 1;
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
+    List<String> mDatas = new ArrayList<>();
 
     private SupportFragment[] mFragments = new SupportFragment[4];
 
     private BottomBar mBottomBar;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+
+        for(int i = 1; i <= 5; i++) {
+            mDatas.add("这是第"+ i + "条数据");
+        }
+
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.bxz_activity_main);
 
+        Bundle bundle = this.getIntent().getExtras();
+        //从登陆activity获取用户名
+        String name = bundle.getString("name");
+        Log.i("获取到的name值为",name);
+
+        EventBus.getDefault().postSticky(name);
+
+        //EventBus.getDefault().post(new MessageEvent("Hello everyone!"));
+
         SupportFragment firstFragment = findFragment(BxzFirstFragment.class);
+
         if (firstFragment == null) {
-            mFragments[FIRST] = BxzFirstFragment.newInstance();
+            mFragments[FIRST] = BxzFirstFragment.newInstance(name);
             mFragments[SECOND] = BxzSecondFragment.newInstance();
             mFragments[THIRD] = BxzThirdFragment.newInstance();
             mFragments[FOURTH] = BxzFourthFragment.newInstance();
@@ -65,6 +93,8 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
 
         initView();
     }
+
+
 
     private void initView() {
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
