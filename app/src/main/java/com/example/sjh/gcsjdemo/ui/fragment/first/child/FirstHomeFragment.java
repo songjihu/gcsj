@@ -13,11 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,8 @@ import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.helper.DetailTransition;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 
+import static com.example.sjh.gcsjdemo.R.id.welcomemsg;
+
 /**
  * Created by YoKeyword on 16/6/5.
  */
@@ -42,7 +47,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     private RecyclerView mRecy;
     private SwipeRefreshLayout mRefreshLayout;
     private FloatingActionButton mFab;
-
+    private TextView welcomeView;
     private FirstHomeAdapter mAdapter;
 
     private boolean mInAtTop = true;
@@ -107,8 +112,8 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
 
 
-
-        mToolbar.setTitle(uTitles);
+        welcomeView = (TextView) view.findViewById(R.id.welcomemsg);
+        welcomeView.setText("欢迎"+uTitles);
 
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setOnRefreshListener(this);

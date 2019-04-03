@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#3a459d</color>
-    <color name="colorAccent1">#3a459d</color>
+    <color name="colorPrimary">#4f58a8</color>
+    <color name="colorPrimaryDark">#4f58a8</color>
+    <color name="colorAccent">#4f58a8</color>
+    <color name="colorAccent1">#4f58a8</color>
     <color name="bg_app">#ffffff</color>
     <color name="tab_unselect">#c9c9c9</color>
     <color name="bg_btn">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

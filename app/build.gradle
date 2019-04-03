@@ -26,7 +26,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/mysql-connector-java-5.1.30-bin.jar')
-    compile 'me.yokeyword:fragmentation:1.3.6'
-    compile 'me.yokeyword:eventbus-activity-scope:1.1.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'me.yokeyword:fragmentation:1.3.6'
+    implementation 'me.yokeyword:eventbus-activity-scope:1.1.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
 }

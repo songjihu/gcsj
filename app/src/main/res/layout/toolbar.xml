@@ -1,18 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.AppBarLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:theme="@style/AppTheme.AppBarOverlay">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/firstSupspendLine"
+    android:layout_width="wrap_content"
+    android:layout_height="150dp"
+    android:layout_marginTop="0dp" >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"
-        app:titleTextAppearance="@style/Toolbar_TextAppearance_White"/>
-</android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/firstback">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/welcomemsg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="left"
+                android:text="666666"
+                android:textColor="@color/bg_app"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

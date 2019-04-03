@@ -86,7 +86,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R. id.email);
         populateAutoComplete();
-        EventBus.getDefault().post("777777");
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -171,8 +170,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        //String email = mEmailView.getText().toString();
+        // password = mPasswordView.getText().toString();
+        String email = "20162430722";
+        String password = "111";
 
         boolean cancel = false;
         View focusView = null;
