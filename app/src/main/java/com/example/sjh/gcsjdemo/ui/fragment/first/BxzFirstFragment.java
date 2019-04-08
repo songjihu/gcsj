@@ -16,7 +16,7 @@ public class BxzFirstFragment extends BaseMainFragment {
 
     public static BxzFirstFragment newInstance(String name) {
 
-        //传递用户姓名
+        //传递用户姓名（并没有采用这种方式）
 
         Bundle args = new Bundle();
         args.putString("username", name);
@@ -41,14 +41,4 @@ public class BxzFirstFragment extends BaseMainFragment {
         }
     }
 
-    //传递参数
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setNmae(String name) {
-        this.name  = name;
-    }
 }

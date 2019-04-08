@@ -17,6 +17,7 @@ import com.example.sjh.gcsjdemo.ui.fragment.CycleFragment;
 
 /**
  * Created by YoKeyword on 16/6/5.
+ * 修改为详细的签到界面
  */
 public class FirstDetailFragment extends BaseBackFragment {
     private static final String ARG_ITEM = "arg_item";
@@ -46,6 +47,7 @@ public class FirstDetailFragment extends BaseBackFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //R.layout.bxz_fragment_first_detail 点击后的详细界面
         View view = inflater.inflate(R.layout.bxz_fragment_first_detail, container, false);
         initView(view);
         return view;
@@ -59,7 +61,7 @@ public class FirstDetailFragment extends BaseBackFragment {
 
         mToolbar.setTitle("");
         initToolbarNav(mToolbar);
-        mImgDetail.setImageResource(mArticle.getImgRes());
+        //mImgDetail.setImageResource(mArticle.getImgRes());
         mTvTitle.setText(mArticle.getTitle());
 
         mFab.setOnClickListener(new View.OnClickListener() {

@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 /**
  * Created by YoKeyword on 16/2/1.
+ * 修改于 19/4/8.
+ * 修改为未上课程的提示信息
  */
 public class Article implements Parcelable {
     private String title;

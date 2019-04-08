@@ -1,0 +1,83 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/firstSupspendLine"
+    android:layout_width="194dp"
+    android:layout_height="55dp"
+    android:layout_marginTop="5dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/sellMktt"
+            android:layout_width="97dp"
+            android:layout_height="55dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:background="@drawable/pwdpicture"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:gravity="left"
+                android:text="1111"
+                android:textColor="@color/bg_app"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/price_quote_sellprice"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="0.7023"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buyMktt"
+            android:layout_width="95dp"
+            android:layout_height="55dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/actionbar_shadow_up"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2dp"
+                android:gravity="right"
+                android:text="666"
+                android:textColor="@color/bg_btn"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/price_quote_buyprice"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="0.7023"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="23dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/bg_app"
+        android:gravity="center"
+        android:text="AUD/CHF"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
+
+</FrameLayout>

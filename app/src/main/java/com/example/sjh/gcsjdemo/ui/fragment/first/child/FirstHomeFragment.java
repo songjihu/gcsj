@@ -56,14 +56,17 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
 
 
+    //5个item的标题
     private String[] mTitles = new String[]{
-            "Use imagery to express a distinctive voice and exemplify creative excellence.",
-            "An image that tells a story is infinitely more interesting and informative.",
-            "The most powerful iconic images consist of a few meaningful elements, with minimal distractions.",
-            "Properly contextualized concepts convey your message and brand more effectively.",
-            "Have an iconic point of focus in your imagery. Focus ranges from a single entity to an overarching composition."
+            "1111111111111111",
+            "2222222222222222",
+            "3333333333333333",
+            "4444444444444444",
+            "5555555555555555"
     };
 
+
+    //5个item的图片
     private int[] mImgRes = new int[]{
             R.drawable.bg_first, R.drawable.bg_second, R.drawable.bg_third, R.drawable.bg_fourth, R.drawable.bg_fifth
     };
@@ -98,6 +101,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
+        //接收用户姓名
         uTitles=data;
         Log.i("**********",data);
     }
@@ -110,22 +114,20 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mRecy = (RecyclerView) view.findViewById(R.id.recy);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
-
-
         welcomeView = (TextView) view.findViewById(R.id.welcomemsg);
+        //在最上面打印欢迎XXX
         welcomeView.setText("欢迎"+uTitles);
-
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setOnRefreshListener(this);
-
         mAdapter = new FirstHomeAdapter(_mActivity);
         LinearLayoutManager manager = new LinearLayoutManager(_mActivity);
         mRecy.setLayoutManager(manager);
         mRecy.setAdapter(mAdapter);
-
+        //点击item的事件监听，开启新的fragment
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                //初始化要加载的fragment
                 FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
 
                 // 这里是使用SharedElement的用例
@@ -148,13 +150,14 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
             }
         });
 
-        // Init Datas
+        // 在list中循环显示8个item
         List<Article> articleList = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             int index = i % 5;
             Article article = new Article(mTitles[index], mImgRes[index]);
             articleList.add(article);
         }
+        //设置数据到适配器
         mAdapter.setDatas(articleList);
 
         mRecy.addOnScrollListener(new RecyclerView.OnScrollListener() {

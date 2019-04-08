@@ -24,7 +24,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class ShopFragment extends SupportFragment {
     public static final String TAG = ShopFragment.class.getSimpleName();
 
-    private Toolbar mToolbar;
+    //private Toolbar mToolbar;
 
     public static ShopFragment newInstance() {
         Bundle args = new Bundle();
@@ -43,9 +43,9 @@ public class ShopFragment extends SupportFragment {
     }
 
     private void initView(View view, Bundle savedInstanceState) {
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        //mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
 
-        mToolbar.setTitle(R.string.shop);
+        //mToolbar.setTitle(R.string.shop);
 
         if (findChildFragment(MenuListFragment.class) == null) {
             ArrayList<String> listMenus = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.array_menu)));

@@ -18,6 +18,8 @@ import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 
 /**
  * Created by YoKeyword on 16/6/5.
+ * 修改于 19/4/8.
+ * 修改为未上课程的提示信息
  */
 public class FirstHomeAdapter extends RecyclerView.Adapter<FirstHomeAdapter.VH> {
     private List<Article> mItems = new ArrayList<>();
@@ -32,7 +34,9 @@ public class FirstHomeAdapter extends RecyclerView.Adapter<FirstHomeAdapter.VH> 
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_bxz_home_first, parent, false);
+        //R.layout.item_bxz_home_first  为item的布局形式
+        View view = mInflater.inflate(R.layout.item_bxz_home_first1, parent, false);
+
         final VH holder = new VH(view);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,20 +47,21 @@ public class FirstHomeAdapter extends RecyclerView.Adapter<FirstHomeAdapter.VH> 
                 }
             }
         });
+
         return holder;
     }
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        Article item = mItems.get(position);
+       // Article item = mItems.get(position);
 
         // 把每个图片视图设置不同的Transition名称, 防止在一个视图内有多个相同的名称, 在变换的时候造成混乱
         // Fragment支持多个View进行变换, 使用适配器时, 需要加以区分
-        ViewCompat.setTransitionName(holder.img, String.valueOf(position) + "_image");
-        ViewCompat.setTransitionName(holder.tvTitle, String.valueOf(position) + "_tv");
+//        ViewCompat.setTransitionName(holder.img, String.valueOf(position) + "_image");
+       // ViewCompat.setTransitionName(holder.tvTitle, String.valueOf(position) + "_tv");
 
-        holder.img.setImageResource(item.getImgRes());
-        holder.tvTitle.setText(item.getTitle());
+       // holder.img.setImageResource(item.getImgRes());
+      //  holder.tvTitle.setText(item.getTitle());
     }
 
     public void setDatas(List<Article> items) {

@@ -120,6 +120,14 @@
     </string>
     <string name="modify_title">修改标题成功！</string>
     <string name="shop">商店</string>
+    <string name="homeworklist">第一节\n
+                        人工智能（ 北一101）\n
+                        柴玉梅\n
+                        待交作业：\n
+                        ①\n
+                        ②\n
+                        ③</string>
+    <string name="checkinstatus">签到状态：未开启\n</string>
     <string-array name="array_menu">
         <item>销量排行</item>
         <item>炒菜</item>
