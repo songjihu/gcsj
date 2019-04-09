@@ -57,7 +57,7 @@
             android:orientation="vertical" >
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/check_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="120dp"
                 android:layout_height="47dp"

@@ -11,22 +11,19 @@ import android.os.Parcelable;
 public class Article implements Parcelable {
     private String title;
     private String content;
-    private int imgRes;
+    private String status;
 
-    public Article(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
 
-    public Article(String title, int imgRes) {
+
+    public Article(String title, String status) {
         this.title = title;
-        this.imgRes = imgRes;
+        this.status = status;
     }
 
     protected Article(Parcel in) {
         title = in.readString();
         content = in.readString();
-        imgRes = in.readInt();
+        status = in.readString();
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {
@@ -57,12 +54,12 @@ public class Article implements Parcelable {
         this.content = content;
     }
 
-    public int getImgRes() {
-        return imgRes;
+    public String getCheckInStatus() {
+        return status;
     }
 
-    public void setImgRes(int imgRes) {
-        this.imgRes = imgRes;
+    public void setImgRes(String status) {
+        this.status = status;
     }
 
     @Override
@@ -74,6 +71,6 @@ public class Article implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(content);
-        dest.writeInt(imgRes);
+        dest.writeString(status);
     }
 }

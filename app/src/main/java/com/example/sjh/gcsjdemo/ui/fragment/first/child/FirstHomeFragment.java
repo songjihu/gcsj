@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +49,8 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     private SwipeRefreshLayout mRefreshLayout;
     private FloatingActionButton mFab;
     private TextView welcomeView;
-    private FirstHomeAdapter mAdapter;
+    private FirstHomeAdapter mAdapter;//此项为展示待上课程item的适配器
+
 
     private boolean mInAtTop = true;
     private int mScrollTotal;
@@ -67,8 +69,12 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
 
     //5个item的图片
-    private int[] mImgRes = new int[]{
-            R.drawable.bg_first, R.drawable.bg_second, R.drawable.bg_third, R.drawable.bg_fourth, R.drawable.bg_fifth
+    private String[] mCheck = new String[]{
+            "666",
+            "777",
+            "888",
+            "999",
+            "100"
     };
 
 
@@ -111,25 +117,25 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     public void initView(View view) {
 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mRecy = (RecyclerView) view.findViewById(R.id.recy);
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
-        welcomeView = (TextView) view.findViewById(R.id.welcomemsg);
+        mRecy = (RecyclerView) view.findViewById(R.id.recy);//循环显示的多个item
+        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);//下拉循环布局
+        mFab = (FloatingActionButton) view.findViewById(R.id.fab);//右下角小图标
+        welcomeView = (TextView) view.findViewById(R.id.welcomemsg);//欢迎信息：欢迎+同学/老师
         //在最上面打印欢迎XXX
-        welcomeView.setText("欢迎"+uTitles);
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        mRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new FirstHomeAdapter(_mActivity);
-        LinearLayoutManager manager = new LinearLayoutManager(_mActivity);
-        mRecy.setLayoutManager(manager);
-        mRecy.setAdapter(mAdapter);
+        welcomeView.setText("欢迎"+uTitles);//设置欢迎信息姓名
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);//设置下拉刷新的颜色
+        mRefreshLayout.setOnRefreshListener(this);//设置下拉刷新的对象
+        mAdapter = new FirstHomeAdapter(_mActivity);//定义item的适配器
+        LinearLayoutManager manager = new LinearLayoutManager(_mActivity);//设置为流布局并定义manger
+        mRecy.setLayoutManager(manager);//循环显示的多个item的布局管理
+        mRecy.setAdapter(mAdapter);//循环显示的多个item的适配器设置
         //点击item的事件监听，开启新的fragment
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
                 //初始化要加载的fragment
                 FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
-
+                //3个参数为  点击位置 无用 item的内容
                 // 这里是使用SharedElement的用例
                 // LOLLIPOP(5.0)系统的 SharedElement支持有 系统BUG， 这里判断大于 > LOLLIPOP
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -141,20 +147,21 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                     // 25.1.0以下的support包,Material过渡动画只有在进栈时有,返回时没有;
                     // 25.1.0+的support包，SharedElement正常
                     extraTransaction()
-                            .addSharedElement(((FirstHomeAdapter.VH) vh).img, getString(R.string.image_transition))
-                            .addSharedElement(((FirstHomeAdapter.VH) vh).tvTitle, "tv")
+                            .addSharedElement(((FirstHomeAdapter.VH) vh).checkinmsg, getString(R.string.image_transition))
+                            .addSharedElement(((FirstHomeAdapter.VH) vh).checkinstatus, "tv")
                             .start(fragment);
                 } else {
                     start(fragment);
                 }
             }
         });
+        //点击签到按钮的事件监听，开启新的fragment
 
         // 在list中循环显示8个item
         List<Article> articleList = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             int index = i % 5;
-            Article article = new Article(mTitles[index], mImgRes[index]);
+            Article article = new Article(mTitles[index], mCheck[index]);
             articleList.add(article);
         }
         //设置数据到适配器
