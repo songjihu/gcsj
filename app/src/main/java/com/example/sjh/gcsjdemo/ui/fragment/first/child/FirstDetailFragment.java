@@ -18,6 +18,7 @@ import com.example.sjh.gcsjdemo.ui.fragment.CycleFragment;
 /**
  * Created by YoKeyword on 16/6/5.
  * 修改为详细的签到界面
+ * 在这一层实现是否需要签到
  */
 public class FirstDetailFragment extends BaseBackFragment {
     private static final String ARG_ITEM = "arg_item";

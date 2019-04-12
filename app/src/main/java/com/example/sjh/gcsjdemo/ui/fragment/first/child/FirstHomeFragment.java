@@ -60,22 +60,27 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     //5个item的标题
     private String[] mTitles = new String[]{
-            "1111111111111111",
-            "2222222222222222",
-            "3333333333333333",
-            "4444444444444444",
-            "5555555555555555"
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
     };
 
 
     //5个item的图片
     private String[] mCheck = new String[]{
-            "666",
-            "777",
-            "888",
-            "999",
-            "100"
+            "签到状态：未签到\n",
+            "签到状态：未开启\n",
+            "签到状态：未开启\n",
+            "签到状态：未开启\n",
+            "签到状态：未开启\n",
     };
+
+    private int[] mImgRes = new int[]{
+            R.drawable.linglingling, R.drawable.linglingling, R.drawable.linglingling, R.drawable.linglingling, R.drawable.linglingling
+    };
+
 
 
     public static FirstHomeFragment newInstance() {
@@ -157,11 +162,16 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         });
         //点击签到按钮的事件监听，开启新的fragment
 
+
         // 在list中循环显示8个item
         List<Article> articleList = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             int index = i % 5;
-            Article article = new Article(mTitles[index], mCheck[index]);
+            if(mCheck[index].equals("签到状态：未开启\n"))
+            {
+                mImgRes[index]=R.drawable.linglinglingu;
+            }
+            Article article = new Article(mTitles[index], mCheck[index], mImgRes[index]);
             articleList.add(article);
         }
         //设置数据到适配器

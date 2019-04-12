@@ -34,6 +34,7 @@ public class FirstPagerFragment extends SupportFragment implements SwipeRefreshL
     private int mScrollTotal;
     private String[] mTitles;
     private String[] mContents;
+    private int[] mmContents;
 
     public static FirstPagerFragment newInstance() {
 

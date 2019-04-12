@@ -54,6 +54,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         Article item = mItems.get(position);
         holder.tvTitle.setText(item.getTitle());
         holder.tvContent.setText(item.getContent());
+
     }
 
     @Override

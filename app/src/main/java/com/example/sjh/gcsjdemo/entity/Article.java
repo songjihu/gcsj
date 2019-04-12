@@ -12,18 +12,26 @@ public class Article implements Parcelable {
     private String title;
     private String content;
     private String status;
+    private int img;
 
 
 
+    public Article(String title, String status, int img) {
+        this.title = title;
+        this.status = status;
+        this.img = img;
+    }
     public Article(String title, String status) {
         this.title = title;
         this.status = status;
+
     }
 
     protected Article(Parcel in) {
         title = in.readString();
         content = in.readString();
         status = in.readString();
+        img = in.readInt();
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {
@@ -58,8 +66,16 @@ public class Article implements Parcelable {
         return status;
     }
 
-    public void setImgRes(String status) {
+    public void setCheckInStatus(String status) {
         this.status = status;
+    }
+
+    public int getImgRes() {
+        return img;
+    }
+
+    public void setImgRes(int imgRes) {
+        this.img = imgRes;
     }
 
     @Override
@@ -72,5 +88,6 @@ public class Article implements Parcelable {
         dest.writeString(title);
         dest.writeString(content);
         dest.writeString(status);
+        dest.writeInt(img);
     }
 }

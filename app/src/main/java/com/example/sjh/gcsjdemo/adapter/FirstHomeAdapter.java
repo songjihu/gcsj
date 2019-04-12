@@ -65,9 +65,13 @@ public class FirstHomeAdapter extends RecyclerView.Adapter<FirstHomeAdapter.VH> 
         // Fragment支持多个View进行变换, 使用适配器时, 需要加以区分
         ViewCompat.setTransitionName(holder.checkinmsg, String.valueOf(position) + "1");
         ViewCompat.setTransitionName(holder.checkinstatus, String.valueOf(position) + "2");
+        ViewCompat.setTransitionName(holder.checkinling, String.valueOf(position) + "3");
 
         holder.checkinmsg.setText(item.getCheckInStatus());
         holder.checkinstatus.setText(item.getTitle());
+        holder.checkinling.setImageResource(item.getImgRes());
+
+
     }
 
     public void setDatas(List<Article> items) {
@@ -91,11 +95,13 @@ public class FirstHomeAdapter extends RecyclerView.Adapter<FirstHomeAdapter.VH> 
     public class VH extends RecyclerView.ViewHolder {
         public TextView checkinmsg;//获取签到课程名称
         public TextView checkinstatus;//获取签到状态
+        public ImageView checkinling;//获取签到铃铛的图片
 
         public VH(View itemView) {
             super(itemView);
             checkinmsg = (TextView) itemView.findViewById(R.id.checkinmsg);
             checkinstatus = (TextView) itemView.findViewById(R.id.homeworkmsg);
+            checkinling = (ImageView) itemView.findViewById(R.id.linglingling);
         }
     }
 }
