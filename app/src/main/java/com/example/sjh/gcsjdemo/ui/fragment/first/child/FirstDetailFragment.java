@@ -1,5 +1,6 @@
 package com.example.sjh.gcsjdemo.ui.fragment.first.child;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -7,9 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sjh.gcsjdemo.CheckinActivity;
+import com.example.sjh.gcsjdemo.LoginActivity;
+import com.example.sjh.gcsjdemo.MainActivity;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.base.BaseBackFragment;
 import com.example.sjh.gcsjdemo.entity.Article;
@@ -56,9 +61,11 @@ public class FirstDetailFragment extends BaseBackFragment {
 
     private void initView(View view) {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mImgDetail = (ImageView) view.findViewById(R.id.img_detail);
+        //mImgDetail = (ImageView) view.findViewById(R.id.img_detail);
         mTvTitle = (TextView) view.findViewById(R.id.tv_content);
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+
+
 
         mToolbar.setTitle("");
         initToolbarNav(mToolbar);
@@ -67,8 +74,9 @@ public class FirstDetailFragment extends BaseBackFragment {
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                start(CycleFragment.newInstance(1));
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                startActivity(intent);
             }
         });
     }
