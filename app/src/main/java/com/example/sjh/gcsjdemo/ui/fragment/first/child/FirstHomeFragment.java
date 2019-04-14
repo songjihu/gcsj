@@ -47,7 +47,6 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     private Toolbar mToolbar;
     private RecyclerView mRecy;
     private SwipeRefreshLayout mRefreshLayout;
-    private FloatingActionButton mFab;
     private TextView welcomeView;
     private FirstHomeAdapter mAdapter;//此项为展示待上课程item的适配器
 
@@ -124,7 +123,6 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mRecy = (RecyclerView) view.findViewById(R.id.recy);//循环显示的多个item
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);//下拉循环布局
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);//右下角小图标
         welcomeView = (TextView) view.findViewById(R.id.welcomemsg);//欢迎信息：欢迎+同学/老师
         //在最上面打印欢迎XXX
         welcomeView.setText("欢迎"+uTitles);//设置欢迎信息姓名
@@ -187,20 +185,11 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 } else {
                     mInAtTop = false;
                 }
-                if (dy > 5) {
-                    mFab.hide();
-                } else if (dy < -5) {
-                    mFab.show();
-                }
+
             }
         });
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(_mActivity, "Action", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override

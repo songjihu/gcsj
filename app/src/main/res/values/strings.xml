@@ -127,6 +127,13 @@
                         ①\n
                         ②\n
                         ③</string>
+    <string name="homeworklist_test">第一节第一节第一节第一节第一节第一节第一节第一节\n
+                        人工智能（ 北一101）\n
+                        柴玉梅\n
+                        待交作业：\n
+                        ①\n
+                        ②\n
+                        ③</string>
     <string name="checkinstatus">签到状态：未开启\n</string>
     <string-array name="array_menu">
         <item>销量排行</item>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.second.child.SecondHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
 
 
@@ -17,9 +18,7 @@ import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
 public class BxzSecondFragment extends BaseMainFragment {
 
     public static BxzSecondFragment newInstance() {
-
         Bundle args = new Bundle();
-
         BxzSecondFragment fragment = new BxzSecondFragment();
         fragment.setArguments(args);
         return fragment;
@@ -35,8 +34,11 @@ public class BxzSecondFragment extends BaseMainFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (findChildFragment(ViewPagerFragment.class) == null) {
-            loadRootFragment(R.id.fl_second_container, ViewPagerFragment.newInstance());
+//        if (findChildFragment(ViewPagerFragment.class) == null) {
+//          loadRootFragment(R.id.fl_second_container, ViewPagerFragment.newInstance());
+//      }
+        if (findChildFragment(SecondHomeFragment.class) == null) {
+            loadRootFragment(R.id.fl_second_container, SecondHomeFragment.newInstance());
         }
     }
 

@@ -16,8 +16,10 @@ import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.ui.fragment.first.BxzFirstFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.BxzFourthFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.fourth.child.FourthHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.child.MeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.BxzSecondFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.second.child.SecondHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.BxzThirdFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.child.ShopFragment;
@@ -125,11 +127,13 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
                     if (currentFragment instanceof BxzFirstFragment) {
                         currentFragment.popToChild(FirstHomeFragment.class, false);
                     } else if (currentFragment instanceof BxzSecondFragment) {
-                        currentFragment.popToChild(ViewPagerFragment.class, false);
+                        //currentFragment.popToChild(ViewPagerFragment.class, false);
+                        currentFragment.popToChild(SecondHomeFragment.class, false);
                     } else if (currentFragment instanceof BxzThirdFragment) {
                         currentFragment.popToChild(ShopFragment.class, false);
                     } else if (currentFragment instanceof BxzFourthFragment) {
-                        currentFragment.popToChild(MeFragment.class, false);
+                        //currentFragment.popToChild(MeFragment.class, false);
+                        currentFragment.popToChild(FourthHomeFragment.class, false);
                     }
                     return;
                 }

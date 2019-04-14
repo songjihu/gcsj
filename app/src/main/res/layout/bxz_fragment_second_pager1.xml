@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="95dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="安排一下"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="90dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/study_log"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:background="@drawable/study_log_pic"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="-60dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/publish_notice"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:background="@drawable/publish_notice_pic"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="150dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notice_pic"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="-70dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/publish_remind"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/new_remind_pic"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout2"
+        android:layout_width="match_parent"
+        android:layout_marginTop="250dp"
+        android:layout_height="match_parent">
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy2"
+            android:clipChildren="false"
+            android:paddingLeft="-12dp"
+            android:paddingRight="-12dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_app"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</FrameLayout>

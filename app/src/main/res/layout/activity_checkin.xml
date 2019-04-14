@@ -47,15 +47,18 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/check_code"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="58dp"
                     android:background="@drawable/yzmpicture"
                     android:hint="@string/prompt_email"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:paddingLeft="@dimen/one_dp"
+                    android:paddingLeft="0dp"
                     android:singleLine="true"
-                    android:textSize="@dimen/goodName_size" />
+                    android:textSize="@dimen/goodName_size"
+                    android:gravity="center_horizontal|center"
+                    android:layout_gravity = "center"
+                    android:scaleType="centerInside"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -72,7 +75,7 @@
                     android:layout_width="150dp"
                     android:layout_height="55dp"
 
-                    android:background="@drawable/studentbuttonpic"
+                    android:background="@drawable/checkinbuttonpic"
                     android:gravity="bottom|center"
                     android:layout_gravity = "center"
                     android:scaleType="centerInside"

@@ -58,13 +58,13 @@ public class DetailFragment extends BaseBackFragment {
     }
 
     private void initView(View view) {
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        //mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         mTvContent = (TextView) view.findViewById(R.id.tv_content);
 
-        mToolbar.setTitle(mTitle);
+        //mToolbar.setTitle(mTitle);
 
-        initToolbarNav(mToolbar);
+        //initToolbarNav(mToolbar);
     }
 
     /**
