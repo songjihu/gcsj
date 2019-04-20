@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.sjh.gcsjdemo.CheckinActivity;
 import com.example.sjh.gcsjdemo.MainActivity;
 import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.TimeActivity;
 import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.entity.Article;
@@ -119,7 +120,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         mStudylog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), TimeActivity.class);
                 startActivity(intent);
             }
         });
