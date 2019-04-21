@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.*;//用来读取本地时间，进一步来更新今日课程
 import java.text.*;
 
+import Entity.StuInfo;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -56,6 +57,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     private boolean mInAtTop = true;
     private int mScrollTotal;
     private String uTitles = new String();
+    private String classId=new String();
 
 
 
@@ -115,6 +117,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     public void onEvent(String data) {
         //接收用户姓名
         uTitles=data;
+        classId=StuInfo.getclassId(uTitles);
         Log.i("**********",data);
     }
 
@@ -203,6 +206,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 Calendar ca = Calendar.getInstance();
                 int hour=ca.get(Calendar.HOUR);//小时
                 int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
+
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);
