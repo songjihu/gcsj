@@ -25,6 +25,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;//用来读取本地时间，进一步来更新今日课程
+import java.text.*;
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -197,6 +199,10 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
+                /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
+                Calendar ca = Calendar.getInstance();
+                int hour=ca.get(Calendar.HOUR);//小时
+                int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);
