@@ -23,8 +23,6 @@
         android:visibility="gone" />
 
 
-
-
     <LinearLayout
         android:id="@+id/check_in_form"
         android:layout_width="match_parent"
@@ -37,35 +35,33 @@
             android:orientation="vertical">
 
 
-
-
             <android.support.design.widget.TextInputLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="100dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/check_code"
-                    android:layout_width="150dp"
+                    android:layout_width="248dp"
                     android:layout_height="58dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/yzmpicture"
+                    android:gravity="center_horizontal|center"
                     android:hint="@string/prompt_email"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:paddingLeft="0dp"
+                    android:scaleType="centerInside"
                     android:singleLine="true"
-                    android:textSize="@dimen/goodName_size"
-                    android:gravity="center_horizontal|center"
-                    android:layout_gravity = "center"
-                    android:scaleType="centerInside"/>
+                    android:textSize="@dimen/goodName_size" />
 
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="vertical">
 
@@ -75,9 +71,9 @@
                     android:layout_width="150dp"
                     android:layout_height="55dp"
 
+                    android:layout_gravity="center"
                     android:background="@drawable/checkinbuttonpic"
                     android:gravity="bottom|center"
-                    android:layout_gravity = "center"
                     android:scaleType="centerInside"
                     android:text="@string/action_sign_in"
                     android:textStyle="bold" />
@@ -85,8 +81,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
 
 
     </LinearLayout>

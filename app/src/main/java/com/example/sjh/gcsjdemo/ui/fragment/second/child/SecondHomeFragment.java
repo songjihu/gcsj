@@ -1,34 +1,27 @@
 package com.example.sjh.gcsjdemo.ui.fragment.second.child;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
+
+import com.example.sjh.database.greenDao.db.RemindDao;
 import com.example.sjh.gcsjdemo.CheckinActivity;
 import com.example.sjh.gcsjdemo.MainActivity;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
-import com.example.sjh.gcsjdemo.entity.Article;
+import com.example.sjh.gcsjdemo.dbmanager.GreenDaoManager;
+import com.example.sjh.gcsjdemo.entity.Remind;
 import com.example.sjh.gcsjdemo.entity.Reminder;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
-import com.example.sjh.gcsjdemo.helper.DetailTransition;
-import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
-import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstDetailFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,7 +49,6 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
     private boolean mInAtTop = true;
     private int mScrollTotal;
     private String uTitles;//接收用户id
-
 
     //5个item的标题
     private String[] mRemindermsg = new String[]{
@@ -102,7 +94,6 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
 
 
     public void initView(View view) {
-
         mRecy = (RecyclerView) view.findViewById(R.id.recy2);//循环显示的多个item
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout2);//下拉循环布局
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);//设置下拉刷新的颜色
@@ -119,6 +110,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         mStudylog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getActivity(), CheckinActivity.class);
                 startActivity(intent);
             }
@@ -141,13 +133,33 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         });
 
 
+        RemindDao userDao = GreenDaoManager.getInstance().getSession().getRemindDao();
+
+       /* Remind rm1 = new Remind("3","3","1","1","1");
+        Remind rm2 = new Remind("12","12","12","12","12");
+        userDao.insert(rm1);
+        userDao.insert(rm2);*/
+
         // 在list中循环显示8个item
-        List<Reminder> reminderList = new ArrayList<>();
+
+        List<Reminder> reminderList = new ArrayList<Reminder>();
+        List<Remind>  list = new ArrayList<Remind>();
+         list =  userDao.loadAll();
+
+
+         for(Remind r:list){
+             Reminder reminder = new Reminder(r.toTypeString());
+             reminderList.add(reminder);
+         }
+        /*
         for (int i = 0; i < 8; i++) {
             int index = i % 5;
             Reminder reminder = new Reminder(mRemindermsg[index]);
             reminderList.add(reminder);
         }
+        */
+
+
         //设置数据到适配器
         mAdapter.setDatas(reminderList);
 
