@@ -23,10 +23,15 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.w3c.dom.Text;
 
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;//用来读取本地时间，进一步来更新今日课程
 import java.text.*;
+import java.util.concurrent.CountDownLatch;
 
 import Entity.StuInfo;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
@@ -58,16 +63,16 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     private int mScrollTotal;
     private String uTitles = new String();
     private String classId=new String();
-
+    private String subjectId=new String();
 
 
     //5个item的标题
     private String[] mTitles = new String[]{
-            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n",
+            "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n",
     };
 
 
@@ -115,9 +120,34 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
-        //接收用户姓名
+        //接收用户姓名+得到用户所在班级进一步得到课程ID
+        StuInfo a=new StuInfo();
         uTitles=data;
-        classId=StuInfo.getclassId(uTitles);
+        classId=a.getclassId(data);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
+                    String sql="SELECT class_sch_id FROM `class_info` WHERE class_id = "+"classId";
+                    Statement st=(Statement)cn.createStatement();
+                    ResultSet rs=st.executeQuery(sql);
+                    while(rs.next()){
+                        subjectId=rs.getString("class_sch_id");
+                    }
+                    cn.close();
+                    st.close();
+                    rs.close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                countDownLatch.countDown();
+            }
+        });
         Log.i("**********",data);
     }
 
@@ -202,14 +232,44 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
-                Calendar ca = Calendar.getInstance();
-                int hour=ca.get(Calendar.HOUR);//小时
-                int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
-
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);
+        /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
+        Calendar ca = Calendar.getInstance();
+        int hour=ca.get(Calendar.HOUR);//小时
+        int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
+        int j=0;
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
+                    String sql="SELECT * FROM `schedule_info` WHERE day = "+"WeekofYear";
+                    String sql1="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`one`)";
+                    String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)";
+                    String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)";
+                    String sql4="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`four`)";
+                    String sql5="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`five`)";
+                    Statement st=(Statement)cn.createStatement();
+                    ResultSet rs=st.executeQuery(sql);
+                    while(rs.next()){
+                        //if
+                       mTitles[j]="第j节\n"+"rs.getString(`one`)"+
+                    }
+                    cn.close();
+                    st.close();
+                    rs.close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                countDownLatch.countDown();
+            }
+        });
     }
 
     private void scrollToTop() {
