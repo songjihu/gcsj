@@ -169,11 +169,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        //String email = mEmailView.getText().toString();
-        // password = mPasswordView.getText().toString();
-        String email = "20162430722";
-        String password = "111";
+        //Store values at the time of the login attempt.
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        //String email = "20162430710";
+        //String password = "123456";
 
         boolean cancel = false;
         View focusView = null;
@@ -232,18 +232,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         uuu.setUserId(email);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        /*
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
-                    String sql="SELECT userpwd FROM `user` WHERE userid = "+uuu.getUserId();
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                    String sql="SELECT passwd FROM `user` WHERE user_id = "+uuu.getUserId();
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
-                        uuu.setRpwd(rs.getString("userpwd"));
+                        uuu.setRpwd(rs.getString("passwd"));
 
                         Log.i("LoginActivity",uuu.getRpwd());
                     }
@@ -279,8 +279,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
            // Toast.makeText(getApplicationContext(),answer,Toast.LENGTH_LONG).show();
-*/
-        return true;
+
+        //return true;
     }
 
     /**

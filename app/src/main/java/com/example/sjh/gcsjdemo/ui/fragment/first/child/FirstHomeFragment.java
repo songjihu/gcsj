@@ -130,7 +130,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
             public void run() {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
                     String sql="SELECT class_sch_id FROM `class_info` WHERE class_id = "+"classId";
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
@@ -239,26 +239,54 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         Calendar ca = Calendar.getInstance();
         int hour=ca.get(Calendar.HOUR);//小时
         int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
-        int j=0;
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    int i=0;
                     Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
-                    String sql="SELECT * FROM `schedule_info` WHERE day = "+"WeekofYear";
-                    String sql1="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`one`)";
-                    String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)";
-                    String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)";
-                    String sql4="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`four`)";
-                    String sql5="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`five`)";
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                    String sql="SELECT * FROM `schedule_info` WHERE day = "+"WeekofYear"+"and sch_id="+"subjectId";
+                    String sql1="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`one`)"+"and sch_id="+"re.getString(`sch_id`)";
+                    String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)"+"and sch_id="+"re.getString(`sch_id`)";
+                    String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)"+"and sch_id="+"re.getString(`sch_id`)";
+                    String sql4="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`four`)"+"and sch_id="+"re.getString(`sch_id`)";
+                    String sql5="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`five`)"+"and sch_id="+"re.getString(`sch_id`)";
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
-                        //if
-                       mTitles[j]="第j节\n"+"rs.getString(`one`)"+
-                    }
+                        if(rs.getString("one")!="NULL") {
+                            ResultSet re=st.executeQuery(sql1);
+                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            i=i+1;
+                            re.close();
+                        }
+                        if(rs.getString("two")!="Null") {
+                            ResultSet re=st.executeQuery(sql2);
+                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            i=i+1;
+                            re.close();
+                        }
+                        if(rs.getString("three")!="NULL") {
+                            ResultSet re=st.executeQuery(sql3);
+                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            i=i+1;
+                            re.close();
+                        }
+                        if(rs.getString("four")!="NULL") {
+                            ResultSet re=st.executeQuery(sql4);
+                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            i=i+1;
+                            re.close();
+                        }
+                        if(rs.getString("five")!="NULL") {
+                            ResultSet re=st.executeQuery(sql5);
+                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            i=i+1;
+                            re.close();
+                        }
+                        }
                     cn.close();
                     st.close();
                     rs.close();
