@@ -197,7 +197,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
 
         // 在list中循环显示8个item
-        List<Article> articleList = new ArrayList<>();
+       List<Article> articleList = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             int index = i % 5;
             if(mCheck[index].equals("签到状态：未开启\n"))
@@ -226,6 +226,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
 
     }
+
 
     @Override
     public void onRefresh() {
