@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gcsjdemo</string>
+    <string name="app_name">班小助</string>
     <!-- Strings related to login -->
     <string name="prompt_email"> </string>
     <string name="prompt_password"></string>
@@ -159,4 +159,13 @@
     <string name="more">更多</string>
     <string name="me">我的</string>
     <string name="home">首页</string>
+
+    <string name="cancel">取消</string>
+    <string name="title">请选择时间</string>
+    <string name="confirm">确定</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
 </resources>

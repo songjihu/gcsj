@@ -23,7 +23,7 @@ public class GreenDaoManager {
         //创建一个数据库
 
         devOpenHelper = new DaoMaster.DevOpenHelper(MyApplication.getContext(), "greendao-db", null);
-        DaoMaster mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         mDaoSession = mDaoMaster.newSession();
     }
 

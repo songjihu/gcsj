@@ -6,9 +6,11 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.util.Date;
+
 /**
  * @ClassName: Remind
- * @Description: java类作用描述
+ * @Description: 实体Remind
  * @Author: ZZUWX
  * @Date: 2019/4/17 22:18
  */
@@ -23,32 +25,27 @@ public class Remind {
      private String title;
     @NotNull
      private String con;
-    @NotNull
-     private String obj;
 
-    @Generated(hash = 949996958)
+
+    @Generated(hash = 1989415835)
     public Remind(String remindId, @NotNull String remindTime,
-            @NotNull String title, @NotNull String con, @NotNull String obj) {
+            @NotNull String title, @NotNull String con) {
         this.remindId = remindId;
         this.remindTime = remindTime;
         this.title = title;
         this.con = con;
-        this.obj = obj;
     }
 
     @Generated(hash = 1173539496)
     public Remind() {
     }
 
-    public String getRemindId() {
-        return remindId;
-    }
 
     public void setRemindId(String remindId) {
         this.remindId = remindId;
     }
 
-    public String getRemindTime() {
+    public String  getRemindTime() {
         return remindTime;
     }
 
@@ -72,13 +69,7 @@ public class Remind {
         this.con = con;
     }
 
-    public String getObj() {
-        return obj;
-    }
 
-    public void setObj(String obj) {
-        this.obj = obj;
-    }
 
     @Override
     public String toString() {
@@ -87,7 +78,6 @@ public class Remind {
                 ", remindTime='" + remindTime + '\'' +
                 ", title='" + title + '\'' +
                 ", con='" + con + '\'' +
-                ", obj='" + obj + '\'' +
                 '}';
     }
 
@@ -97,5 +87,9 @@ public class Remind {
                "内容："+ con+"\n" +
                 "①\n" + "②\n" + "③\n"+
                 "时间："+remindTime+"\n" ;
+    }
+
+    public String getRemindId() {
+        return this.remindId;
     }
 }

@@ -7,7 +7,7 @@ import android.content.Context;
  * @ProjectName: gcsj
  * @Package: com.example.sjh.gcsjdemo.dbmanager
  * @ClassName: MyApplication
- * @Description: java类作用描述
+ * @Description: 初始化数据库
  * @Author: WX
  * @CreateDate: 2019/4/21 17:28
  * @Version: 1.0
