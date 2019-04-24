@@ -95,7 +95,7 @@ public class ThirdHomeAdapter extends RecyclerView.Adapter<ThirdHomeAdapter.VH> 
 
         public VH(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.friendName);
+            name = (TextView) itemView.findViewById(R.id.team_name);
             last_word = (TextView) itemView.findViewById(R.id.last_msg);
         }
     }

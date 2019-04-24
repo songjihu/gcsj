@@ -74,6 +74,9 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
                 friends.add(friend);
                 //好友计数器
                 friend_number++;
+                Log.i("（）（）（）（）（）（）",friend.getJid());
+                Log.i("（）（）（）（）（）（）",friend.getName());
+
             }
         }
         return friends;
@@ -132,12 +135,10 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     public void initView(View view) {
 
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mRecy = (RecyclerView) view.findViewById(R.id.recy);//循环显示的多个item
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);//下拉循环布局
+        mRecy = (RecyclerView) view.findViewById(R.id.recy3);//循环显示的多个item
+        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout3);//下拉循环布局
         welcomeView = (TextView) view.findViewById(R.id.welcomemsg);//欢迎信息：欢迎+同学/老师
         //在最上面打印欢迎XXX
-        welcomeView.setText("欢迎"+uTitles);//设置欢迎信息姓名
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);//设置下拉刷新的颜色
         mRefreshLayout.setOnRefreshListener(this);//设置下拉刷新的对象
         mAdapter = new ThirdHomeAdapter(_mActivity);//定义item的适配器
@@ -149,7 +150,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
                 //初始化要加载的fragment
-                FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
+            /*    FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
                 //3个参数为  点击位置 无用 item的内容
                 // 这里是使用SharedElement的用例
                 // LOLLIPOP(5.0)系统的 SharedElement支持有 系统BUG， 这里判断大于 > LOLLIPOP
@@ -167,7 +168,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
                             .start(fragment);
                 } else {
                     start(fragment);
-                }
+                }*/
             }
         });
         //点击签到按钮的事件监听，开启新的fragment

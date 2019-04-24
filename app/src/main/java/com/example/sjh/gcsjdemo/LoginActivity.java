@@ -227,8 +227,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
             List<String> loginList = new ArrayList<String>();
             //loginList.add(et_account.getText().toString());
             //loginList.add(et_password.getText().toString());
-            loginList.add("20162430722");
-            loginList.add("123");
+            loginList.add(email);
+            loginList.add(password);
             new loginTask().execute(loginList);
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
@@ -561,7 +561,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
                 case 2:
                     isLogin = false;
                     //activity跳转到下一层
-                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "登录聊天成功", Toast.LENGTH_SHORT).show();
                     //startActivity(new Intent(LoginActivity.this, FriendsActivity.class));
                     break;
                 case 3:
