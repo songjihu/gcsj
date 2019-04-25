@@ -21,7 +21,6 @@ import com.example.sjh.gcsjdemo.CheckinActivity;
 import com.example.sjh.gcsjdemo.MainActivity;
 import com.example.sjh.gcsjdemo.PublishActivity;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.TimeActivity;
 import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.dbmanager.RemindUtil;
@@ -48,7 +47,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * 修改于 19/4/14
  * 用于展示提醒的item
  */
-public class SecondHomeFragment extends SuportFregement implements SwipeRefreshLayout.OnRefreshListener {
+public class SecondHomeFragment extends SupportFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView mRecy;
     private SwipeRefreshLayout mRefreshLayout;
