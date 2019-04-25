@@ -11,6 +11,7 @@ import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.SupportFragment;
 
+import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.ui.fragment.first.BxzFirstFragment;
@@ -23,6 +24,7 @@ import com.example.sjh.gcsjdemo.ui.fragment.second.child.SecondHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.BxzThirdFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.child.ShopFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.third.child.ThirdHomeFragment;
 import com.example.sjh.gcsjdemo.ui.view.BottomBar;
 import com.example.sjh.gcsjdemo.ui.view.BottomBarTab;
 import org.greenrobot.eventbus.EventBus;
@@ -130,7 +132,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
                         //currentFragment.popToChild(ViewPagerFragment.class, false);
                         currentFragment.popToChild(SecondHomeFragment.class, false);
                     } else if (currentFragment instanceof BxzThirdFragment) {
-                        currentFragment.popToChild(ShopFragment.class, false);
+                        currentFragment.popToChild(ThirdHomeFragment.class, false);
                     } else if (currentFragment instanceof BxzFourthFragment) {
                         //currentFragment.popToChild(MeFragment.class, false);
                         currentFragment.popToChild(FourthHomeFragment.class, false);
