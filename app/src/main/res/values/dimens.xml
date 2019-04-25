@@ -18,4 +18,12 @@
 
     <dimen name="bottombar_height">48dp</dimen>
     <dimen name="bottombar_wechat_height">52dp</dimen>
+
+
+
+
+    <dimen name="weekItemHeight">40dp</dimen>
+    <dimen name="weekItemMarTop">2dp</dimen>
+    <dimen name="weekItemMarLeft">2dp</dimen>
+
 </resources>

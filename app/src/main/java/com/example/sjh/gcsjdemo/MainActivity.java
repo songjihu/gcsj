@@ -13,6 +13,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
+
 import com.example.sjh.gcsjdemo.ui.fragment.first.BxzFirstFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.BxzFourthFragment;
@@ -42,6 +43,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
     public static final int SECOND = 1;
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
+
     List<String> mDatas = new ArrayList<>();
 
     private SupportFragment[] mFragments = new SupportFragment[4];
@@ -82,7 +84,9 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
                     mFragments[FIRST],
                     mFragments[SECOND],
                     mFragments[THIRD],
-                    mFragments[FOURTH]);
+                    mFragments[FOURTH]
+
+                    );
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
 
@@ -91,6 +95,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
             mFragments[SECOND] = findFragment(BxzSecondFragment.class);
             mFragments[THIRD] = findFragment(BxzThirdFragment.class);
             mFragments[FOURTH] = findFragment(BxzFourthFragment.class);
+
         }
 
         initView();
@@ -104,7 +109,10 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
         mBottomBar.addItem(new BottomBarTab(this, R.drawable.ic_home_white_24dp))
                 .addItem(new BottomBarTab(this, R.drawable.ic_discover_white_24dp))
                 .addItem(new BottomBarTab(this, R.drawable.ic_message_white_24dp))
-                .addItem(new BottomBarTab(this, R.drawable.ic_account_circle_white_24dp));
+                .addItem(new BottomBarTab(this, R.drawable.ic_account_circle_white_24dp))
+
+
+        ;
 
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {
             @Override

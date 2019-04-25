@@ -22,4 +22,36 @@
     </style>
 
 
+
+
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme2" parent="AppBaseTheme">
+        <item name="android:actionBarStyle">@style/myActionBarStyle</item>
+    </style>
+
+    <style name="myActionBarStyle" parent="android:Widget.ActionBar" >
+        <item name="android:background">@color/actionBarBg</item>
+        <item name="android:titleTextStyle">@style/myActionBarTextStyle</item>
+        <item name="android:height">40dp</item>
+    </style>
+    <style name="myActionBarTextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/actionBarText</item>
+    </style>
+
+     <style name="spinner_text_size">
+        <item name="android:textSize">60dp</item>
+
+
+
+     </style>
+
+
+
+
 </resources>
