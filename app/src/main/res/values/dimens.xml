@@ -20,7 +20,5 @@
     <dimen name="bottombar_wechat_height">52dp</dimen>
 
 
-    <dimen name="picker_view_height">160dp</dimen>
-    <dimen name="date_unit_text_size">18sp</dimen>
 
 </resources>
