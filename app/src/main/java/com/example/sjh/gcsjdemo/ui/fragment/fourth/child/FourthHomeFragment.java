@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.sjh.gcsjdemo.AddCourseTable;
 import com.example.sjh.gcsjdemo.CheckinActivity;
 import com.example.sjh.gcsjdemo.MainActivity;
+import com.example.sjh.gcsjdemo.PersonActivity;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.entity.Reminder;
@@ -92,7 +94,7 @@ public class FourthHomeFragment extends SupportFragment {
         mUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), PersonActivity.class);
                 startActivity(intent);
             }
         });
@@ -100,7 +102,7 @@ public class FourthHomeFragment extends SupportFragment {
         mAddClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), AddCourseTable.class);
                 startActivity(intent);
             }
         });
