@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gcsjdemo</string>
+    <string name="app_name">班小助</string>
     <!-- Strings related to login -->
     <string name="prompt_email"> </string>
     <string name="prompt_password"></string>
