@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.sjh.gcsjdemo.adapter.ChatAdapter;
-import com.example.sjh.gcsjdemo.model.ChatMessage;
+import com.example.sjh.gcsjdemo.entity.ChatMessage;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,8 +28,6 @@ import org.jivesoftware.smack.packet.Message;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 
 
 /**

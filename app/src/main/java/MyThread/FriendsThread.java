@@ -2,7 +2,7 @@ package MyThread;
 
 import android.util.Log;
 
-import com.example.sjh.gcsjdemo.model.Friend;
+import com.example.sjh.gcsjdemo.entity.Friend;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 
 import org.jivesoftware.smack.roster.Roster;

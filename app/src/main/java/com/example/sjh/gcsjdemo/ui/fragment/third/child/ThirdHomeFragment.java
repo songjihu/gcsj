@@ -1,34 +1,23 @@
 package com.example.sjh.gcsjdemo.ui.fragment.third.child;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.sjh.gcsjdemo.ChatActivity;
-import com.example.sjh.gcsjdemo.MainActivity;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.TimeActivity;
-import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
-import com.example.sjh.gcsjdemo.entity.Article;
-import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
-import com.example.sjh.gcsjdemo.helper.DetailTransition;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
-import com.example.sjh.gcsjdemo.model.Friend;
-import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstDetailFragment;
+import com.example.sjh.gcsjdemo.entity.Friend;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,10 +26,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;

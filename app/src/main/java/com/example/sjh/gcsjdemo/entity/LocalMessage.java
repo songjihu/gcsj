@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * 修改为本地聊天信息
  */
 public class LocalMessage implements Parcelable {
-    private String msg;
+    private String msg;//聊天
 
     public LocalMessage(String msg) {
         this.msg = msg;

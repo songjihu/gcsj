@@ -1,4 +1,4 @@
-package com.example.sjh.gcsjdemo.model;
+package com.example.sjh.gcsjdemo.entity;
 
 /**
  * Created by Administrator on 2017/7/14.
