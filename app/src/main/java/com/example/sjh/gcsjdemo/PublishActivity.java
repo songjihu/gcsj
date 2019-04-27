@@ -28,7 +28,6 @@ public class PublishActivity extends Activity {
     private String  remind_time;
 
 
-
     private EditText dateText;
     private EditText timeText;
     private EditText editText;
