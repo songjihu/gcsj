@@ -33,9 +33,9 @@
         <activity
             android:name=".CheckinActivity"
             android:label="@string/app_name">
-
         </activity>
         <activity android:name=".TimeActivity"></activity>
+        <activity android:name=".ChatActivity"></activity>
         <activity android:name=".PublishActivity"></activity>
     </application>
 

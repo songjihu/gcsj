@@ -1,8 +1,6 @@
-package com.example.sjh.gcsjdemo.model;
+package com.example.sjh.gcsjdemo.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.example.sjh.gcsjdemo.entity.Article;
 
 
 /**

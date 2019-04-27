@@ -28,6 +28,8 @@ public class MyXMPPTCPConnection extends XMPPTCPConnection {
             builder.setPort(5222);
             //是否查看debug日志
             builder.setDebuggerEnabled(true);
+            //设置为离线
+            builder.setSendPresence(false);
             connection = new MyXMPPTCPConnection(builder.build());
             connection.setPacketReplyTimeout(10000);
         }
