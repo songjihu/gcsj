@@ -44,6 +44,8 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
     private Handler handler;
 
 
+
+
     private boolean mInAtTop = true;
     private int mScrollTotal;
     private String uTitles = new String();
@@ -69,28 +71,25 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
                 Friend friend = new Friend(entry.getUser(), entry.getName());
                 friends.add(friend);
                 //好友计数器
-                friend_number++;
-                Log.i("（）（）（）（）（）（）",friend.getJid());
-                Log.i("（）（）（）（）（）（）",friend.getName());
+
+                //Log.i("（）（）（）（）（）（）",friend_number+friend.getJid());
+                //Log.i("（）（）（）（）（）（）",friend.getName());
+
 
             }
         }
         return friends;
     }
 
-
-
-
-    //5个item的标题
-    private String[] mTitles = new String[]{
-
-    };
-
-
     //5个item的图片
     private String[] mCheck = new String[]{
 
     };
+
+    private String[] with_friends = new String[]{
+            "20162430722@gcsj-app",
+            "20162430723@gcsj-app"};
+    //群组其他人的idwith_friends
 
 
     public static ThirdHomeFragment newInstance() {
@@ -124,7 +123,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
     public void onEvent(String data) {
         //接收用户姓名
         uTitles=data;
-        Log.i("（）（）（）（）（）（）",data);
+        //Log.i("（）（）（）（）（）（）",data);
     }
 
 
@@ -153,7 +152,8 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
 
                 //发送数据并开始聊天
-                EventBus.getDefault().postSticky(friendsList.get(position).getJid());
+                //EventBus.getDefault().postSticky(friendsList.get(position).getJid());
+                EventBus.getDefault().postSticky(with_friends);
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 startActivity(intent);
 

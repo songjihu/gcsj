@@ -19,15 +19,24 @@ import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
 import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.offline.OfflineMessageManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -41,9 +50,13 @@ public class ChatActivity extends AppCompatActivity implements ChatManagerListen
     private ChatManager chatManager;
     private List<ChatMessage> messageList;
     private String friendJid;
-    private Chat chat;
+    private Chat chat0,chat1;
+    //private List<Chat> chat;
     private ChatAdapter adapter;
+    private String with_friends[];
+    private Boolean init_flag = false;
 
+    //接受处理消息
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -51,7 +64,8 @@ public class ChatActivity extends AppCompatActivity implements ChatManagerListen
                 case 0:
                     ChatMessage chatMessage = new ChatMessage((String) msg.obj, 1);
                     messageList.add(chatMessage);
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();//显示内容
+                    Log.i("1发送11111111111111111","1");
                     chatListView.setSelection(messageList.size() - 1);
                     break;
                 default:
@@ -61,10 +75,14 @@ public class ChatActivity extends AppCompatActivity implements ChatManagerListen
     };
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onEvent(String data) {
+    public void onEvent(String[] data) {
         //接收jid
-        friendJid=data;
-        Log.i("（）（）（）（）（）（）",data);
+        //friendJid=data;
+        with_friends=data;
+        Log.i("*****-----1----******",with_friends[0]);
+        Log.i("*****-----2----******",with_friends[1]);
+
+
     }
 
     @Override
@@ -83,6 +101,22 @@ public class ChatActivity extends AppCompatActivity implements ChatManagerListen
         adapter = new ChatAdapter(ChatActivity.this, messageList);
         chatListView.setAdapter(adapter);
         chatListView.setSelection(messageList.size() - 1);
+
+        //先处理离线消息
+        OfflineMessageManager offlineMessageManager=new OfflineMessageManager(connection);
+        List<Message> messages= null;
+
+        try {
+            messages =  offlineMessageManager.getMessages();
+        } catch (SmackException.NoResponseException e) {
+            e.printStackTrace();
+        } catch (XMPPException.XMPPErrorException e) {
+            e.printStackTrace();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
+        //处理后上线
+
     }
 
     private void initView(){
@@ -107,23 +141,30 @@ public class ChatActivity extends AppCompatActivity implements ChatManagerListen
         if(chatManager != null){
             //第一个参数是 用户的ID
             //第二个参数是 ChatMessageListener，我们这里传null就好了
-            chat = chatManager.createChat(friendJid, null);
+            //群组共计3个成员
+            chat0 = chatManager.createChat(with_friends[0], null);
+            chat1 = chatManager.createChat(with_friends[1], null);
+
         }
     }
 
+    //给群组中的每个人都发消息
     private void sendChatMessage(String msgContent){
         ChatMessage chatMessage = new ChatMessage(msgContent, 0);
-        messageList.add(chatMessage);
-        if(chat != null){
+        messageList.add(chatMessage);//加入list自己发送的消息
+        if(chat0 != null && chat1 != null){
             try {
                 //发送消息，参数为发送的消息内容
-                chat.sendMessage(msgContent);
+                chat0.sendMessage(msgContent);
+                Log.i("0发送",msgContent);
+                chat1.sendMessage(msgContent);
+                Log.i("1发送",msgContent);
                 et_chat.setText("");
             } catch (SmackException.NotConnectedException e) {
                 e.printStackTrace();
             }
         }
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();//修改显示内容
         chatListView.setSelection(messageList.size() - 1);
     }
 
