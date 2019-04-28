@@ -1,4 +1,4 @@
-package com.example.sjh.gcsjdemo;
+package com.example.sjh.gcsjdemo.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.adapter.ChatAdapter;
 import com.example.sjh.gcsjdemo.entity.ChatMessage;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
@@ -19,24 +20,17 @@ import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
 import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.offline.OfflineMessageManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 
 /**

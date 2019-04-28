@@ -3,9 +3,6 @@ package com.example.sjh.gcsjdemo.ui.fragment.fourth.child;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.sjh.gcsjdemo.CheckinActivity;
-import com.example.sjh.gcsjdemo.MainActivity;
+import com.example.sjh.gcsjdemo.activity.CheckinActivity;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
-import com.example.sjh.gcsjdemo.entity.Reminder;
-import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;

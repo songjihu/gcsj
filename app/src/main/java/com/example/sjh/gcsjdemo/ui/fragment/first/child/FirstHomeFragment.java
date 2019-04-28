@@ -3,7 +3,6 @@ package com.example.sjh.gcsjdemo.ui.fragment.first.child;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.Text;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,23 +25,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;//用来读取本地时间，进一步来更新今日课程
-import java.text.*;
 import java.util.concurrent.CountDownLatch;
 
-import Entity.StuInfo;
+import com.example.sjh.gcsjdemo.entity.StuInfo;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
 
-import com.example.sjh.gcsjdemo.MessageEvent;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.MainActivity;
+import com.example.sjh.gcsjdemo.activity.MainActivity;
 import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.entity.Article;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.helper.DetailTransition;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
-
-import static com.example.sjh.gcsjdemo.R.id.welcomemsg;
 
 /**
  * Created by YoKeyword on 16/6/5.

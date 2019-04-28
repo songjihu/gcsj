@@ -1,36 +1,29 @@
-package com.example.sjh.gcsjdemo;
+package com.example.sjh.gcsjdemo.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.view.Window;
 
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.SupportFragment;
 
-import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
+import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.ui.fragment.first.BxzFirstFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.BxzFourthFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.child.FourthHomeFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.fourth.child.MeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.BxzSecondFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.child.SecondHomeFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.BxzThirdFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.third.child.ShopFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.child.ThirdHomeFragment;
 import com.example.sjh.gcsjdemo.ui.view.BottomBar;
 import com.example.sjh.gcsjdemo.ui.view.BottomBarTab;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import com.example.sjh.gcsjdemo.MessageEvent;
 
 import java.util.ArrayList;
 import java.util.List;

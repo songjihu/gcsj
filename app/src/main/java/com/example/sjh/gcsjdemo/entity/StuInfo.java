@@ -1,4 +1,4 @@
-package Entity;
+package com.example.sjh.gcsjdemo.entity;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;

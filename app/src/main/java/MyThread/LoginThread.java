@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Entity.UserInfo;
+import com.example.sjh.gcsjdemo.entity.UserInfo;
 
 
 public class LoginThread extends Thread {

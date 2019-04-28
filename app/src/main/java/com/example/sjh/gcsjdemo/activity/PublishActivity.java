@@ -1,4 +1,4 @@
-package com.example.sjh.gcsjdemo;
+package com.example.sjh.gcsjdemo.activity;
 
 
 import android.app.Activity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.dbmanager.RemindUtil;
 import com.example.sjh.gcsjdemo.entity.Remind;
 import com.example.sjh.gcsjdemo.utils.DateUtil;
