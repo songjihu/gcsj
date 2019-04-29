@@ -48,5 +48,23 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+
+
+    testImplementation 'junit:junit:4.12'
+
+
+
+
+    //Picasso
+    implementation "com.squareup.picasso:picasso:2.5.2"
+
+    //ImageViews
+    implementation "de.hdodenhof:circleimageview:3.0.0"
+    implementation "com.github.siyamed:android-shape-imageview:0.9.3"
+
+    //Utils
+    implementation "me.relex:circleindicator:2.1.0"
+    compile 'com.github.stfalcon:chatkit:0.3.3'
+
 }
 

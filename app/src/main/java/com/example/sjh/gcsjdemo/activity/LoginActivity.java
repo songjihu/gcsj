@@ -515,6 +515,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
 
     private class loginTask extends AsyncTask<List<String>, Object, Short>{
 
+
+        //此次连接登录服务器为离线状态
         @Override
         protected Short doInBackground(List<String>... params) {
             if(connection != null){

@@ -18,6 +18,7 @@ import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 import com.example.sjh.gcsjdemo.entity.Friend;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
+import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnectionOnLine;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +42,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
     private ThirdHomeAdapter mAdapter;//此项为展示待上课程item的适配器
     private List<Friend> friendsList;
     private Handler handler;
+    private MyXMPPTCPConnectionOnLine connectionOnLine;//设置在线的连接
 
 
 
@@ -145,7 +147,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
         //设置数据到适配器
         mAdapter.setDatas(friendsList);
 
-        //点击item的事件监听，开启新的fragment
+        //点击item的事件监听，开启聊天
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
@@ -212,20 +214,6 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
         mRecy.smoothScrollToPosition(0);
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBusActivityScope.getDefault(_mActivity).unregister(this);
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
     // 构建Runnable对象，在runnable中更新界面
     Runnable  runnableUi=new  Runnable(){
         @Override
@@ -240,4 +228,27 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
         }
 
     };
+
+    //TODO:打开此界面时，先更新未收到的聊天记录，加载到数据库，再将数据库中聊天记录创建在本地
+    public void onReupdate()
+    {
+
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBusActivityScope.getDefault(_mActivity).unregister(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+
 }
