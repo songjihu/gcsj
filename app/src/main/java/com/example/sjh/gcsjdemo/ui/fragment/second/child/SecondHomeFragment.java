@@ -17,6 +17,7 @@ import com.example.sjh.gcsjdemo.activity.CheckinActivity;
 import com.example.sjh.gcsjdemo.activity.MainActivity;
 import com.example.sjh.gcsjdemo.activity.PublishActivity;
 import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.activity.TimeActivity;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.dbmanager.RemindUtil;
 import com.example.sjh.gcsjdemo.entity.Remind;
@@ -112,7 +113,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), TimeActivity.class);
                 startActivity(intent);
             }
         });
