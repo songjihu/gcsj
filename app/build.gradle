@@ -25,6 +25,9 @@ android {
         }
     }
     buildToolsVersion '28.0.3'
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
@@ -49,22 +52,16 @@ dependencies {
     })
 
 
-
-    testImplementation 'junit:junit:4.12'
-
-
-
-
     //Picasso
-    implementation "com.squareup.picasso:picasso:2.5.2"
-
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     //ImageViews
-    implementation "de.hdodenhof:circleimageview:3.0.0"
-    implementation "com.github.siyamed:android-shape-imageview:0.9.3"
-
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation ('com.github.siyamed:android-shape-imageview:0.9.2'){
+        exclude group: 'net.sf.kxml'
+    }
     //Utils
-    implementation "me.relex:circleindicator:2.1.0"
-    compile 'com.github.stfalcon:chatkit:0.3.3'
+    implementation 'me.relex:circleindicator:2.1.0'
+    implementation 'com.github.stfalcon:chatkit:0.3.3'
 
 }
 

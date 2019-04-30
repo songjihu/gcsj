@@ -37,6 +37,9 @@
         <activity android:name=".activity.TimeActivity"></activity>
         <activity android:name=".activity.ChatActivity"></activity>
         <activity android:name=".activity.PublishActivity"></activity>
+        <activity android:name=".media.CustomMediaMessagesActivity"></activity>
+        <activity android:name=".media.holder.CustomHolderDialogsActivity"></activity>
+        <activity android:name=".media.holder.CustomHolderMessagesActivity"></activity>
     </application>
 
 </manifest>

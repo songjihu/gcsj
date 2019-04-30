@@ -17,6 +17,7 @@ import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 import com.example.sjh.gcsjdemo.entity.Friend;
+import com.example.sjh.gcsjdemo.media.holder.CustomHolderDialogsActivity;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnectionOnLine;
 
@@ -154,9 +155,10 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
 
                 //发送数据并开始聊天
                 //EventBus.getDefault().postSticky(friendsList.get(position).getJid());
-                EventBus.getDefault().postSticky(with_friends);
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                startActivity(intent);
+                CustomHolderDialogsActivity.open(getActivity());
+               // EventBus.getDefault().postSticky(with_friends);
+               // Intent intent = new Intent(getActivity(), ChatActivity.class);
+               // startActivity(intent);
 
             }
         });
