@@ -37,11 +37,15 @@ import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -56,7 +60,8 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
     private DialogsListAdapter<Dialog> dialogsAdapter;//会话适配器
     private ImageLoader imageLoader;//图片加载
     private Handler handler;
-    private MyXMPPTCPConnectionOnLine connectionOnLine;//设置在线的连接
+    private MyXMPPTCPConnection connection;//离线的连接
+    private MyXMPPTCPConnectionOnLine connection_online;//设置在线的连接
 
 
 
@@ -158,31 +163,101 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
                 R.layout.item_custom_dialog_view_holder,
                 CustomDialogViewHolder.class,
                 imageLoader);
-
         handler=new Handler();//创建属于主线程的handler
+        connection_online = MyXMPPTCPConnectionOnLine.getInstance();
+        connection = MyXMPPTCPConnection.getInstance();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);//进程结束标志
 
         // 获取好友名单
         //friendsList = getMyFriends();
         //设置适配器内容
-        dialogsAdapter.setItems(DialogsFixtures.getDialogs());
+        //TODO: 从数据库读取最新的聊天记录到本地数据库，本应用中用json格式当做消息体
 
+
+        //结束离线状态，进入在线状态
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    if(connection.isConnected())
+                    {
+                        connection.disconnect();
+                        connection.instantShutdown();
+                    }
+                    if(!connection_online.isConnected())
+                    {
+                        connection_online.connect();
+                    }
+                    connection_online.login("20162430710","123456");
+                } catch (XMPPException e) {
+                    e.printStackTrace();
+                } catch (SmackException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //connection.disconnect();
+                countDownLatch.countDown();
+            }
+
+        }).start();
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        dialogsAdapter.setItems(DialogsFixtures.getDialogsChat());
         //设置监听器，长按或者点击的时间
         dialogsAdapter.setOnDialogClickListener(this);
-
-
         //设置数据到适配器
+        dialogsList.setAdapter(dialogsAdapter);
         //mAdapter.setDatas(friendsList);
         //将设置好的适配器配置给List
-        dialogsList.setAdapter(dialogsAdapter);
+
+
+
+
+        //实时刷新列表
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean flg = false;
+                while(!flg){
+                    try {
+                        handler.post(runnableUi);
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }) .start();
 
     }
 
 
-    //TODO:打开此界面时，先更新未收到的聊天记录，加载到数据库，再将数据库中聊天记录创建在本地
+    //TODO:打开此界面时，先更新未收到的聊天记录，加载到数据库，再由数据库更新适配器
     public void onReupdate()
     {
 
     }
+
+    // 构建Runnable对象，在runnable中更新界面
+    Runnable  runnableUi=new  Runnable(){
+        @Override
+        public void run() {
+            //更新界面
+            //TODO: 修改函数，从数据库读取最新的聊天dialog，加载到适配器中
+            dialogsAdapter.setItems(DialogsFixtures.getDialogsChat());
+            //设置数据到适配器
+            //dialogsList.setAdapter(dialogsAdapter);
+            //mRecy.scrollToPosition(mAdapter.getItemCount()-1);//此句为设置显示
+        }
+
+    };
 
 
     @Override

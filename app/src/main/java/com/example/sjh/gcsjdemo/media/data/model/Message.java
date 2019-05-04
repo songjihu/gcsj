@@ -18,11 +18,11 @@ public class Message implements IMessage,
     /*and this one is for custom content type (in this case - voice message)*/
     //而且这一个是为了传统的容器类型（为了防止出现声音消息）
     private String id;//消息id
-    private String text;//消息的文本内容
-    private Date createdAt;//消息的时间
+    private String text;//消息的文本内容--
+    private Date createdAt;//消息的时间--
     private User user;//消息的来源用户
-    private Image image;//消息的图片
-    private Voice voice;//消息的声音
+    private Image image;//消息的图片*
+    private Voice voice;//消息的声音*
 
     //不带时间的文本消息
     public Message(String id, User user, String text) {

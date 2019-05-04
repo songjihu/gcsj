@@ -20,10 +20,12 @@ public final class DialogsFixtures extends FixturesData {
         throw new AssertionError();
     }
 
+    //聊天记录获取
     public static ArrayList<Dialog> getDialogs() {
         ArrayList<Dialog> chats = new ArrayList<>();
 
         for (int i = 0; i < 20; i++) {
+            //Calendar为时间函数
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, -(i * i));
             calendar.add(Calendar.MINUTE, -(i * i));
@@ -33,6 +35,35 @@ public final class DialogsFixtures extends FixturesData {
 
         return chats;
     }
+
+    //真实聊天列表获取(返回list)
+    public static ArrayList<Dialog> getDialogsChat() {
+        ArrayList<Dialog> chats = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            //Calendar为时间函数
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_MONTH, -(i * i));
+            calendar.add(Calendar.MINUTE, -(i * i));
+            //用下个函数返回单个并加入list
+            chats.add(getDialogChat(i, calendar.getTime()));
+        }
+
+        return chats;
+    }
+
+    //同上(返回单个dialog)
+    private static Dialog getDialogChat(int i, Date lastMessageCreatedAt) {
+        ArrayList<User> users = getUsers();
+        return new Dialog(
+                getRandomId(),//群聊id
+                "群组名称",//群聊名称
+                //"",//群聊图片，为空加载默认图片
+                users,//群聊用户组成
+                getMessage(lastMessageCreatedAt),//群聊的最后一条消息
+                i < 3 ? 3 - i : 0);//未读的消息数
+    }
+
 
     private static Dialog getDialog(int i, Date lastMessageCreatedAt) {
         ArrayList<User> users = getUsers();
@@ -49,7 +80,7 @@ public final class DialogsFixtures extends FixturesData {
         ArrayList<User> users = new ArrayList<>();
         int usersCount = 1 + rnd.nextInt(4);
 
-        for (int i = 0; i < usersCount; i++) {
+        for (int i = 0; i < 3; i++) {
             users.add(getUser());
         }
 

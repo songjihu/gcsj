@@ -50,18 +50,16 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
     //ImageViews
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation ('com.github.siyamed:android-shape-imageview:0.9.2'){
+    implementation('com.github.siyamed:android-shape-imageview:0.9.3') {
         exclude group: 'net.sf.kxml'
     }
     //Utils
     implementation 'me.relex:circleindicator:2.1.0'
     implementation 'com.github.stfalcon:chatkit:0.3.3'
-
+    implementation files('libs/kxml2-2.3.0.jar')
 }
 

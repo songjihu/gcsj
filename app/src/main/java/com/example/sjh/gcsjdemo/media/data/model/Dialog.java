@@ -20,12 +20,23 @@ public class Dialog implements IDialog<Message> {
     public Dialog(String id, String name, String photo,
                   ArrayList<User> users, Message lastMessage, int unreadCount) {
 
-        this.id = id;
-        this.dialogName = name;
-        this.dialogPhoto = photo;
-        this.users = users;
-        this.lastMessage = lastMessage;
-        this.unreadCount = unreadCount;
+        this.id = id;//群组id
+        this.dialogName = name;//群名
+        this.dialogPhoto = photo;//群图片
+        this.users = users;//群用户list
+        this.lastMessage = lastMessage;//群最后一条消息
+        this.unreadCount = unreadCount;//未读消息的数量
+    }
+
+    public Dialog(String id, String name,
+                  ArrayList<User> users, Message lastMessage, int unreadCount) {
+
+        this.id = id;//群组id
+        this.dialogName = name;//群名
+        this.dialogPhoto = null;//群图片
+        this.users = users;//群用户list
+        this.lastMessage = lastMessage;//群最后一条消息
+        this.unreadCount = unreadCount;//未读消息的数量
     }
 
     @Override

@@ -8,20 +8,22 @@ import org.greenrobot.greendao.annotation.NotNull;
 /**
  * 修改于 2019/4/28
  * sjh
+ * 消息本地数据库
+ * 存储 id（主键） 内容 待定 时间 群组
  */
 
 @Entity
 public class ChatMessage {
     @Id
-    private String msgId;
+    private String msgId;//消息id
     @NotNull
-    private String msgContent;
+    private String msgContent;//消息内容
     @NotNull
-    private int from;
+    private int from;//待定
     @NotNull
-    private String msgTimetag;
+    private String msgTimetag;//消息时间戳
     @NotNull
-    private String msgTeam;
+    private String msgTeam;//消息的群组划分
 
 
     public ChatMessage(String msgContent, int from) {

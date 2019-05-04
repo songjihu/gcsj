@@ -13,18 +13,17 @@ abstract class FixturesData {
 
     static ArrayList<String> avatars = new ArrayList<String>() {
         {
-            add("http://i.imgur.com/pv1tBmT.png");
-            add("http://i.imgur.com/R3Jm1CL.png");
-            add("http://i.imgur.com/ROz4Jgh.png");
-            add("http://i.imgur.com/Qn9UesZ.png");
+            add("http://d.lanrentuku.com/down/png/1904/international_food/fried_rice.png");
+            add("http://d.lanrentuku.com/down/png/1904/international_food/fried_rice.png");
+            add("http://d.lanrentuku.com/down/png/1904/international_food/fried_rice.png");
         }
     };
 
     static final ArrayList<String> groupChatImages = new ArrayList<String>() {
         {
-            add("http://i.imgur.com/hRShCT3.png");
-            add("http://i.imgur.com/zgTUcL3.png");
-            add("http://i.imgur.com/mRqh5w1.png");
+            //add("https://raw.githubusercontent.com/songjihu/gcsj/SJH/team1.png");
+            add("http://d.lanrentuku.com/down/png/1904/international_food/fried_rice.png");
+            add("http://d.lanrentuku.com/down/png/1904/international_food/fried_rice.png");
         }
     };
 
