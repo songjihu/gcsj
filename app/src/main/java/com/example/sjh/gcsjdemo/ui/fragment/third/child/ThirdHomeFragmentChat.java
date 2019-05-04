@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.example.sjh.gcsjdemo.media.holder.holders.dialogs.CustomDialogViewHol
 import com.example.sjh.gcsjdemo.utils.AppUtils;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnectionOnLine;
+import com.mysql.jdbc.exceptions.MySQLQueryInterruptedException;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.IDialog;
@@ -43,6 +45,10 @@ import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 
 import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -167,7 +173,65 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
         connection_online = MyXMPPTCPConnectionOnLine.getInstance();
         connection = MyXMPPTCPConnection.getInstance();
         final CountDownLatch countDownLatch = new CountDownLatch(1);//进程结束标志
+        final String team_id[] = new String[20];
+        final String team_name[] = new String[20];
 
+        //读取加入的群组名称和个数
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                String sql="SELECT * FROM `user_team` WHERE user_id = "+uTitles;
+                Statement st=(Statement)cn.createStatement();
+                ResultSet rs=st.executeQuery(sql);
+                //while(rs.next()){
+
+                rs.next();
+                for(int j=2,i=0;j<14;j++)//根据课程数确定循环次数
+                {
+                    if(rs.getString(j)==null)
+                    {
+                        //是空跳过，否则存入team_id
+                    }
+                    else{
+                        team_id[i]=rs.getString(j);
+                        Log.i("-_-_-_-_-_-_-_-_",i+":"+rs.getString(j));
+                        i++;
+                    }
+                }
+
+                //sql列名
+                //while(rs.next()){
+
+
+                for(int i=0;i<(team_id.length);i++)
+                {
+                    sql="SELECT * FROM `team_info` WHERE team_id = "+team_id[i];
+                    rs=st.executeQuery(sql);
+                    if(rs.next()) ; else break;
+                    team_name[i]=rs.getString("team_name");
+                    Log.i("-_-_-_-_-_-_-_-_",i+":"+team_name[i]);
+                }
+                cn.close();
+                st.close();
+                rs.close();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+                countDownLatch.countDown();
+            }
+
+        }).start();
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // 获取好友名单
         //friendsList = getMyFriends();
         //设置适配器内容
