@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -74,6 +75,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
             "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n",
             "第一节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n",
     };
+    private String[] nTitles= new String[5];
 
 
     //5个item的图片
@@ -121,9 +123,13 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
         //接收用户姓名+得到用户所在班级进一步得到课程ID
-        StuInfo a=new StuInfo();
         uTitles=data;
-        classId=a.getclassId(data);
+        //classId=a.getclassId(data);
+        Log.i("**********",uTitles);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void getInfo(){
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
@@ -131,11 +137,16 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                    String sql0="SELECT class_id FROM `stu_info` WHERE stu_no = "+"uTitles";
                     String sql="SELECT class_sch_id FROM `class_info` WHERE class_id = "+"classId";
                     Statement st=(Statement)cn.createStatement();
-                    ResultSet rs=st.executeQuery(sql);
+                    ResultSet rs=st.executeQuery(sql0);
                     while(rs.next()){
-                        subjectId=rs.getString("class_sch_id");
+                        classId=rs.getString("class_id");
+                    }
+                    ResultSet re=st.executeQuery(sql);
+                    while(re.next()){
+                        subjectId=re.getString("class_sch_id");
                     }
                     cn.close();
                     st.close();
@@ -148,9 +159,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 countDownLatch.countDown();
             }
         });
-        Log.i("**********",data);
+        //Log.i("**********",classId);
+        //Log.i("**********",subjectId);
     }
-
 
 
     public void initView(View view) {
@@ -195,7 +206,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         });
         //点击签到按钮的事件监听，开启新的fragment
 
-
+        //Puton();
         // 在list中循环显示8个item
        List<Article> articleList = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
@@ -222,72 +233,190 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 }
 
             }
+        });//
+
+
+
+    }
+    /*public void Puton(){
+        List<Article> articleList = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            int index = i % 5;
+            if(mCheck[index].equals("签到状态：未开启\n"))
+            {
+                mImgRes[index]=R.drawable.linglinglingu;
+            }
+            Article article = new Article(mTitles[index], mCheck[index], mImgRes[index]);
+            articleList.add(article);
+        }}
+        //设置数据到适配器
+        mAdapter.setDatas(articleList);
+
+        mRecy.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mScrollTotal += dy;
+                if (mScrollTotal <= 0) {
+                    mInAtTop = true;
+                } else {
+                    mInAtTop = false;
+                }
+
+            }
         });
+    }*/
+
+    @Override
+    public void onRefresh() {
+        /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
+        /*Calendar ca = Calendar.getInstance();
+        int hour=ca.get(Calendar.HOUR);//小时
+        int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);*/
+        mRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /*new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            int i=0;
+                            Class.forName("com.mysql.jdbc.Driver");
+                            java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                            String sql="SELECT * FROM `schedule_info` WHERE day = "+"1"+"and sch_id="+"subjectId";
+                            String sql1="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`one`)"+"and sch_id="+"re.getString(`sch_id`)";
+                            String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)"+"and sch_id="+"re.getString(`sch_id`)";
+                            String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)"+"and sch_id="+"re.getString(`sch_id`)";
+                            String sql4="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`four`)"+"and sch_id="+"re.getString(`sch_id`)";
+                            String sql5="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`five`)"+"and sch_id="+"re.getString(`sch_id`)";
+                            Statement st=(Statement)cn.createStatement();
+                            ResultSet rs=st.executeQuery(sql);
+                            while(rs.next()){
+                                if(rs.getString("one")!="NULL") {
+                                    ResultSet re=st.executeQuery(sql1);
+                                    nTitles[i] = "第1节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                                    i=i+1;
+                                    re.close();
+                                }
+                                if(rs.getString("two")!="Null") {
+                                    ResultSet re=st.executeQuery(sql2);
+                                    nTitles[i] = "第2节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                                    i=i+1;
+                                    re.close();
+                                }
+                                if(rs.getString("three")!="NULL") {
+                                    ResultSet re=st.executeQuery(sql3);
+                                    nTitles[i] = "第3节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                                    i=i+1;
+                                    re.close();
+                                }
+                                if(rs.getString("four")!="NULL") {
+                                    ResultSet re=st.executeQuery(sql4);
+                                    nTitles[i] = "第4节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                                    i=i+1;
+                                    re.close();
+                                }
+                                if(rs.getString("five")!="NULL") {
+                                    ResultSet re=st.executeQuery(sql5);
+                                    nTitles[i] = "第5节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                                    i=i+1;
+                                    re.close();
+                                }
+                            }
+                            cn.close();
+                            st.close();
+                            rs.close();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        countDownLatch.countDown();
+                    }
+                });*/
+                update();
+                List<Article> articleList = new ArrayList<>();
+                for (int i = 0; i < 8; i++) {
+                    int index = i % 5;
+                    if(mCheck[index].equals("签到状态：未开启\n"))
+                    {
+                        mImgRes[index]=R.drawable.linglinglingu;
+                    }
+                    Article article = new Article(nTitles[index], mCheck[index], mImgRes[index]);
+                    articleList.add(article);
+                }
+                mAdapter.setDatas(articleList);
+                mRecy.setAdapter(mAdapter);
+                mRecy.scrollToPosition(mAdapter.getItemCount()-1);
+                mRefreshLayout.setRefreshing(false);
+            }
+        }, 2000);
 
 
     }
 
-
-    @Override
-    public void onRefresh() {
-        mRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(false);
-            }
-        }, 2000);
+    public void update(){
         /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
         Calendar ca = Calendar.getInstance();
         int hour=ca.get(Calendar.HOUR);//小时
-        int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
+        int a = ca.get(Calendar.DAY_OF_WEEK);
+        String WeekOfYear =String.valueOf(a-1);
+        Log.i("*",WeekOfYear);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        //new Thread(new Runnable() {
+            //@Override
+           //public void run(){
+                String h0=new String();
+                String h1=new String();
+                String h2=new String();
                 try {
                     int i=0;
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                    String sql="SELECT * FROM `schedule_info` WHERE day = "+"WeekofYear"+"and sch_id="+"subjectId";
-                    String sql1="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`one`)"+"and sch_id="+"re.getString(`sch_id`)";
-                    String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)"+"and sch_id="+"re.getString(`sch_id`)";
-                    String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)"+"and sch_id="+"re.getString(`sch_id`)";
-                    String sql4="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`four`)"+"and sch_id="+"re.getString(`sch_id`)";
-                    String sql5="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`five`)"+"and sch_id="+"re.getString(`sch_id`)";
+                    String sql="SELECT * FROM `schedule_info` WHERE day = "+"1"+"and sch_id="+"2016301";
+                    String sql1="SElECT * FROM `schedule_con where sc_id="+"rs.getString(`one`)"+"and sch_id="+"rs.getString(`sch_id`)";
+                    String sql2="SElECT * FROM `schedule_con where sc_id="+"rs.getString(`two`)"+"and sch_id="+"rs.getString(`sch_id`)";
+                    String sql3="SElECT * FROM `schedule_con where sc_id="+"rs.getString(`three`)"+"and sch_id="+"rs.getString(`sch_id`)";
+                    String sql4="SElECT * FROM `schedule_con where sc_id="+"rs.getString(`four`)"+"and sch_id="+"rs.getString(`sch_id`)";
+                    String sql5="SElECT * FROM `schedule_con where sc_id="+"rs.getString(`five`)"+"and sch_id="+"rs.getString(`sch_id`)";
                     Statement st=(Statement)cn.createStatement();
+                    Log.i("ceshi","001");
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
                         if(rs.getString("one")!="NULL") {
                             ResultSet re=st.executeQuery(sql1);
-                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            h0=re.getString("course_name");
+                            Log.i("*",h0);
+                            nTitles[i] = "第1节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
                             i=i+1;
                             re.close();
                         }
                         if(rs.getString("two")!="Null") {
                             ResultSet re=st.executeQuery(sql2);
-                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            nTitles[i] = "第2节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
                             i=i+1;
                             re.close();
                         }
                         if(rs.getString("three")!="NULL") {
                             ResultSet re=st.executeQuery(sql3);
-                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            nTitles[i] = "第3节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
                             i=i+1;
                             re.close();
                         }
                         if(rs.getString("four")!="NULL") {
                             ResultSet re=st.executeQuery(sql4);
-                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            nTitles[i] = "第4节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
                             i=i+1;
                             re.close();
                         }
                         if(rs.getString("five")!="NULL") {
                             ResultSet re=st.executeQuery(sql5);
-                            mTitles[i] = "第i节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
+                            nTitles[i] = "第5节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
                             i=i+1;
                             re.close();
                         }
-                        }
+                    }
                     cn.close();
                     st.close();
                     rs.close();
@@ -298,9 +427,8 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 }
                 countDownLatch.countDown();
             }
-        });
-    }
-
+       // });
+    //}
     private void scrollToTop() {
         mRecy.smoothScrollToPosition(0);
     }
