@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
-import com.example.sjh.gcsjdemo.MainActivity;
+import com.example.sjh.gcsjdemo.activity.MainActivity;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.adapter.HomeAdapter;
 import com.example.sjh.gcsjdemo.entity.Article;

@@ -29,6 +29,14 @@
     </string-array>
     <string name="start_result_test">测试startForResult</string>
     <string name="modify_success">修改成功!</string>
+    <string name="hint_enter_a_message">Type a message…</string>
+    <string-array name="view_types_dialog">
+        <item name="image">Image (default)</item>
+        <item name="voice">Voice message (custom)</item>
+    </string-array>
+    <string name="copied_message">Message copied!</string>
+    <string name="on_log_click_message">Your custom long click handler</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -159,4 +167,5 @@
     <string name="more">更多</string>
     <string name="me">我的</string>
     <string name="home">首页</string>
+
 </resources>

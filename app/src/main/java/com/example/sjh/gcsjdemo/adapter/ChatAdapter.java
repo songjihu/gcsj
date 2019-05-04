@@ -7,11 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.model.ChatMessage;
+import com.example.sjh.gcsjdemo.entity.ChatMessage;
 
 import java.util.List;
-
-import com.example.sjh.gcsjdemo.model.ChatMessage;
 
 /**
  * Created by Administrator on 2017/7/14.

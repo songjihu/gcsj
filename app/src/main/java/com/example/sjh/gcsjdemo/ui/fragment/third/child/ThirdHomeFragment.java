@@ -1,31 +1,25 @@
 package com.example.sjh.gcsjdemo.ui.fragment.third.child;
 
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.sjh.gcsjdemo.MainActivity;
+import com.example.sjh.gcsjdemo.activity.ChatActivity;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
-import com.example.sjh.gcsjdemo.entity.Article;
-import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
-import com.example.sjh.gcsjdemo.helper.DetailTransition;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
-import com.example.sjh.gcsjdemo.model.Friend;
-import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstDetailFragment;
+import com.example.sjh.gcsjdemo.entity.Friend;
+import com.example.sjh.gcsjdemo.media.holder.CustomHolderDialogsActivity;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
+import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnectionOnLine;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +29,7 @@ import org.jivesoftware.smack.roster.RosterEntry;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Handler;
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -46,6 +41,11 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
     private SwipeRefreshLayout mRefreshLayout;
     private TextView welcomeView;
     private ThirdHomeAdapter mAdapter;//此项为展示待上课程item的适配器
+    private List<Friend> friendsList;
+    private Handler handler;
+    private MyXMPPTCPConnectionOnLine connectionOnLine;//设置在线的连接
+
+
 
 
     private boolean mInAtTop = true;
@@ -73,28 +73,25 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
                 Friend friend = new Friend(entry.getUser(), entry.getName());
                 friends.add(friend);
                 //好友计数器
-                friend_number++;
-                Log.i("（）（）（）（）（）（）",friend.getJid());
-                Log.i("（）（）（）（）（）（）",friend.getName());
+
+                //Log.i("（）（）（）（）（）（）",friend_number+friend.getJid());
+                //Log.i("（）（）（）（）（）（）",friend.getName());
+
 
             }
         }
         return friends;
     }
 
-
-
-
-    //5个item的标题
-    private String[] mTitles = new String[]{
-
-    };
-
-
     //5个item的图片
     private String[] mCheck = new String[]{
 
     };
+
+    private String[] with_friends = new String[]{
+            "20162430722@gcsj-app",
+            "20162430723@gcsj-app"};
+    //群组其他人的idwith_friends
 
 
     public static ThirdHomeFragment newInstance() {
@@ -128,7 +125,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
     public void onEvent(String data) {
         //接收用户姓名
         uTitles=data;
-        Log.i("（）（）（）（）（）（）",data);
+        //Log.i("（）（）（）（）（）（）",data);
     }
 
 
@@ -137,48 +134,35 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
 
         mRecy = (RecyclerView) view.findViewById(R.id.recy3);//循环显示的多个item
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout3);//下拉循环布局
-        welcomeView = (TextView) view.findViewById(R.id.welcomemsg);//欢迎信息：欢迎+同学/老师
-        //在最上面打印欢迎XXX
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);//设置下拉刷新的颜色
-        mRefreshLayout.setOnRefreshListener(this);//设置下拉刷新的对象
         mAdapter = new ThirdHomeAdapter(_mActivity);//定义item的适配器
         LinearLayoutManager manager = new LinearLayoutManager(_mActivity);//设置为流布局并定义manger
         mRecy.setLayoutManager(manager);//循环显示的多个item的布局管理
         mRecy.setAdapter(mAdapter);//循环显示的多个item的适配器设置
-        //点击item的事件监听，开启新的fragment
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
-                //初始化要加载的fragment
-            /*    FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
-                //3个参数为  点击位置 无用 item的内容
-                // 这里是使用SharedElement的用例
-                // LOLLIPOP(5.0)系统的 SharedElement支持有 系统BUG， 这里判断大于 > LOLLIPOP
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    setExitTransition(new Fade());
-                    fragment.setEnterTransition(new Fade());
-                    fragment.setSharedElementReturnTransition(new DetailTransition());
-                    fragment.setSharedElementEnterTransition(new DetailTransition());
-
-                    // 25.1.0以下的support包,Material过渡动画只有在进栈时有,返回时没有;
-                    // 25.1.0+的support包，SharedElement正常
-                    extraTransaction()
-                            .addSharedElement(((FirstHomeAdapter.VH) vh).checkinmsg, getString(R.string.image_transition))
-                            .addSharedElement(((FirstHomeAdapter.VH) vh).checkinstatus, "tv")
-                            .start(fragment);
-                } else {
-                    start(fragment);
-                }*/
-            }
-        });
-        //点击签到按钮的事件监听，开启新的fragment
-
+        mRefreshLayout.setOnRefreshListener(this);//设置下拉刷新的对象
+        handler=new Handler();//创建属于主线程的handler
 
         // 获取好友名单
-        List<Friend> friendsList = getMyFriends();
+        friendsList = getMyFriends();
 
         //设置数据到适配器
         mAdapter.setDatas(friendsList);
+
+        //点击item的事件监听，开启聊天
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+
+                //发送数据并开始聊天
+                //EventBus.getDefault().postSticky(friendsList.get(position).getJid());
+                CustomHolderDialogsActivity.open(getActivity());
+               // EventBus.getDefault().postSticky(with_friends);
+               // Intent intent = new Intent(getActivity(), ChatActivity.class);
+               // startActivity(intent);
+
+            }
+        });
+        //点击签到按钮的事件监听，开启新的fragment
 
         mRecy.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -194,6 +178,21 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
             }
         });
 
+        //实时刷新列表
+        new Thread(new Runnable() {
+             @Override
+            public void run() {
+                 boolean flg = false;
+                 while(!flg){
+                     try {
+                         handler.post(runnableUi);
+                         Thread.sleep(3000);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+                 }
+             }
+         }) .start();
 
     }
 
@@ -202,6 +201,12 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
+                // 获取好友名单
+                List<Friend> friendsList = getMyFriends();
+                //设置数据到适配器
+                mAdapter.setDatas(friendsList);
+                mRecy.setAdapter(mAdapter);
+                mRecy.scrollToPosition(mAdapter.getItemCount()-1);//此句为设置显示
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);
@@ -211,20 +216,27 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
         mRecy.smoothScrollToPosition(0);
     }
 
-    /**
-     * 选择tab事件
-     */
-    @Subscribe
-    public void onTabSelectedEvent(TabSelectedEvent event) {
-        if (event.position != MainActivity.FIRST) return;
-
-        if (mInAtTop) {
-            mRefreshLayout.setRefreshing(true);
-            onRefresh();
-        } else {
-            scrollToTop();
+    // 构建Runnable对象，在runnable中更新界面
+    Runnable  runnableUi=new  Runnable(){
+        @Override
+        public void run() {
+            //更新界面
+            //获取好友名单
+            List<Friend> friendsList = getMyFriends();
+            //设置数据到适配器
+            mAdapter.setDatas(friendsList);
+            mRecy.setAdapter(mAdapter);
+            mRecy.scrollToPosition(mAdapter.getItemCount()-1);//此句为设置显示
         }
+
+    };
+
+    //TODO:打开此界面时，先更新未收到的聊天记录，加载到数据库，再将数据库中聊天记录创建在本地
+    public void onReupdate()
+    {
+
     }
+
 
     @Override
     public void onDestroyView() {
@@ -238,6 +250,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 
 
 }

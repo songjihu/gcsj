@@ -8,17 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sjh.gcsjdemo.CheckinActivity;
-import com.example.sjh.gcsjdemo.LoginActivity;
-import com.example.sjh.gcsjdemo.MainActivity;
+import com.example.sjh.gcsjdemo.activity.CheckinActivity;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.base.BaseBackFragment;
 import com.example.sjh.gcsjdemo.entity.Article;
-import com.example.sjh.gcsjdemo.ui.fragment.CycleFragment;
 
 /**
  * Created by YoKeyword on 16/6/5.
