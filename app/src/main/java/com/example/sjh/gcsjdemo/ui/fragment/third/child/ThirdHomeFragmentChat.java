@@ -69,6 +69,12 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
     private MyXMPPTCPConnection connection;//离线的连接
     private MyXMPPTCPConnectionOnLine connection_online;//设置在线的连接
 
+    final CountDownLatch countDownLatch = new CountDownLatch(1);//进程结束标志
+    final String team_id[] = new String[20];//加入的讨论组id
+    final int team_location [] = new int[20];//加入的讨论组列的位置
+    final String team_name[] = new String[20];//加入的讨论组name
+    final String team_member[][] = new String[20][20];//加入的讨论组人员组成
+    private String user_name;//用户名
 
 
 
@@ -172,41 +178,48 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
         handler=new Handler();//创建属于主线程的handler
         connection_online = MyXMPPTCPConnectionOnLine.getInstance();
         connection = MyXMPPTCPConnection.getInstance();
-        final CountDownLatch countDownLatch = new CountDownLatch(1);//进程结束标志
-        final String team_id[] = new String[20];
-        final String team_name[] = new String[20];
 
+
+
+        //uTitles="20162430722";
         //读取加入的群组名称和个数
         new Thread(new Runnable() {
             @Override
             public void run() {
             try{
+                int team_number;//一共有几个讨论组
+                int i,j;
                 Class.forName("com.mysql.jdbc.Driver");
                 java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                String sql="SELECT * FROM `user_team` WHERE user_id = "+uTitles;
                 Statement st=(Statement)cn.createStatement();
+
+
+                //读取team的id
+                String sql="SELECT * FROM `user_team` WHERE user_id = "+uTitles;
                 ResultSet rs=st.executeQuery(sql);
                 //while(rs.next()){
-
                 rs.next();
-                for(int j=2,i=0;j<14;j++)//根据课程数确定循环次数
+                for(j=2,i=0;j<14;j++)//根据课程数确定循环次数
                 {
                     if(rs.getString(j)==null)
                     {
                         //是空跳过，否则存入team_id
                     }
                     else{
-                        team_id[i]=rs.getString(j);
+                        team_id[i]=rs.getString(j);//j为第几列
+                        team_location[i]=j;
                         Log.i("-_-_-_-_-_-_-_-_",i+":"+rs.getString(j));
                         i++;
                     }
+
                 }
+                team_number=i;
 
                 //sql列名
                 //while(rs.next()){
 
-
-                for(int i=0;i<(team_id.length);i++)
+                //读取team名字
+                for(i=0;i<team_number;i++)
                 {
                     sql="SELECT * FROM `team_info` WHERE team_id = "+team_id[i];
                     rs=st.executeQuery(sql);
@@ -214,6 +227,53 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
                     team_name[i]=rs.getString("team_name");
                     Log.i("-_-_-_-_-_-_-_-_",i+":"+team_name[i]);
                 }
+
+                //读取小组成员
+                sql="SELECT * FROM `user_team`";
+                rs=st.executeQuery(sql);
+
+                while(rs.next()){
+                    for (i=0;i<team_number;i++){
+                        if(rs.getString(team_location[i])!=null&&rs.getString(team_location[i]).equals(team_id[i])){
+                            //加入二维数组
+                            if(rs.getString(team_location[i]).equals(uTitles))
+                            {
+                                //跳过自己
+                            }else{
+                                j=0;
+                                while (team_member[i][j]!=null){j++;}//循环到为空的位置
+                                team_member[i][j]=rs.getString(1);//加入学号
+                                //Log.i("成员",j+":"+team_member[i][j]);
+                            }
+
+                        }else {
+                            //啥都不干
+                        }
+                    }
+                }
+
+                //读取小组成员
+                sql="SELECT user_name FROM `user` WHERE user_id =" +uTitles;
+                rs=st.executeQuery(sql);
+
+                while(rs.next()){
+                    user_name=rs.getString("user_name");
+                    Log.i("11111111111111111111111",user_name);
+                }
+
+                team_location[19]=team_number;//传出讨论组个数
+/*
+                for (i=0;i<team_number;i++)
+                    for (j=0;j<20;j++)
+                    {
+                        if(team_member[i][j]==null) break;
+                        Log.i("组",i+":");
+                        Log.i("成员",j+":"+team_member[i][j]);
+                    }
+*/
+
+
+                //关闭
                 cn.close();
                 st.close();
                 rs.close();
@@ -273,7 +333,7 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
             e.printStackTrace();
         }
 
-        dialogsAdapter.setItems(DialogsFixtures.getDialogsChat());
+        dialogsAdapter.setItems(DialogsFixtures.getDialogsChat(team_name,team_member,team_location[19]));
         //设置监听器，长按或者点击的时间
         dialogsAdapter.setOnDialogClickListener(this);
         //设置数据到适配器
@@ -315,7 +375,7 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
         public void run() {
             //更新界面
             //TODO: 修改函数，从数据库读取最新的聊天dialog，加载到适配器中
-            dialogsAdapter.setItems(DialogsFixtures.getDialogsChat());
+            dialogsAdapter.setItems(DialogsFixtures.getDialogsChat(team_name,team_member,team_location[19]));
             //设置数据到适配器
             //dialogsList.setAdapter(dialogsAdapter);
             //mRecy.scrollToPosition(mAdapter.getItemCount()-1);//此句为设置显示
@@ -340,6 +400,13 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
 
     @Override
     public void onDialogClick(Dialog dialog) {
+        String team_id = dialog.getId();
+        int t = Integer.parseInt(team_id);
+        team_member[t][19]=uTitles;//存入自己是谁
+        team_member[t][18]=team_id;//存入这是哪个群组
+        team_member[t][17]=user_name;//存入自己叫啥
+        EventBus.getDefault().postSticky(team_member[t]);//发送小组成员
         CustomHolderMessagesActivity.open(getActivity());
+
     }
 }

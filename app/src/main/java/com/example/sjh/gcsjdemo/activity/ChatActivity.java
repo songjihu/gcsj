@@ -114,9 +114,9 @@ public class ChatActivity extends AppCompatActivity implements ChatManagerListen
     }
 
     private void initView(){
-        chatListView = (ListView) findViewById(R.id.chatListView);
-        et_chat = (EditText) findViewById(R.id.chatEditText);
-        sendBtn = (Button) findViewById(R.id.sendBtn);
+        chatListView =  findViewById(R.id.chatListView);
+        et_chat = findViewById(R.id.chatEditText);
+        sendBtn = findViewById(R.id.sendBtn);
     }
 
     private void initListener(){

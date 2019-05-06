@@ -37,27 +37,27 @@ public final class DialogsFixtures extends FixturesData {
     }
 
     //真实聊天列表获取(返回list)
-    public static ArrayList<Dialog> getDialogsChat() {
+    public static ArrayList<Dialog> getDialogsChat(String team_name[],String team_member[][],int team_number) {
         ArrayList<Dialog> chats = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < team_number; i++) {
             //Calendar为时间函数
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, -(i * i));
             calendar.add(Calendar.MINUTE, -(i * i));
             //用下个函数返回单个并加入list
-            chats.add(getDialogChat(i, calendar.getTime()));
+            chats.add(getDialogChat(team_name,team_member,i, calendar.getTime()));
         }
 
         return chats;
     }
 
     //同上(返回单个dialog)
-    private static Dialog getDialogChat(int i, Date lastMessageCreatedAt) {
+    private static Dialog getDialogChat(String team_name[],String team_member[][],int i, Date lastMessageCreatedAt) {
         ArrayList<User> users = getUsers();
         return new Dialog(
-                getRandomId(),//群聊id
-                "群组名称",//群聊名称
+                Integer.toString(i),//群聊id
+                team_name[i],//群聊名称
                 //"",//群聊图片，为空加载默认图片
                 users,//群聊用户组成
                 getMessage(lastMessageCreatedAt),//群聊的最后一条消息

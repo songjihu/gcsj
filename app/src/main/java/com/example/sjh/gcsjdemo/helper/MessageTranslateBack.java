@@ -14,12 +14,14 @@ import java.text.SimpleDateFormat;
 
 public class MessageTranslateBack {
     private String msgFrom;//消息发送者
+    private String msgFromId;//消息发送者
     private String msgTo;//消息接收群组id
     private Date msgDate;//消息发送时间
     private String msgContent;//消息内容
 
 
-    public void MessageTranslateBack(String msgJson){
+
+    public MessageTranslateBack(String msgJson){
 
         String body = msgJson;
         boolean left = body.substring(0, 1).equals("{");
@@ -29,10 +31,11 @@ public class MessageTranslateBack {
                 JSONObject obj = new JSONObject(body);
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                ParsePosition pos = new ParsePosition(8);
+                ParsePosition pos = new ParsePosition(0);
                 String dateString = obj.getString("msgDate");
 
                 this.msgFrom = obj.getString("msgFrom");
+                this.msgFromId = obj.getString("msgFromId");
                 this.msgTo = obj.getString("msgTo");
                 this.msgDate = formatter.parse(dateString, pos);
                 this.msgContent = obj.getString("msgContent");
@@ -58,6 +61,14 @@ public class MessageTranslateBack {
 
     public String getMsgFrom() {
         return msgFrom;
+    }
+
+    public String getMsgFromId() {
+        return msgFromId;
+    }
+
+    public void setMsgFromId(String msgFromId) {
+        this.msgFromId = msgFromId;
     }
 
     public void setMsgFrom(String msgFrom) {

@@ -89,6 +89,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
     private MyXMPPTCPConnection connection;//聊天服务连接
     private Roster roster;
     private Boolean isLogin = false;
+    private String name;
+    private String id;
 
     private void initXMPPTCPConnection(){
         connection = MyXMPPTCPConnection.getInstance();
@@ -240,7 +242,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
             //用Bundle携带数据
             Bundle bundle=new Bundle();
             //传递name参数为name到下一层
-            bundle.putString("name",email);
+            bundle.putString("name",name);
+            bundle.putString("id",id);
             intent.putExtras(bundle);
             startActivity(intent);
         }
@@ -266,14 +269,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                    String sql="SELECT passwd FROM `user` WHERE user_id = "+uuu.getUserId();
+                    String sql="SELECT * FROM `user` WHERE user_id = "+uuu.getUserId();
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
                         uuu.setRpwd(rs.getString("passwd"));
+                        uuu.setUserName(rs.getString("user_name"));
 
-                        Log.i("LoginActivity",uuu.getRpwd());
                     }
+
+                    name=uuu.getUserName();
+                    id=uuu.getUserId();
+
+
+
+
                     cn.close();
                     st.close();
                     rs.close();
