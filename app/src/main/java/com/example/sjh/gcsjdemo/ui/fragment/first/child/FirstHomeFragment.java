@@ -232,10 +232,16 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 List<Article> articleList = new ArrayList<>();
                 for (int i = 0; i < 5; i++) {
                     int index = i % 5;
+                    if(nTitles[index]=="kong"){
+                        nTitles[index]="";
+                        mCheck[index]="";
+
+                    }
+                    else{
                     if(mCheck[index].equals("签到状态：未开启\n"))
                     {
                         mImgRes[index]=R.drawable.linglinglingu;
-                    }
+                    }}
                     Article article = new Article(nTitles[index], mCheck[index], mImgRes[index]);
                     articleList.add(article);
                 }
@@ -248,19 +254,28 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         }, 2000);
 
     }
+    public void condi(){
+        for(int i=0;i<=4;i++){
+            nTitles[i]="kong";
+        }
+    }
 
     public void updata(){
+        condi();
         /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
         Calendar ca = Calendar.getInstance();
-        int hour=ca.get(Calendar.HOUR);//小时
+        final int hour=ca.get(Calendar.HOUR);//小时
+        String hour1=String.valueOf(hour);
         int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
         final String WeekOf=String.valueOf(WeekOfYear-1);
+        Log.i("****",hour1);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     int i=0;
+                    int p=0;
                     String result[]=new String[5]
 ;                    Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
@@ -280,7 +295,21 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             else
                                 result[j-3]=rs.getString(j);
                         }
-                        for(int h=0;h<=4;h++){
+                        if(hour>19) ;
+                        else{
+                            if(hour>18) p=4;
+                            else {
+                                if(hour>16)p=3;
+                                else{
+                                    if(hour>12) p=2;
+                                    else{
+                                        if(hour>10) p=1;
+                                        else p=0;
+                                    }
+                                }
+                            }
+                        }
+                        for(int h=p;h<=4;h++){
                             if(result[h]!="kong"){
                         //if(rs.getString(j)!=null) {
                             String sql1="SElECT * FROM `schedule_con` where sc_id= "+result[h]+" and sch_id= "+subjectId;
@@ -288,7 +317,8 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             if(re.next())
                             nTitles[i] = "第"+(h+1)+"节\n"  +re.getString("course_name")+"\n"+re.getString("address")+"\n"+re.getString("teacher");
                             i=i+1;
-                        }}
+                        }
+                        }
                         /*if(rs.getString("two")!=null) {
                             ResultSet re=st.executeQuery(sql2);
                             nTitles[i] = "第2节\n"  +"re.getString(`course_name`)\n"+"re.getString(`address`)\n"+"re.getString(`teacher`)";
