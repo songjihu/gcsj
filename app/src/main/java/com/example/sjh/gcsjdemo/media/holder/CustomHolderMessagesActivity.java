@@ -70,8 +70,13 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
                     //ChatMessage chatMessage = new ChatMessage((String) msg.obj, 1);
                     Message message = new Message(helper.getMsgFrom(),user,helper.getMsgContent(),helper.getMsgDate());
                     //messageList.add(chatMessage);
-                    messagesAdapter.addToStart(message,true);//加入下方列表，ture代表左侧
-                    Log.i("1发送11111111111111111","1");
+                    if((helper.getMsgFromId()).equals(team_member[19]))
+                    {
+                        //啥也不干
+                    }else{
+                        messagesAdapter.addToStart(message,true);//加入下方列表
+                        Log.i("1发送11111111111111111","1");
+                    }
                     break;
                 default:
                     break;
@@ -97,6 +102,9 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
         messagesList = (MessagesList) findViewById(R.id.messagesList);
         //初始化适配器
         initAdapter();
+        initChatManager();
+        initChat();
+
 
         MessageInput input = (MessageInput) findViewById(R.id.input);
         input.setInputListener(this);
@@ -190,8 +198,8 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
                         CustomOutcomingImageMessageViewHolder.class,
                         R.layout.item_custom_outcoming_image_message);
 
-        //配置适配器内容
-        super.messagesAdapter = new MessagesListAdapter<>(super.senderId, holdersConfig, super.imageLoader);
+        //配置适配器内容，第一个参数为发送者的id，id不同则在右侧
+        super.messagesAdapter = new MessagesListAdapter<>(team_member[19], holdersConfig, super.imageLoader);
         //配置点击事件
         super.messagesAdapter.setOnMessageLongClickListener(this);
         super.messagesAdapter.setLoadMoreListener(this);
@@ -207,7 +215,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
         MessageTranslateBack helper1=new MessageTranslateBack(helper.getMsgJson());
         Log.i("2发送222222222222222",helper.getMsgJson());
         Message message = new Message(helper.getMsgFrom(),user,helper.getMsgContent(),helper1.getMsgDate());
-        messagesAdapter.addToStart(message,true);//加入下方列表，ture代表左侧
+        messagesAdapter.addToStart(message,true);//加入下方列表
         Log.i("2发送222222222222222","222");
 
         for(int i=0;i<f_number;i++)
@@ -215,8 +223,8 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
             if(chat[i]!= null){
                 try {
                     //发送消息，参数为发送的消息内容
-                    chat[i].sendMessage(msgContent);
-                    Log.i("0发送",msgContent);
+                    chat[i].sendMessage(helper.getMsgJson());
+                    Log.i("0发送",helper.getMsgJson());
                 } catch (SmackException.NotConnectedException e) {
                     e.printStackTrace();
                 }

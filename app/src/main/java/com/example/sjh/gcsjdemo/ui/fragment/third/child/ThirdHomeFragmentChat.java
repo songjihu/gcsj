@@ -313,7 +313,7 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
                     {
                         connection_online.connect();
                     }
-                    connection_online.login("20162430710","123456");
+                    connection_online.login(uTitles,uTitles);
                 } catch (XMPPException e) {
                     e.printStackTrace();
                 } catch (SmackException e) {
