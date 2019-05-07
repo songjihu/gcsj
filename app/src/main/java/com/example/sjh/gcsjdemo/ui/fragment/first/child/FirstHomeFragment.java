@@ -22,10 +22,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;//用来读取本地时间，进一步来更新今日课程
 import java.util.concurrent.CountDownLatch;
+import java.util.Calendar;
 
 import com.example.sjh.gcsjdemo.entity.StuInfo;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
@@ -260,12 +262,21 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         }
     }
 
+    public static String getHour() {
+                Date currentTime = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dateString = formatter.format(currentTime);
+                String hour;
+                hour = dateString.substring(11, 13);
+                return hour;
+                }
     public void updata(){
         condi();
         /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
         Calendar ca = Calendar.getInstance();
-        final int hour=ca.get(Calendar.HOUR);//小时
-        String hour1=String.valueOf(hour);
+        /* final int hour=ca.get(Calendar.HOUR);//小时 */
+        final String hour1=getHour();
+        final int hour=Integer.valueOf(hour1);
         int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
         final String WeekOf=String.valueOf(WeekOfYear-1);
         Log.i("****",hour1);
@@ -275,7 +286,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
             public void run() {
                 try {
                     int i=0;
-                    int p=0;
+                    int p= 0;
                     String result[]=new String[5]
 ;                    Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
@@ -295,7 +306,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             else
                                 result[j-3]=rs.getString(j);
                         }
-                        if(hour>19) ;
+                        if(hour>20) p=5;
                         else{
                             if(hour>18) p=4;
                             else {
