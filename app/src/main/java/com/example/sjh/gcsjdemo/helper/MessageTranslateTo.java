@@ -10,13 +10,16 @@ import java.util.Date;
 
 public class MessageTranslateTo {
     private String msgFrom;//消息发送者
+    private String msgFromId;//消息发送者
     private String msgTo;//消息接收群组id
     private String msgDate;//消息发送时间
     private String msgContent;//消息内容
     private String msgJson;//转换结果
 
 
-    public String MessageTranslateTo(String msgFrom, String msgTo, String msgContent){
+
+
+    public MessageTranslateTo(String msgFrom, String msgFromId, String msgTo, String msgContent){
         /*Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH,0);
         calendar.add(Calendar.MINUTE, 0);*/
@@ -24,11 +27,15 @@ public class MessageTranslateTo {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         this.msgFrom = msgFrom;
+        this.msgFromId = msgFromId;
         this.msgTo = msgTo;
         this.msgDate = formatter.format(currentTime);
         this.msgContent = msgContent;
-        this.msgJson = "{\"msgFrom\":\""+this.msgFrom+"\",\"msgTo\":\""+this.msgTo+"\",\"msgDate\":\""+this.msgDate+"\",\"msgContent\":\""+this.msgContent+"\"}";
-        return this.msgJson;
+        this.msgJson = "{\"msgFrom\":\""+this.msgFrom+"\"," +
+                        "\"msgFromId\":\""+this.msgFromId+"\"," +
+                        "\"msgTo\":\""+this.msgTo+"\"," +
+                        "\"msgDate\":\""+this.msgDate+"\"," +
+                        "\"msgContent\":\""+this.msgContent+"\"}";
 
     }
 
@@ -50,6 +57,14 @@ public class MessageTranslateTo {
 
     public void setMsgJson(String msgJson) {
         this.msgJson = msgJson;
+    }
+
+    public void setMsgFromId(String msgFromId) {
+        this.msgFromId = msgFromId;
+    }
+
+    public String getMsgFromId() {
+        return msgFromId;
     }
 
     public String getMsgFrom() {

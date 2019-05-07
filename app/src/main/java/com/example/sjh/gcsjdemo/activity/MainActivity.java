@@ -37,6 +37,8 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
     public static final int SECOND = 1;
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
+    private String name;
+    private String id;
     List<String> mDatas = new ArrayList<>();
 
     private SupportFragment[] mFragments = new SupportFragment[4];
@@ -58,17 +60,18 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
 
         Bundle bundle = this.getIntent().getExtras();
         //从登陆activity获取用户名
-        String name = bundle.getString("name");
+        name = bundle.getString("name");
+        id = bundle.getString("id");
         Log.i("获取到的name值为",name);
 
-        EventBus.getDefault().postSticky(name);
+        EventBus.getDefault().postSticky(id);
 
         //EventBus.getDefault().post(new MessageEvent("Hello everyone!"));
 
         SupportFragment firstFragment = findFragment(BxzFirstFragment.class);
 
         if (firstFragment == null) {
-            mFragments[FIRST] = BxzFirstFragment.newInstance(name);
+            mFragments[FIRST] = BxzFirstFragment.newInstance(id);
             mFragments[SECOND] = BxzSecondFragment.newInstance();
             mFragments[THIRD] = BxzThirdFragment.newInstance();
             mFragments[FOURTH] = BxzFourthFragment.newInstance();
@@ -158,15 +161,4 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
         mBottomBar.setCurrentItem(0);
     }
 
-    /**
-     * 这里暂没实现,忽略
-     */
-//    @Subscribe
-//    public void onHiddenBottombarEvent(boolean hidden) {
-//        if (hidden) {
-//            mBottomBar.hide();
-//        } else {
-//            mBottomBar.show();
-//        }
-//    }
 }
