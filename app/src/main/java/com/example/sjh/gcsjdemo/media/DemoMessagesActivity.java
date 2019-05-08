@@ -50,7 +50,7 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
 
     protected final String senderId = "0";
     protected ImageLoader imageLoader;
-    protected MessagesListAdapter<Message> messagesAdapter;
+    public static MessagesListAdapter<Message> messagesAdapter;
 
     private Menu menu;
     private int selectionCount;
