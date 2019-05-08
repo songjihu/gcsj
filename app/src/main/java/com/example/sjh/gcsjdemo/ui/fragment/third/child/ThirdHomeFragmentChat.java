@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
+import com.example.sjh.gcsjdemo.dbmanager.ChatUtil;
+import com.example.sjh.gcsjdemo.entity.ChatMessage;
 import com.example.sjh.gcsjdemo.entity.Friend;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 import com.example.sjh.gcsjdemo.media.DemoDialogsActivity;
@@ -341,7 +343,8 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
         //mAdapter.setDatas(friendsList);
         //将设置好的适配器配置给List
 
-
+        //ChatUtil ru = new ChatUtil();
+        //ru.insertMsg(new ChatMessage("132"));
 
 
         //实时刷新列表
@@ -400,10 +403,10 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
 
     @Override
     public void onDialogClick(Dialog dialog) {
-        String team_id = dialog.getId();
-        int t = Integer.parseInt(team_id);
+        String temp = dialog.getId();
+        int t = Integer.parseInt(temp);
         team_member[t][19]=uTitles;//存入自己是谁
-        team_member[t][18]=team_id;//存入这是哪个群组
+        team_member[t][18]=team_id[t];//存入群组id
         team_member[t][17]=user_name;//存入自己叫啥
         EventBus.getDefault().postSticky(team_member[t]);//发送小组成员
         CustomHolderMessagesActivity.open(getActivity());

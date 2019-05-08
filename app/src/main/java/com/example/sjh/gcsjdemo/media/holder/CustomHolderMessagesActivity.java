@@ -2,12 +2,16 @@ package com.example.sjh.gcsjdemo.media.holder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.sjh.database.greenDao.db.DaoMaster;
+import com.example.sjh.database.greenDao.db.DaoSession;
 import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.dbmanager.MyApplication;
 import com.example.sjh.gcsjdemo.entity.ChatMessage;
 import com.example.sjh.gcsjdemo.helper.MessageTranslateBack;
 import com.example.sjh.gcsjdemo.helper.MessageTranslateTo;
@@ -53,6 +57,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
     private MyXMPPTCPConnectionOnLine connection;//连接
     private ChatManager chatManager;//会话管理
     private Chat chat[]=new Chat[20];//会话
+    private DaoSession daoSession;
 
     static ArrayList<String> avatars = new ArrayList<String>() {
         {
@@ -77,6 +82,10 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
                         messagesAdapter.addToStart(message,true);//加入下方列表
                         Log.i("1发送11111111111111111","1");
                     }
+                    //将所有接收到的消息，加入到数据库
+                    ChatMessage chat_msg =new ChatMessage(null,(String) msg.obj);
+                    daoSession.insert(chat_msg);
+                    Log.i("数据库加入++++++",(String) msg.obj);
                     break;
                 default:
                     break;
@@ -85,6 +94,12 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
     };
 
 
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "aserbao.db");
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
 
     public static void open(Context context) {
         context.startActivity(new Intent(context, CustomHolderMessagesActivity.class));
@@ -97,6 +112,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);//注册
+        initGreenDao();
         setContentView(R.layout.activity_custom_holder_messages);
         //消息列表布局
         messagesList = (MessagesList) findViewById(R.id.messagesList);
@@ -141,7 +157,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
 
     private void initChatManager(){
         connection = MyXMPPTCPConnectionOnLine.getInstance();
-        if(connection != null){
+        if(connection != null ){
             chatManager = ChatManager.getInstanceFor(connection);
             chatManager.addChatListener(this);
         }
@@ -199,6 +215,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
                         R.layout.item_custom_outcoming_image_message);
 
         //配置适配器内容，第一个参数为发送者的id，id不同则在右侧
+        super.team_id=team_member[18];//传入小组编号
         super.messagesAdapter = new MessagesListAdapter<>(team_member[19], holdersConfig, super.imageLoader);
         //配置点击事件
         super.messagesAdapter.setOnMessageLongClickListener(this);
@@ -232,7 +249,6 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
         }
     }
 
-
     @Override
     public void chatCreated(Chat chat, boolean createdLocally) {
         chat.addMessageListener(this);
@@ -252,6 +268,15 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
 
     @Override
     public void onDestroy() {
+        //处理内存
+        chatManager.removeChatListener(this);
+        finish();
+//关闭当前界面方法二
+        //android.os.Process.killProcess(android.os.Process.myPid());
+//关闭当前界面方法三
+        //System.exit(0);
+//关闭当前界面方法四
+        //this.onDestroy();
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }

@@ -44,6 +44,7 @@ public class ChatUtil {
         flag = chatDao.insert(msg)==1?true:false ;//成功插入返回1
 
         return flag;
+        //return true;
     }
 
     /**
@@ -51,7 +52,7 @@ public class ChatUtil {
      * @param msg_id
      */
     public void deleteMsg(String msg_id){
-        chatDao.deleteByKey(msg_id);
+        //chatDao.deleteByKey(msg_id);
     }
 
     /**
@@ -78,9 +79,9 @@ public class ChatUtil {
      * @return
      */
 
-    public List<ChatMessage> querryMassages(String team_id){
+    public List<ChatMessage> querryMassages(){
 
-        List<ChatMessage> msgList = chatDao.queryBuilder().where(ChatMessageDao.Properties.MsgTeam.eq(team_id)).list();
+        List<ChatMessage> msgList = chatDao.loadAll();
 /*
         daoSession = GreenDaoManager.getInstance().getSession();
         List<ChatMessage>  msgList = new ArrayList<ChatMessage>();
@@ -96,7 +97,7 @@ public class ChatUtil {
             msgList.add(msg);
         }
 */
-        return msgList;
+       return msgList;
     }
 
 
