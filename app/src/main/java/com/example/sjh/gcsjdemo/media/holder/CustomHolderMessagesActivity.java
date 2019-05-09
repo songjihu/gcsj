@@ -68,7 +68,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
         }
     };
     //接受处理消息
-    public static Handler handler = new Handler(){
+    private static Handler handler = new Handler(){
 
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -264,6 +264,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
         chat.addMessageListener(this);
     }
 
+    //接收到消息后的处理
     @Override
     public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
         if(message.getType().equals(org.jivesoftware.smack.packet.Message.Type.chat) || message.getType().equals(org.jivesoftware.smack.packet.Message.Type.normal)){
