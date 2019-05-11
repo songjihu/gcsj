@@ -321,13 +321,15 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             }
                         }
                         for(int h=p;h<=4;h++){
-                            if(result[h]!="kong"){
-                        //if(rs.getString(j)!=null) {
-                            String sql1="SElECT * FROM `schedule_con` where sc_id= "+result[h]+" and sch_id= "+subjectId;
-                            ResultSet re=st.executeQuery(sql1);
-                            if(re.next())
-                            nTitles[i] = "第"+(h+1)+"节\n"  +re.getString("course_name")+"\n"+re.getString("address")+"\n"+re.getString("teacher");
-                            i=i+1;
+                            if(result[h]!="kong") {
+                                //if(rs.getString(j)!=null) {
+                                String sql1 = "SElECT * FROM `schedule_con` where sc_id= " + result[h] + " and sch_id= " + subjectId;
+                                ResultSet re = st.executeQuery(sql1);
+                                if (re.next()){
+                                    nTitles[i] = "第" + (h + 1) + "节\n" + re.getString("course_name") + "\n" + re.getString("address") + "\n" + re.getString("teacher");
+                                    if(re.getInt("sign_in")!=0)  mCheck[i]="签到状态：未签到\n";
+                                    else mCheck[i]="签到状态：未开启\n";
+                            }i=i+1;
                         }
                         }
                         /*if(rs.getString("two")!=null) {
