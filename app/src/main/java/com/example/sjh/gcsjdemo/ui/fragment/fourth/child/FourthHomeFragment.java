@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.sjh.gcsjdemo.activity.CheckinActivity;
 import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.group.MyGroup;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,16 +99,26 @@ public class FourthHomeFragment extends SupportFragment {
         mAddChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), MyGroup.class);//将该页面的学号传递至下个页面
+                Bundle  bundle =new Bundle();
+                bundle.putString("userid",  uTitles);
+                intent.putExtras(bundle);
+                //bundle.putCharSequence("userid",  mUserid.toString());
                 startActivity(intent);
+                onPause();
             }
         });
 
         mNewChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), MyGroup.class);//将该页面的学号传递至下个页面
+                Bundle  bundle =new Bundle();
+                bundle.putString("userid",  uTitles);
+                intent.putExtras(bundle);
+                //bundle.putCharSequence("userid",  mUserid.toString());
                 startActivity(intent);
+                onPause();
             }
         });
 

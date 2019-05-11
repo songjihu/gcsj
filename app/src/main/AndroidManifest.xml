@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sjh.gcsjdemo">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -16,6 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".group.ShowGroupInfo"></activity>
+        <activity android:name=".group.JoinGroup" />
+        <activity android:name=".group.MyGroup" />
+        <activity android:name=".group.CreateGroup" />
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name">
@@ -27,19 +30,16 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name">
-
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".activity.CheckinActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity android:name=".activity.TimeActivity"></activity>
-        <activity android:name=".activity.ChatActivity"></activity>
-        <activity android:name=".activity.PublishActivity"></activity>
-        <activity android:name=".media.CustomMediaMessagesActivity"></activity>
-        <activity android:name=".media.holder.CustomHolderDialogsActivity"></activity>
-        <activity android:name=".media.holder.CustomHolderMessagesActivity"></activity>
+            android:label="@string/app_name" />
+        <activity android:name=".activity.TimeActivity" />
+        <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".activity.PublishActivity" />
+        <activity android:name=".media.CustomMediaMessagesActivity" />
+        <activity android:name=".media.holder.CustomHolderDialogsActivity" />
+        <activity android:name=".media.holder.CustomHolderMessagesActivity" />
     </application>
 
 </manifest>

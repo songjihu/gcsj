@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".group.ShowGroupInfo">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorAccent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/show_text1"
+            android:text="群 组 详 细 信 息"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#FFFFFF"/>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="10dp">
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:id="@+id/show_text2"
+
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:text="群组名称："
+            />
+        <TextView
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:id="@+id/show_grpname"
+            android:layout_marginTop="30dp"
+
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:id="@+id/show_text3"
+            android:layout_marginTop="70dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:text="创建人："
+            />
+        <TextView
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:id="@+id/show_owner"
+            android:layout_marginTop="100dp"
+
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:id="@+id/show_text4"
+            android:layout_marginTop="140dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:text="成立状态：" />
+
+        <TextView
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:id="@+id/show_status"
+            android:layout_marginTop="170dp"
+
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:id="@+id/show_text5"
+            android:layout_marginTop="210dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:text="剩余可容纳人数：" />
+        <TextView
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:id="@+id/show_rest"
+            android:layout_marginTop="240dp"
+
+            android:textSize="20dp"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginBottom="0dp">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="申请加入"
+            android:id="@+id/show_join"
+            android:background="@color/colorAccent"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            />
+    </FrameLayout>
+
+
+
+
+
+</FrameLayout>
