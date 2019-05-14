@@ -1,4 +1,4 @@
-package com.example.sjh.gcsjdemo;
+package com.example.sjh.gcsjdemo.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -32,9 +32,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
+import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
+
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -45,12 +53,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.CountDownLatch;
 
-import Entity.UserInfo;
+import com.example.sjh.gcsjdemo.entity.UserInfo;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> , ConnectionListener, RosterListener {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -77,6 +85,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     public String UserName=new String();
     public static int getRequestReadContacts() {
         return REQUEST_READ_CONTACTS;
+    }
+    private MyXMPPTCPConnection connection;//聊天服务连接
+    private Roster roster;
+    private Boolean isLogin = false;
+    private String name;
+    private String id;
+
+    private void initXMPPTCPConnection(){
+        connection = MyXMPPTCPConnection.getInstance();
+        connection.addConnectionListener(this);
+        roster = Roster.getInstanceFor(connection);
+        roster.addRosterListener(this);
     }
 
     @Override
@@ -109,6 +129,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        initXMPPTCPConnection();
     }
 
     private void populateAutoComplete() {
@@ -169,11 +190,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        //String email = mEmailView.getText().toString();
-        // password = mPasswordView.getText().toString();
-        String email = "20162430722";
-        String password = "111";
+        //Store values at the time of the login attempt.
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        //String email = "20162430710";
+        //String password = "123456";
 
         boolean cancel = false;
         View focusView = null;
@@ -203,17 +224,26 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+
+            //连接聊天服务器
+            List<String> loginList = new ArrayList<String>();
+            //loginList.add(et_account.getText().toString());
+            //loginList.add(et_password.getText().toString());
+            loginList.add(email);
+            loginList.add(password);
+            new loginTask().execute(loginList);
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             //用Bundle携带数据
             //新建一个显式意图，第一个参数为当前Activity类对象，第二个参数为你要打开的Activity类
-            Intent intent =new Intent(LoginActivity.this,com.example.sjh.gcsjdemo.MainActivity.class);
+            Intent intent =new Intent(LoginActivity.this,MainActivity.class);
 
             //用Bundle携带数据
             Bundle bundle=new Bundle();
             //传递name参数为name到下一层
-            bundle.putString("name",email);
+            bundle.putString("name",name);
+            bundle.putString("id",id);
             intent.putExtras(bundle);
             startActivity(intent);
         }
@@ -232,21 +262,28 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         uuu.setUserId(email);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        /*
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
-                    String sql="SELECT userpwd FROM `user` WHERE userid = "+uuu.getUserId();
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                    String sql="SELECT * FROM `user` WHERE user_id = "+uuu.getUserId();
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
-                        uuu.setRpwd(rs.getString("userpwd"));
+                        uuu.setRpwd(rs.getString("passwd"));
+                        uuu.setUserName(rs.getString("user_name"));
 
-                        Log.i("LoginActivity",uuu.getRpwd());
                     }
+
+                    name=uuu.getUserName();
+                    id=uuu.getUserId();
+
+
+
+
                     cn.close();
                     st.close();
                     rs.close();
@@ -279,8 +316,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
            // Toast.makeText(getApplicationContext(),answer,Toast.LENGTH_LONG).show();
-*/
-        return true;
+
+        //return true;
     }
 
     /**
@@ -427,6 +464,126 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+    //ConnectionListener
+    @Override
+    public void connected(XMPPConnection connection) {
+
+    }
+
+    @Override
+    public void authenticated(XMPPConnection connection, boolean resumed) {
+
+    }
+
+    @Override
+    public void connectionClosed() {
+
+    }
+
+    @Override
+    public void connectionClosedOnError(Exception e) {
+
+    }
+
+    @Override
+    public void reconnectionSuccessful() {
+
+    }
+
+    @Override
+    public void reconnectingIn(int seconds) {
+
+    }
+
+    @Override
+    public void reconnectionFailed(Exception e) {
+
+    }
+
+    //RosterListener
+    @Override
+    public void entriesAdded(Collection<String> addresses) {
+
+    }
+
+    @Override
+    public void entriesUpdated(Collection<String> addresses) {
+
+    }
+
+    @Override
+    public void entriesDeleted(Collection<String> addresses) {
+
+    }
+
+    @Override
+    public void presenceChanged(Presence presence) {
+
+    }
+
+    private class loginTask extends AsyncTask<List<String>, Object, Short>{
+
+
+        //此次连接登录服务器为离线状态
+        @Override
+        protected Short doInBackground(List<String>... params) {
+            if(connection != null){
+                try{
+                    //如果没有连接openfire服务器，则连接；若已连接openfire服务器则跳过。
+                    if(!connection.isConnected()){
+                        connection.connect();
+                    }
+
+                    if(TextUtils.isEmpty(params[0].get(0))){
+                        return 0;
+                    }else if(TextUtils.isEmpty(params[0].get(1))){
+                        return 1;
+                    }else{
+                        if(isLogin){
+                            connection.login(params[0].get(0), params[0].get(1));
+                            return 2;
+                        }else{
+                            if(connection.isConnected()){
+                                connection.login(params[0].get(0), params[0].get(1));
+                                Log.i("++++++++"+params[0].get(0), params[0].get(1));
+                                return 2;
+                            }
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return 3;
+                }
+            }
+            Log.i("+++++++++++++"+params[0].get(0), params[0].get(1));
+            return 3;
+        }
+
+        @Override
+        protected void onPostExecute(Short state) {
+            switch (state){
+                case 0:
+                    Toast.makeText(LoginActivity.this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    isLogin = false;
+                    //activity跳转到下一层
+                    Toast.makeText(LoginActivity.this, "登录聊天成功", Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(LoginActivity.this, FriendsActivity.class));
+                    break;
+                case 3:
+                    isLogin = false;
+                    Toast.makeText(LoginActivity.this, "登录出现错误", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

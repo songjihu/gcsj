@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.child.ShopFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.third.child.ThirdHomeFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.third.child.ThirdHomeFragmentChat;
 
 
 /**
@@ -36,9 +38,9 @@ public class BxzThirdFragment extends BaseMainFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
 
-        if (findChildFragment(ShopFragment.class) == null) {
+        if (findChildFragment(ThirdHomeFragmentChat.class) == null) {
             // ShopFragment是flow包里的
-            loadRootFragment(R.id.fl_third_container, ShopFragment.newInstance());
+            loadRootFragment(R.id.fl_third_container, ThirdHomeFragmentChat.newInstance());
         }
     }
 }

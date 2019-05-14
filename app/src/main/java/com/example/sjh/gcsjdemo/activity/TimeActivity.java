@@ -1,4 +1,4 @@
-package com.example.sjh.gcsjdemo;
+package com.example.sjh.gcsjdemo.activity;
 
 import android.os.Handler;
 import android.os.Message;
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.utils.Utils;
 
 public class TimeActivity extends AppCompatActivity {
     private int timeText = 0;//默认时间0秒

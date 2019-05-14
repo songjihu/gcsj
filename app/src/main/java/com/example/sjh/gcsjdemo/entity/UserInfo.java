@@ -1,4 +1,4 @@
-package Entity;
+package com.example.sjh.gcsjdemo.entity;
 
 public class UserInfo {
     private String userId;

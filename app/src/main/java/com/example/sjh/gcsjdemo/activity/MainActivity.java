@@ -1,4 +1,4 @@
-package com.example.sjh.gcsjdemo;
+package com.example.sjh.gcsjdemo.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,25 +11,20 @@ import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.SupportFragment;
 
+import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
-
 import com.example.sjh.gcsjdemo.ui.fragment.first.BxzFirstFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.BxzFourthFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.child.FourthHomeFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.fourth.child.MeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.BxzSecondFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.second.child.SecondHomeFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.second.child.ViewPagerFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.third.BxzThirdFragment;
-import com.example.sjh.gcsjdemo.ui.fragment.third.child.ShopFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.third.child.ThirdHomeFragment;
 import com.example.sjh.gcsjdemo.ui.view.BottomBar;
 import com.example.sjh.gcsjdemo.ui.view.BottomBarTab;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import com.example.sjh.gcsjdemo.MessageEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +38,8 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
     public static final int SECOND = 1;
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
-
+    private String name;
+    private String id;
     List<String> mDatas = new ArrayList<>();
 
     private SupportFragment[] mFragments = new SupportFragment[4];
@@ -65,17 +61,18 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
 
         Bundle bundle = this.getIntent().getExtras();
         //从登陆activity获取用户名
-        String name = bundle.getString("name");
+        name = bundle.getString("name");
+        id = bundle.getString("id");
         Log.i("获取到的name值为",name);
 
-        EventBus.getDefault().postSticky(name);
+        EventBus.getDefault().postSticky(id);
 
         //EventBus.getDefault().post(new MessageEvent("Hello everyone!"));
 
         SupportFragment firstFragment = findFragment(BxzFirstFragment.class);
 
         if (firstFragment == null) {
-            mFragments[FIRST] = BxzFirstFragment.newInstance(name);
+            mFragments[FIRST] = BxzFirstFragment.newInstance(id);
             mFragments[SECOND] = BxzSecondFragment.newInstance();
             mFragments[THIRD] = BxzThirdFragment.newInstance();
             mFragments[FOURTH] = BxzFourthFragment.newInstance();
@@ -84,9 +81,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
                     mFragments[FIRST],
                     mFragments[SECOND],
                     mFragments[THIRD],
-                    mFragments[FOURTH]
-
-                    );
+                    mFragments[FOURTH]);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
 
@@ -95,7 +90,6 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
             mFragments[SECOND] = findFragment(BxzSecondFragment.class);
             mFragments[THIRD] = findFragment(BxzThirdFragment.class);
             mFragments[FOURTH] = findFragment(BxzFourthFragment.class);
-
         }
 
         initView();
@@ -109,10 +103,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
         mBottomBar.addItem(new BottomBarTab(this, R.drawable.ic_home_white_24dp))
                 .addItem(new BottomBarTab(this, R.drawable.ic_discover_white_24dp))
                 .addItem(new BottomBarTab(this, R.drawable.ic_message_white_24dp))
-                .addItem(new BottomBarTab(this, R.drawable.ic_account_circle_white_24dp))
-
-
-        ;
+                .addItem(new BottomBarTab(this, R.drawable.ic_account_circle_white_24dp));
 
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {
             @Override
@@ -138,7 +129,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
                         //currentFragment.popToChild(ViewPagerFragment.class, false);
                         currentFragment.popToChild(SecondHomeFragment.class, false);
                     } else if (currentFragment instanceof BxzThirdFragment) {
-                        currentFragment.popToChild(ShopFragment.class, false);
+                        currentFragment.popToChild(ThirdHomeFragment.class, false);
                     } else if (currentFragment instanceof BxzFourthFragment) {
                         //currentFragment.popToChild(MeFragment.class, false);
                         currentFragment.popToChild(FourthHomeFragment.class, false);

@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sjh.gcsjdemo.AddCourseTable;
-import com.example.sjh.gcsjdemo.CheckinActivity;
-import com.example.sjh.gcsjdemo.MainActivity;
+import com.example.sjh.gcsjdemo.activity.CheckinActivity;
+import com.example.sjh.gcsjdemo.activity.MainActivity;
 import com.example.sjh.gcsjdemo.PersonActivity;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
@@ -28,6 +28,7 @@ import com.example.sjh.gcsjdemo.person.DBUtils;
 import com.example.sjh.gcsjdemo.person.dCourse;
 import com.example.sjh.gcsjdemo.person.dCourseInfo;
 import com.example.sjh.gcsjdemo.test;
+import com.example.sjh.gcsjdemo.group.MyGroup;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -197,10 +198,6 @@ public class FourthHomeFragment extends SupportFragment {
             }
         });
 
-
-
-
-
         mAddClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -318,16 +315,26 @@ public class FourthHomeFragment extends SupportFragment {
         mAddChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), MyGroup.class);//将该页面的学号传递至下个页面
+                Bundle  bundle =new Bundle();
+                bundle.putString("userid",  uTitles);
+                intent.putExtras(bundle);
+                //bundle.putCharSequence("userid",  mUserid.toString());
                 startActivity(intent);
+                onPause();
             }
         });
 
         mNewChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), MyGroup.class);//将该页面的学号传递至下个页面
+                Bundle  bundle =new Bundle();
+                bundle.putString("userid",  uTitles);
+                intent.putExtras(bundle);
+                //bundle.putCharSequence("userid",  mUserid.toString());
                 startActivity(intent);
+                onPause();
             }
         });
 
