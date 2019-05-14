@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -52,7 +53,7 @@
             android:label="班小助">
 
         </activity>
-
+<activity android:name=".test"></activity>
     </application>
 
 

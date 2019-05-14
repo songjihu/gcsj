@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="420dp"
+        android:layout_height="10dp" />
+
+   <ImageButton
+       android:id="@+id/go_back_addC"
+       android:layout_width="25dp"
+       android:layout_height="25dp"
+       android:src="@drawable/go_back"
+       android:onClick="GoBack"
+       />
+
+
+
+    <TextView
+        android:layout_width="420dp"
+        android:layout_height="10dp" />
+
+
+        <TextView
+
+            android:layout_width="420dp"
+            android:layout_height="30dp"
+            android:text="请选择日期："
+            android:gravity="left"
+            android:textSize="20dp"
+            />
+
+
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="420dp"
+        android:layout_height="82dp"
+        android:layout_gravity="bottom"
+        android:entries="@array/spingarr1"
+
+        />
+
+    <TextView
+
+        android:layout_width="420dp"
+        android:layout_height="30dp"
+        android:text="请选择节次："
+        android:gravity="left"
+        android:textSize="20dp"
+        />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="420dp"
+        android:layout_height="82dp"
+        android:layout_gravity="bottom"
+        android:entries="@array/spingarr2"
+        style="@style/spinner_text_size"
+        />
+
+    <TextView
+
+        android:layout_width="420dp"
+        android:layout_height="30dp"
+        android:text="请填入课程名："
+        android:gravity="left"
+        android:textSize="20dp"
+
+
+        />
+
+  <EditText
+      android:id="@+id/edit_c_1"
+      android:layout_width="220dp"
+      android:layout_height="80dp"
+      android:hint="数据结构"
+      />
+    <TextView
+
+        android:layout_width="420dp"
+        android:layout_height="30dp"
+        android:text="请填入教师名："
+        android:gravity="left"
+        android:textSize="20dp"
+
+        />
+    <EditText
+        android:id="@+id/edit_c_2"
+        android:layout_width="220dp"
+        android:layout_height="80dp"
+        android:hint="小王"
+        />
+    <TextView
+
+        android:layout_width="420dp"
+        android:layout_height="30dp"
+        android:text="请填入课程地点："
+        android:gravity="left"
+
+        android:textSize="20dp"
+        />
+    <EditText
+        android:id="@+id/edit_c_3"
+        android:layout_width="220dp"
+        android:layout_height="80dp"
+        android:hint="南1-105"
+        />
+
+ <ImageButton
+     android:id="@+id/do_add_course"
+     android:layout_width="140dp"
+     android:layout_height="70dp"
+     android:layout_gravity="center"
+     android:src="@drawable/submit_bg"
+
+     />
+
+
+
+</LinearLayout>
