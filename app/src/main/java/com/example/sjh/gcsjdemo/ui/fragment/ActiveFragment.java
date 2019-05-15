@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.Utils;
+import com.example.sjh.gcsjdemo.utils.Utils;
 import com.example.sjh.gcsjdemo.utils.db.DBHelper;
 
 import java.util.Calendar;

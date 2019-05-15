@@ -56,7 +56,7 @@ public class ChatActivity extends AppCompatActivity implements ChatManagerListen
         public void handleMessage(android.os.Message msg) {
             switch (msg.what){
                 case 0:
-                   // ChatMessage chatMessage = new ChatMessage((String) msg.obj, 1);
+                    // ChatMessage chatMessage = new ChatMessage((String) msg.obj, 1);
                     //messageList.add(chatMessage);
                     adapter.notifyDataSetChanged();//显示内容
                     Log.i("1发送11111111111111111","1");

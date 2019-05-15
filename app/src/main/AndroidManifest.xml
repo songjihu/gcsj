@@ -59,7 +59,6 @@
             android:label="班小助">
 
         </activity>
-        <activity android:name=".ChatActivity"></activity>
         <activity android:name=".test"></activity>
     </application>
 

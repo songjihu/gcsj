@@ -1,4 +1,6 @@
-package Entity;
+package com.example.sjh.gcsjdemo.entity;
+
+import android.util.Log;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -36,16 +38,23 @@ public class StuInfo {
         this.userName = userName;
     }
 
-    public String getclassId(String email){
+    public void setClassId(String email){
+        this.classId=email;
+    }
 
+    public String getclassId(String email){
+        final StuInfo a=new StuInfo();
+        a.setClassId(email);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    //Log.i("LLLLL",email);
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                    String sql="SELECT class_id FROM `stu_info` WHERE stu_no = "+"email";
+                    String sql="SELECT class_id FROM `stu_info` WHERE stu_no = "+a.classId;
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
@@ -53,7 +62,7 @@ public class StuInfo {
                     }
                     cn.close();
                     st.close();
-                    rs.close();
+                    //rs.close();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
@@ -61,7 +70,13 @@ public class StuInfo {
                 }
                 countDownLatch.countDown();
             }
-        });
+        }).start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return classId;
     }
 }
