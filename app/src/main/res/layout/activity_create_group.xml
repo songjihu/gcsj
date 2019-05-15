@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_create"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4F58A8"
+    tools:context=".group.CreateGroup">
+
+    <TextView
+        android:id="@+id/textView_c1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:text="新建群组"
+        android:textColor="@color/bg_app"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/textView_c2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView6"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="请选择课程"
+            android:textColor="#4F58A8"
+            android:textSize="20sp" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/course_choice"
+            android:layout_width="100sp"
+            android:layout_height="30sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="200dp"
+            >
+
+        </android.support.v7.widget.AppCompatSpinner>
+
+        <TextView
+            android:id="@+id/textView_c3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="100dp"
+            android:textColor="#4F58A8"
+            android:text="请输入群名称"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/grpname1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/proceed"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="10dp"
+            android:ems="20"
+            android:inputType="textPersonName"
+            android:textSize="10dp" />
+        <TextView
+            android:id="@+id/textView_c4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Choice"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#4F58A8"
+            android:text="最低成员人数"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/textView_c5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Choice"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="200dp"
+            android:textColor="#4F58A8"
+            android:text="最大成员人数"
+            android:textSize="20sp" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/Minnum"
+            android:layout_width="100sp"
+            android:layout_height="30sp"
+            android:layout_marginTop="250dp"
+            android:layout_marginRight="150dp"
+            android:layout_marginLeft="10dp"
+            >
+
+        </android.support.v7.widget.AppCompatSpinner> <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/Maxnum"
+        android:layout_width="100sp"
+        android:layout_height="30sp"
+        android:layout_marginTop="250dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginLeft="200dp"
+        >
+
+    </android.support.v7.widget.AppCompatSpinner>
+        <Button
+            android:id="@+id/new_grpcreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="400dp"
+            android:text="创建" />
+
+
+        <Button
+            android:id="@+id/new_grpcreate_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginLeft="220dp"
+            android:layout_marginTop="400dp"
+            android:text="取消" />
+
+
+
+
+    </FrameLayout>
+
+
+
+</RelativeLayout>

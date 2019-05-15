@@ -34,7 +34,8 @@ public class ChatAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if(chatMessageList.get(position).getFrom() == 0){
+        //if(chatMessageList.get(position).getFrom() == 0){
+        if(true){
             type = 0;
         }else{
             type = 1;
@@ -82,9 +83,9 @@ public class ChatAdapter extends BaseAdapter {
         }
 
         if(type == 0){
-            viewHolder2.myTextView.setText(chatMessageList.get(position).getMsgContent());
+            //viewHolder2.myTextView.setText(chatMessageList.get(position).getMsgContent());
         }else{
-            viewHolder1.otherTextView.setText(chatMessageList.get(position).getMsgContent());
+            //viewHolder1.otherTextView.setText(chatMessageList.get(position).getMsgContent());
         }
         return convertView;
     }

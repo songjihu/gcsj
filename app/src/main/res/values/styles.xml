@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,9 +10,9 @@
         <item name="android:windowNoTitle">true</item>
 
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light"/>
     <style name="Toolbar_TextAppearance_White">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/white</item>
@@ -20,6 +20,38 @@
     <style name="tab_appearance">
         <item name="android:textSize">16sp</item>
     </style>
+
+
+
+
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme2" parent="AppBaseTheme">
+        <item name="android:actionBarStyle">@style/myActionBarStyle</item>
+    </style>
+
+    <style name="myActionBarStyle" parent="android:Widget.ActionBar" >
+        <item name="android:background">@color/actionBarBg</item>
+        <item name="android:titleTextStyle">@style/myActionBarTextStyle</item>
+        <item name="android:height">40dp</item>
+    </style>
+    <style name="myActionBarTextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/actionBarText</item>
+    </style>
+
+     <style name="spinner_text_size">
+        <item name="android:textSize">60dp</item>
+
+
+
+     </style>
+
+
 
 
 </resources>

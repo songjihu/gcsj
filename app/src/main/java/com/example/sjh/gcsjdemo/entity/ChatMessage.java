@@ -1,31 +1,65 @@
 package com.example.sjh.gcsjdemo.entity;
 
+import com.example.sjh.gcsjdemo.media.data.model.Message;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
+
 /**
- * Created by Administrator on 2017/7/14.
+ * 修改于 2019/5/7
+ * sjh
+ * 消息本地数据库
+ * 存储 自增id和msg
  */
 
+@Entity
 public class ChatMessage {
-    private String msgContent;
-    private int from;
+    @Id(autoincrement = true)
+    private Long msgId;//消息id
 
-    public ChatMessage(String msgContent, int from) {
-        this.msgContent = msgContent;
-        this.from = from;
+    @NotNull
+    private String msg;//消息
+
+
+    public ChatMessage(String msg) {
+        this.msg = msg;
     }
 
-    public String getMsgContent() {
-        return msgContent;
+
+    @Generated(hash = 1574058549)
+    public ChatMessage(Long msgId, @NotNull String msg) {
+        this.msgId = msgId;
+        this.msg = msg;
     }
 
-    public void setMsgContent(String msgContent) {
-        this.msgContent = msgContent;
+
+    @Generated(hash = 2271208)
+    public ChatMessage() {
     }
 
-    public int getFrom() {
-        return from;
+
+    public Long getMsgId() {
+        return this.msgId;
     }
 
-    public void setFrom(int from) {
-        this.from = from;
+
+    public void setMsgId(Long msgId) {
+        this.msgId = msgId;
     }
+
+
+    public String getMsg() {
+        return this.msg;
+    }
+
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+
+
+
 }
