@@ -3,6 +3,7 @@ package com.example.sjh.gcsjdemo.entity;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Generated;
 
@@ -15,11 +16,15 @@ import java.util.Date;
  * @Date: 2019/4/17 22:18
  */
 
-@Entity
+@Entity(nameInDb = "REMIND", indexes = {
+        @Index(value = "remindId DESC,userId DESC", unique = true)
+})
 public class Remind {
     @Id
      private String remindId;
     @NotNull
+     private String userId;
+     @NotNull
      private String remindTime;
     @NotNull
      private String title;
@@ -27,10 +32,14 @@ public class Remind {
      private String con;
 
 
-    @Generated(hash = 1989415835)
-    public Remind(String remindId, @NotNull String remindTime,
-            @NotNull String title, @NotNull String con) {
+
+
+    @Generated(hash = 1700286399)
+    public Remind(String remindId, @NotNull String userId,
+            @NotNull String remindTime, @NotNull String title,
+            @NotNull String con) {
         this.remindId = remindId;
+        this.userId = userId;
         this.remindTime = remindTime;
         this.title = title;
         this.con = con;
@@ -41,8 +50,22 @@ public class Remind {
     }
 
 
+
+
+    public String getRemindId() {
+        return this.remindId;
+    }
+
     public void setRemindId(String remindId) {
         this.remindId = remindId;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String  getRemindTime() {
@@ -89,7 +112,7 @@ public class Remind {
                 "时间："+remindTime+"\n" ;
     }
 
-    public String getRemindId() {
-        return this.remindId;
-    }
+
+
+
 }

@@ -31,6 +31,7 @@ import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.helper.DetailTransition;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstDetailFragment;
+import com.example.sjh.gcsjdemo.utils.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -130,6 +131,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), PublishActivity.class);
+                intent.putExtra("userId",uTitles);
                 startActivity(intent);
             }
         });
@@ -141,23 +143,8 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
                 startActivity(intent);
             }
         });
-
-
-        RemindUtil ru = new RemindUtil();
-
-        List<Reminder> reminderList = new ArrayList<Reminder>();
-        List<Remind>  list = new ArrayList<Remind>();
-         list =  ru.querryReminds();
-
-        // 显示所有查出来的remind item
-         for(Remind r:list){
-             Reminder reminder = new Reminder(r.toTypeString());
-             reminderList.add(reminder);
-         }
-
-
         //设置数据到适配器
-        mAdapter.setDatas(reminderList);
+        mAdapter.setDatas(getReminders());
 
         mRecy.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -171,9 +158,6 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
                 }
             }
         });
-
-
-
     }
 
     @Override
@@ -181,6 +165,9 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
+                mAdapter.setDatas(getReminders());
+                mRecy.setAdapter(mAdapter);
+                mRecy.scrollToPosition(mAdapter.getItemCount()-1);//此句为设置显示
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);
@@ -218,5 +205,19 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         EventBus.getDefault().unregister(this);
     }
 
+
+    public List<Reminder> getReminders(){
+        RemindUtil ru = new RemindUtil();
+        List<Reminder> reminderList = new ArrayList<Reminder>();
+        List<Remind>  list = new ArrayList<Remind>();
+        list =  ru.listReminds(DateUtil.getCurrentDateStr(),uTitles);
+
+        // 显示所有查出来的remind item
+        for(Remind r:list){
+            Reminder reminder = new Reminder(r.toTypeString());
+            reminderList.add(reminder);
+        }
+        return reminderList;
+    }
 
 }

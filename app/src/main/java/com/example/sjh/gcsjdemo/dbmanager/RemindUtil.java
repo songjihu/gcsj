@@ -8,6 +8,8 @@ import com.example.sjh.database.greenDao.db.RemindDao;
 import com.example.sjh.gcsjdemo.entity.Remind;
 import com.example.sjh.gcsjdemo.utils.DateUtil;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +39,12 @@ public class RemindUtil {
      * @param remind
      * @return
      */
-    public boolean insertRemind(Remind remind){
+    public void insertRemind(Remind remind){
 
-        boolean flag;
-       flag = remindDao.insert(remind)==1?true:false ;//成功插入返回1
+        Long a ;
 
-       return flag;
+       a = remindDao.insert(remind);
+       Log.v("insert","返回数据："+a);
     }
 
     /**
@@ -95,6 +97,19 @@ public class RemindUtil {
         return remindList;
     }
 
+    public List<Remind> listReminds(String nowDate ,String userId){
+        List<Remind> remindList = new ArrayList<>();
+        QueryBuilder<Remind> qb = remindDao.queryBuilder();
+        qb.where(RemindDao.Properties.UserId.eq(userId), RemindDao.Properties.RemindTime.ge(nowDate));
+        qb.orderAsc(RemindDao.Properties.RemindTime);
+        remindList = qb.list();
+        return remindList;
+    }
+
+
+    public void remoteToLocal(List<Remind> reminds){
+        remindDao.insertOrReplaceInTx(reminds);
+    }
 
 
 

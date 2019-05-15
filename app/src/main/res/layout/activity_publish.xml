@@ -72,7 +72,7 @@
             android:background="@null"
             android:gravity="center_vertical"
             android:paddingStart="15dp"
-            android:text="提醒时间设定"
+            android:text="提醒时间设定(示例格式2019-05-16 08:00)"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
 
@@ -84,8 +84,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="50dp"
             android:ems="10"
-            android:inputType="date"
-            android:text="date" />
+            android:inputType="date" />
 
         <EditText
             android:id="@+id/timeEditor"

@@ -25,9 +25,10 @@ public class RemindDao extends AbstractDao<Remind, String> {
      */
     public static class Properties {
         public final static Property RemindId = new Property(0, String.class, "remindId", true, "REMIND_ID");
-        public final static Property RemindTime = new Property(1, String.class, "remindTime", false, "REMIND_TIME");
-        public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
-        public final static Property Con = new Property(3, String.class, "con", false, "CON");
+        public final static Property UserId = new Property(1, String.class, "userId", false, "USER_ID");
+        public final static Property RemindTime = new Property(2, String.class, "remindTime", false, "REMIND_TIME");
+        public final static Property Title = new Property(3, String.class, "title", false, "TITLE");
+        public final static Property Con = new Property(4, String.class, "con", false, "CON");
     }
 
 
@@ -44,9 +45,13 @@ public class RemindDao extends AbstractDao<Remind, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"REMIND\" (" + //
                 "\"REMIND_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: remindId
-                "\"REMIND_TIME\" TEXT NOT NULL ," + // 1: remindTime
-                "\"TITLE\" TEXT NOT NULL ," + // 2: title
-                "\"CON\" TEXT NOT NULL );"); // 3: con
+                "\"USER_ID\" TEXT NOT NULL ," + // 1: userId
+                "\"REMIND_TIME\" TEXT NOT NULL ," + // 2: remindTime
+                "\"TITLE\" TEXT NOT NULL ," + // 3: title
+                "\"CON\" TEXT NOT NULL );"); // 4: con
+        // Add Indexes
+        db.execSQL("CREATE UNIQUE INDEX " + constraint + "IDX_REMIND_REMIND_ID_DESC_USER_ID_DESC ON \"REMIND\"" +
+                " (\"REMIND_ID\" DESC,\"USER_ID\" DESC);");
     }
 
     /** Drops the underlying database table. */
@@ -63,9 +68,10 @@ public class RemindDao extends AbstractDao<Remind, String> {
         if (remindId != null) {
             stmt.bindString(1, remindId);
         }
-        stmt.bindString(2, entity.getRemindTime());
-        stmt.bindString(3, entity.getTitle());
-        stmt.bindString(4, entity.getCon());
+        stmt.bindString(2, entity.getUserId());
+        stmt.bindString(3, entity.getRemindTime());
+        stmt.bindString(4, entity.getTitle());
+        stmt.bindString(5, entity.getCon());
     }
 
     @Override
@@ -76,9 +82,10 @@ public class RemindDao extends AbstractDao<Remind, String> {
         if (remindId != null) {
             stmt.bindString(1, remindId);
         }
-        stmt.bindString(2, entity.getRemindTime());
-        stmt.bindString(3, entity.getTitle());
-        stmt.bindString(4, entity.getCon());
+        stmt.bindString(2, entity.getUserId());
+        stmt.bindString(3, entity.getRemindTime());
+        stmt.bindString(4, entity.getTitle());
+        stmt.bindString(5, entity.getCon());
     }
 
     @Override
@@ -90,9 +97,10 @@ public class RemindDao extends AbstractDao<Remind, String> {
     public Remind readEntity(Cursor cursor, int offset) {
         Remind entity = new Remind( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // remindId
-            cursor.getString(offset + 1), // remindTime
-            cursor.getString(offset + 2), // title
-            cursor.getString(offset + 3) // con
+            cursor.getString(offset + 1), // userId
+            cursor.getString(offset + 2), // remindTime
+            cursor.getString(offset + 3), // title
+            cursor.getString(offset + 4) // con
         );
         return entity;
     }
@@ -100,9 +108,10 @@ public class RemindDao extends AbstractDao<Remind, String> {
     @Override
     public void readEntity(Cursor cursor, Remind entity, int offset) {
         entity.setRemindId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setRemindTime(cursor.getString(offset + 1));
-        entity.setTitle(cursor.getString(offset + 2));
-        entity.setCon(cursor.getString(offset + 3));
+        entity.setUserId(cursor.getString(offset + 1));
+        entity.setRemindTime(cursor.getString(offset + 2));
+        entity.setTitle(cursor.getString(offset + 3));
+        entity.setCon(cursor.getString(offset + 4));
      }
     
     @Override
