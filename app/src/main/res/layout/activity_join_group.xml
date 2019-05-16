@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_join"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    tools:context=".group.JoinGroup">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="16dp"
+        android:background="#4F58A8">
+
+        <Button
+            android:id="@+id/join_search_proceed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="300dp"
+            android:layout_marginRight="10dp"
+
+            android:text="查询" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/join_to_create"
+            android:text="创建"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="300dp"
+
+            android:layout_marginRight="10dp"
+
+            />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/join_text1"
+            android:gravity="center_vertical"
+            android:text="加 入 群 组"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/join_text2"
+            android:layout_marginTop="50sp"
+            android:layout_marginLeft="0sp"
+            android:text="请选择对应的课程进行查询"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/course_search"
+            android:layout_width="250sp"
+            android:layout_height="30sp"
+            android:layout_marginTop="90sp"
+            android:layout_marginRight="100sp"
+            android:layout_marginLeft="0sp"
+            >
+
+        </android.support.v7.widget.AppCompatSpinner>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="150dp">
+        <ImageView
+            android:id="@+id/join_empty_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/result"
+            android:visibility="invisible" />
+
+
+        <ListView
+            android:id="@+id/result_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            android:divider="#4F58A8"
+            android:dividerHeight="2dp"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false" />
+
+    </FrameLayout>
+
+</RelativeLayout>

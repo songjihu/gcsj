@@ -15,7 +15,7 @@ import com.example.sjh.gcsjdemo.entity.ChatMessage;
 /** 
  * DAO for table "CHAT_MESSAGE".
 */
-public class ChatMessageDao extends AbstractDao<ChatMessage, String> {
+public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
 
     public static final String TABLENAME = "CHAT_MESSAGE";
 
@@ -24,11 +24,8 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, String> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property MsgId = new Property(0, String.class, "msgId", true, "MSG_ID");
-        public final static Property MsgContent = new Property(1, String.class, "msgContent", false, "MSG_CONTENT");
-        public final static Property From = new Property(2, int.class, "from", false, "FROM");
-        public final static Property MsgTimetag = new Property(3, String.class, "msgTimetag", false, "MSG_TIMETAG");
-        public final static Property MsgTeam = new Property(4, String.class, "msgTeam", false, "MSG_TEAM");
+        public final static Property MsgId = new Property(0, Long.class, "msgId", true, "_id");
+        public final static Property Msg = new Property(1, String.class, "msg", false, "MSG");
     }
 
 
@@ -44,11 +41,8 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, String> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"CHAT_MESSAGE\" (" + //
-                "\"MSG_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: msgId
-                "\"MSG_CONTENT\" TEXT NOT NULL ," + // 1: msgContent
-                "\"FROM\" INTEGER NOT NULL ," + // 2: from
-                "\"MSG_TIMETAG\" TEXT NOT NULL ," + // 3: msgTimetag
-                "\"MSG_TEAM\" TEXT NOT NULL );"); // 4: msgTeam
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: msgId
+                "\"MSG\" TEXT NOT NULL );"); // 1: msg
     }
 
     /** Drops the underlying database table. */
@@ -61,63 +55,52 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, String> {
     protected final void bindValues(DatabaseStatement stmt, ChatMessage entity) {
         stmt.clearBindings();
  
-        String msgId = entity.getMsgId();
+        Long msgId = entity.getMsgId();
         if (msgId != null) {
-            stmt.bindString(1, msgId);
+            stmt.bindLong(1, msgId);
         }
-        stmt.bindString(2, entity.getMsgContent());
-        stmt.bindLong(3, entity.getFrom());
-        stmt.bindString(4, entity.getMsgTimetag());
-        stmt.bindString(5, entity.getMsgTeam());
+        stmt.bindString(2, entity.getMsg());
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, ChatMessage entity) {
         stmt.clearBindings();
  
-        String msgId = entity.getMsgId();
+        Long msgId = entity.getMsgId();
         if (msgId != null) {
-            stmt.bindString(1, msgId);
+            stmt.bindLong(1, msgId);
         }
-        stmt.bindString(2, entity.getMsgContent());
-        stmt.bindLong(3, entity.getFrom());
-        stmt.bindString(4, entity.getMsgTimetag());
-        stmt.bindString(5, entity.getMsgTeam());
+        stmt.bindString(2, entity.getMsg());
     }
 
     @Override
-    public String readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public ChatMessage readEntity(Cursor cursor, int offset) {
         ChatMessage entity = new ChatMessage( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // msgId
-            cursor.getString(offset + 1), // msgContent
-            cursor.getInt(offset + 2), // from
-            cursor.getString(offset + 3), // msgTimetag
-            cursor.getString(offset + 4) // msgTeam
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // msgId
+            cursor.getString(offset + 1) // msg
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, ChatMessage entity, int offset) {
-        entity.setMsgId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setMsgContent(cursor.getString(offset + 1));
-        entity.setFrom(cursor.getInt(offset + 2));
-        entity.setMsgTimetag(cursor.getString(offset + 3));
-        entity.setMsgTeam(cursor.getString(offset + 4));
+        entity.setMsgId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setMsg(cursor.getString(offset + 1));
      }
     
     @Override
-    protected final String updateKeyAfterInsert(ChatMessage entity, long rowId) {
-        return entity.getMsgId();
+    protected final Long updateKeyAfterInsert(ChatMessage entity, long rowId) {
+        entity.setMsgId(rowId);
+        return rowId;
     }
     
     @Override
-    public String getKey(ChatMessage entity) {
+    public Long getKey(ChatMessage entity) {
         if(entity != null) {
             return entity.getMsgId();
         } else {

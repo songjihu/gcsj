@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.Window;
 
 
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
@@ -161,4 +162,15 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
         mBottomBar.setCurrentItem(0);
     }
 
+    /**
+     * 这里暂没实现,忽略
+     */
+//    @Subscribe
+//    public void onHiddenBottombarEvent(boolean hidden) {
+//        if (hidden) {
+//            mBottomBar.hide();
+//        } else {
+//            mBottomBar.show();
+//        }
+//    }
 }

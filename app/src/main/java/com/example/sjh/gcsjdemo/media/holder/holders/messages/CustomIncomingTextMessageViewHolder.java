@@ -1,6 +1,7 @@
 package com.example.sjh.gcsjdemo.media.holder.holders.messages;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.sjh.gcsjdemo.R;
 import com.stfalcon.chatkit.messages.MessageHolders;
@@ -12,6 +13,7 @@ public class CustomIncomingTextMessageViewHolder
 
     //一个小点，表示是否在线
     private View onlineIndicator;
+    private TextView userName;
 
 
     //把itemView的传送数据的payload送给viewHolder
@@ -19,6 +21,7 @@ public class CustomIncomingTextMessageViewHolder
         super(itemView, payload);
         //在线状态为刚开始的设定
         onlineIndicator = itemView.findViewById(R.id.onlineIndicator);
+        userName = itemView.findViewById(R.id.messageName);
     }
 
     @Override
@@ -32,6 +35,8 @@ public class CustomIncomingTextMessageViewHolder
         } else {
             onlineIndicator.setBackgroundResource(R.drawable.shape_bubble_offline);
         }
+
+        userName.setText(message.getUser().getName());
         //We can set click listener on view from payload
         //为来自payload的视图添加监听器
         final Payload payload = (Payload) this.payload;

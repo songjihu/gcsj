@@ -1,5 +1,7 @@
 package com.example.sjh.gcsjdemo.utils;
 
+import java.util.Calendar;
+
 /**
  * Created by PSBC-26 on 2019/4/16.
  */
@@ -29,5 +31,28 @@ public class Utils {
         }
         first = second;
         return false;
+    }
+
+    /**
+     * 获取小时分钟（19:20）
+     * @return
+     */
+    public static String obtianTime(){
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        String hourStr = "";
+        String minuteStr = "";
+        if (hour<10){
+            hourStr = "0"+hour;
+        }else {
+            hourStr = Integer.toString(hour);
+        }
+        if (minute<10){
+            minuteStr = "0"+minute;
+        }else {
+            minuteStr = Integer.toString(minute);
+        }
+        return hourStr+":"+minuteStr;
     }
 }

@@ -59,7 +59,7 @@ public class StuInfo {
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
                         classId=rs.getString("class_id");
-                   }
+                    }
                     cn.close();
                     st.close();
                     //rs.close();

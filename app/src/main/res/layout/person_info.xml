@@ -1,0 +1,309 @@
+
+
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+
+
+
+    <ImageView
+        android:id="@+id/h_back"
+        android:layout_width="420dp"
+        android:layout_height="250dp"
+        android:background="@drawable/person_head_test"
+        />
+<!--
+    <ImageView
+        android:id="@+id/h_head"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/person_head_test" />
+    -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/h_back"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/user_line"
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/bg_app"/>
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/user_line"
+            android:textSize="17sp"
+            android:textColor="@color/bg_app"
+            />
+
+        <TextView
+            android:id="@+id/user_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/bg_app"
+            android:layout_toRightOf="@id/user_line"
+
+
+
+            />
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/per_first"
+        android:layout_width="210dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/h_back"
+        android:background="@color/bg_app"
+        android:text="头像"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+         />
+
+
+    <ImageView
+        android:id="@+id/per_first_f"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
+        android:background="@drawable/person_head_test"
+        android:layout_toRightOf="@id/per_first"
+        android:layout_below="@id/h_back"
+
+        />
+
+
+
+<Button
+    android:id="@+id/per_first_s"
+    android:layout_width="70dp"
+    android:layout_height="80dp"
+    android:layout_toRightOf="@id/per_first_f"
+    android:layout_below="@id/h_back"
+    android:background="@color/bg_app"
+    android:drawableLeft="@drawable/jinru"
+    android:onClick="clickUpdate"
+    />
+
+
+    <!--
+    <TextView
+        android:id="@+id/per_first_s"
+        android:layout_width="210dp"
+        android:layout_height="80dp"
+        android:layout_toRightOf="@id/per_first"
+        android:layout_below="@id/h_back"
+        android:background="@color/bg_app"
+        android:text="待加入项目"
+
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:gravity="center_vertical"/>
+-->
+
+
+
+    <Button
+        android:id="@+id/per_second"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_first"
+        android:gravity="center_vertical"
+       android:textSize="20dp"
+        android:text="电话号码:"
+        android:background="@color/bg_app"
+        android:textColor="#000000"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:drawableLeft="@drawable/tel"
+
+        />
+
+    <TextView
+        android:id="@+id/per_second_s"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_first_s"
+        android:layout_toRightOf="@id/per_second"
+        android:background="@color/bg_app"
+       android:gravity="center"
+
+        android:textSize="20dp"
+        android:text="15638411905" />
+
+
+
+
+
+
+
+     <Button
+         android:id="@+id/per_fourth"
+         android:layout_width="210dp"
+         android:layout_height="50dp"
+         android:layout_below="@id/per_second"
+         android:text="性别:"
+         android:background="@color/bg_app"
+         android:gravity="center_vertical"
+         android:textSize="20dp"
+         android:textColor="#000000"
+         android:paddingLeft="5dp"
+         android:paddingTop="5dp"
+         android:paddingRight="5dp"
+         android:paddingBottom="5dp"
+         android:drawableLeft="@drawable/sex"
+         />
+
+        />
+    <TextView
+        android:id="@+id/per_fourth_s"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_second_s"
+        android:layout_toRightOf="@id/per_fourth"
+        android:background="@color/bg_app"
+        android:gravity="center"
+
+        android:textSize="20dp"
+         />
+
+
+
+
+
+
+
+    <Button
+
+        android:id="@+id/per_sixth"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_fourth"
+        android:text="班级:"
+        android:textSize="20dp"
+
+        android:gravity="center_vertical"
+
+        android:background="@color/bg_app"
+        android:textColor="#000000"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:drawableLeft="@drawable/cla"
+
+        />
+     <TextView
+        android:id="@+id/per_sixth_s"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_fourth_s"
+        android:layout_toRightOf="@id/per_sixth"
+        android:background="@color/bg_app"
+        android:gravity="center"
+
+        android:textSize="15dp"
+         />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <Button
+        android:id="@+id/per_eight"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_sixth"
+        android:text="学校及院系"
+        android:gravity="center_vertical"
+        android:background="@color/bg_app"
+        android:textSize="20dp"
+        android:textColor="#000000"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:drawableLeft="@drawable/school"
+        />
+    <TextView
+        android:id="@+id/per_eight_s"
+        android:layout_width="105dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_sixth_s"
+        android:layout_toRightOf="@id/per_eight"
+        android:background="@color/bg_app"
+        android:gravity="center"
+
+        android:textSize="15dp"
+        />
+
+    <TextView
+        android:id="@+id/per_sixth_t"
+        android:layout_width="105dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/per_sixth_s"
+        android:layout_toRightOf="@id/per_eight_s"
+        android:background="@color/bg_app"
+        android:gravity="center"
+
+        android:textSize="15dp"
+         />
+
+
+
+
+
+
+
+
+    <!--
+    <TextView
+            android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="http://www.baidu.com"
+           android:background="#ccc"
+        android:layout_below="@id/per_eight"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:autoLink="web"/>
+-->
+
+</RelativeLayout>
+
+
+
+
+

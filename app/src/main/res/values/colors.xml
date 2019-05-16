@@ -5,6 +5,7 @@
     <color name="colorAccent">#4f58a8</color>
     <color name="colorAccent1">#4f58a8</color>
     <color name="bg_app">#ffffff</color>
+    <color name="btn_red">#ff0000</color>
     <color name="tab_unselect">#c9c9c9</color>
     <color name="bg_btn">#ffffff</color>
     <color name="black">#000000</color>
@@ -17,6 +18,9 @@
     <color name="green_dark">#2da346</color>
     <color name="cornflower_blue">#6274e2</color>
     <color name="cornflower_blue_darkest">#2d3a93</color>
-
+    <color name="classIndex" >#CCCCCC</color>
+    <color name="courseTextColor" >#ECECEC</color>
+    <color name="actionBarBg">#6666CC</color>
+    <color name="actionBarText">#EDEDED</color>
 
 </resources>

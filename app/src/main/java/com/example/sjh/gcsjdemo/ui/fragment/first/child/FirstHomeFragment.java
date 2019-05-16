@@ -114,7 +114,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
         //接收用户姓名+得到用户所在班级进一步得到课程ID
-       // StuInfo a=new StuInfo();
+        // StuInfo a=new StuInfo();
         uTitles=data;
         Log.i("**********",data);
     }
@@ -165,6 +165,11 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 countDownLatch.countDown();
             }
         }).start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
@@ -194,7 +199,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
 
         // 在list中循环显示8个item
-       List<Article> articleList = new ArrayList<>();
+        List<Article> articleList = new ArrayList<>();
         for (int i = 0; i < 5 ; i++) {
             int index = i % 5;
             if(mCheck[index].equals("签到状态：未开启\n"))
@@ -220,6 +225,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
             }
         });
+        onRefresh();
 
 
     }
@@ -240,17 +246,17 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
                     }
                     else{
-                    if(mCheck[index].equals("签到状态：未开启\n"))
-                    {
-                        mImgRes[index]=R.drawable.linglinglingu;
-                    }}
+                        if(mCheck[index].equals("签到状态：未开启\n"))
+                        {
+                            mImgRes[index]=R.drawable.linglinglingu;
+                        }}
                     Article article = new Article(nTitles[index], mCheck[index], mImgRes[index]);
                     articleList.add(article);
                 }
                 //设置数据到适配器
                 mAdapter.setDatas(articleList);
                 mRecy.setAdapter(mAdapter);
-                mRecy.scrollToPosition(mAdapter.getItemCount()-1);
+                mRecy.scrollToPosition(0);
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);
@@ -263,13 +269,13 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     }
 
     public static String getHour() {
-                Date currentTime = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String dateString = formatter.format(currentTime);
-                String hour;
-                hour = dateString.substring(11, 13);
-                return hour;
-                }
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(currentTime);
+        String hour;
+        hour = dateString.substring(11, 13);
+        return hour;
+    }
     public void updata(){
         condi();
         /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
@@ -288,17 +294,17 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                     int i=0;
                     int p= 0;
                     String result[]=new String[5]
-;                    Class.forName("com.mysql.jdbc.Driver");
+                            ;                    Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
                     String sql="SELECT * FROM `schedule_info` WHERE day = "+WeekOf+" and sch_id = "+subjectId;
-                   // String sql="SELECT * FROM `schedule_info` WHERE day = 1 and sch_id = 2016301";
+                    // String sql="SELECT * FROM `schedule_info` WHERE day = 1 and sch_id = 2016301";
                     //String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)"+"and sch_id="+"re.getString(`sch_id`)";
-                   // String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)"+"and sch_id="+"re.getString(`sch_id`)";
+                    // String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)"+"and sch_id="+"re.getString(`sch_id`)";
                     //String sql4="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`four`)"+"and sch_id="+"re.getString(`sch_id`)";
-                   // String sql5="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`five`)"+"and sch_id="+"re.getString(`sch_id`)";
+                    // String sql5="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`five`)"+"and sch_id="+"re.getString(`sch_id`)";
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
-                   // ResultSet re;
+                    // ResultSet re;
                     while(rs.next()){
                         for(int j=3;j<=7;j++) {
                             if(rs.getString(j)==null)
@@ -321,16 +327,14 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             }
                         }
                         for(int h=p;h<=4;h++){
-                            if(result[h]!="kong") {
+                            if(result[h]!="kong"){
                                 //if(rs.getString(j)!=null) {
-                                String sql1 = "SElECT * FROM `schedule_con` where sc_id= " + result[h] + " and sch_id= " + subjectId;
-                                ResultSet re = st.executeQuery(sql1);
-                                if (re.next()){
-                                    nTitles[i] = "第" + (h + 1) + "节\n" + re.getString("course_name") + "\n" + re.getString("address") + "\n" + re.getString("teacher");
-                                    if(re.getInt("sign_in")!=0)  mCheck[i]="签到状态：未签到\n";
-                                    else mCheck[i]="签到状态：未开启\n";
-                            }i=i+1;
-                        }
+                                String sql1="SElECT * FROM `schedule_con` where sc_id= "+result[h]+" and sch_id= "+subjectId;
+                                ResultSet re=st.executeQuery(sql1);
+                                if(re.next())
+                                    nTitles[i] = "第"+(h+1)+"节\n"  +re.getString("course_name")+"\n"+re.getString("address")+"\n"+re.getString("teacher");
+                                i=i+1;
+                            }
                         }
                         /*if(rs.getString("two")!=null) {
                             ResultSet re=st.executeQuery(sql2);

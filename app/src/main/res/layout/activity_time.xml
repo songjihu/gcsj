@@ -1,94 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.TimeActivity">
-
-    <LinearLayout
-        android:id="@+id/ll_task"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+    tools:context=".activity.TimeActivity"
+    android:orientation="vertical"
+    >
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
         >
-        <CheckBox
-            android:id="@+id/cb_time_start"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
+        <RadioButton
+            android:id="@+id/rb_active"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:button="@null"
-            android:text="任务开始"
-            android:textColor="@color/bg_app"
+            android:text="活动"
             android:textSize="16sp"
+            android:textColor="@color/black"
             android:gravity="center"
-            android:background="@color/colorAccent"
+            android:checked="true"
+            android:background="@drawable/bg_select"
             />
-        <CheckBox
-            android:id="@+id/cb_time_end"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
+        <RadioButton
+            android:id="@+id/rb_record"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:button="@null"
-            android:text="任务结束"
-            android:textColor="@color/bg_app"
+            android:text="记录"
             android:textSize="16sp"
+            android:textColor="@color/black"
             android:gravity="center"
-            android:background="@color/colorAccent"
-            android:layout_marginLeft="30dp"
+            android:background="@drawable/bg_select"
             />
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/rb_datastatis"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:text="数据统计"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:background="@drawable/bg_select"
+            />
 
-    <TextView
-        android:id="@+id/tv_time_show_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_task"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        />
+    </RadioGroup>
 
-    <LinearLayout
-        android:id="@+id/ll_entertainment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:layout_below="@+id/tv_time_show_text"
-        >
-        <CheckBox
-            android:id="@+id/cb_entertainment_start"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:button="@null"
-            android:text="娱乐开始"
-            android:textColor="@color/bg_app"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:background="@color/colorAccent"
-            />
-        <CheckBox
-            android:id="@+id/cb_entertainment_end"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:button="@null"
-            android:text="娱乐结束"
-            android:textColor="@color/bg_app"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:background="@color/colorAccent"
-            android:layout_marginLeft="30dp"
-            />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/tv_entertainment_show_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_entertainment"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
-</RelativeLayout>
+</LinearLayout>
