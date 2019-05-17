@@ -156,9 +156,6 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
 
                         Toast.makeText(getContext(),"抱歉，你没有管理任何群组.",Toast.LENGTH_SHORT).show();
                     }
-
-
-
                 }
             });
 

@@ -37,7 +37,7 @@ public class RemindActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish);
+        setContentView(R.layout.activity_remind);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();

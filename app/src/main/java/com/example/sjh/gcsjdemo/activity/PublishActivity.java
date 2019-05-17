@@ -4,6 +4,7 @@ package com.example.sjh.gcsjdemo.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -72,6 +73,7 @@ public class PublishActivity extends Activity {
 
         remind_id = DateUtil.getNowDateStr();
         remind_time =dateText.getText().toString()+" "+timeText.getText().toString()+":00";
+        Log.v("时间：","==》"+remind_time);
         title = editTitle.getText().toString();
         context_text = editText.getText().toString();
         teamId = teamIdText.getText().toString();
