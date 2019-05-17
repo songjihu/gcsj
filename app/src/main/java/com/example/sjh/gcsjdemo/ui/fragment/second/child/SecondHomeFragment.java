@@ -2,15 +2,11 @@ package com.example.sjh.gcsjdemo.ui.fragment.second.child;
 
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.sjh.gcsjdemo.CheckinActivity;
-import com.example.sjh.gcsjdemo.MainActivity;
-import com.example.sjh.gcsjdemo.PublishActivity;
+import com.example.sjh.gcsjdemo.activity.CheckinActivity;
+import com.example.sjh.gcsjdemo.activity.MainActivity;
+import com.example.sjh.gcsjdemo.activity.PublishActivity;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.RemindActivity;
 import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
+import com.example.sjh.gcsjdemo.activity.TimeActivity;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.dbmanager.RemindUtil;
-import com.example.sjh.gcsjdemo.entity.Article;
 import com.example.sjh.gcsjdemo.entity.Remind;
 import com.example.sjh.gcsjdemo.entity.Reminder;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
@@ -142,7 +138,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                Intent intent = new Intent(getActivity(), TimeActivity.class);
                 startActivity(intent);
             }
         });
