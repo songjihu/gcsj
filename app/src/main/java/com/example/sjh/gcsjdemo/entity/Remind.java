@@ -93,11 +93,11 @@ public class Remind {
     }
 
 
-
     @Override
     public String toString() {
         return "Remind{" +
                 "remindId='" + remindId + '\'' +
+                ", userId='" + userId + '\'' +
                 ", remindTime='" + remindTime + '\'' +
                 ", title='" + title + '\'' +
                 ", con='" + con + '\'' +

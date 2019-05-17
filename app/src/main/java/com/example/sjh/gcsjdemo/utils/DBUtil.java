@@ -21,7 +21,7 @@ public class DBUtil {
 		Connection conn = null;
 		try {
 			Class.forName(DB_DRIVER);
-			conn =  DriverManager.getConnection(URL, USER, PASSWORD);
+			conn =  DriverManager.getConnection(URL+"?user="+USER+"&password="+PASSWORD+"&useUnicode=true&characterEncoding=utf-8");
 		} catch (ClassNotFoundException e) {
 		
 			System.out.println("驱动加载异常:"+e);

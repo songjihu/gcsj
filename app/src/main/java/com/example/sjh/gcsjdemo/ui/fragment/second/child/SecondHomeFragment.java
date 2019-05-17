@@ -16,11 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.sjh.gcsjdemo.CheckinActivity;
 import com.example.sjh.gcsjdemo.MainActivity;
 import com.example.sjh.gcsjdemo.PublishActivity;
 import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.RemindActivity;
 import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.dbmanager.RemindUtil;
@@ -30,6 +32,7 @@ import com.example.sjh.gcsjdemo.entity.Reminder;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.helper.DetailTransition;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
+import com.example.sjh.gcsjdemo.service.RemindService;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstDetailFragment;
 import com.example.sjh.gcsjdemo.utils.DateUtil;
 
@@ -37,6 +40,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +64,8 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
     private boolean mInAtTop = true;
     private int mScrollTotal;
     private String uTitles;//接收用户id
+
+    private List<String> myTeams;
 
     //5个item的标题
     private String[] mRemindermsg = new String[]{
@@ -118,6 +124,20 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         mRemind = (Button) view.findViewById(R.id.publish_remind) ;
 
         //3个按钮的监听事件
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                RemindService rs = new RemindService();
+                try {
+                    myTeams =  rs.getMyManageTeamService(uTitles);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+
         mStudylog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,19 +147,32 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             }
         });
 
-        mPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PublishActivity.class);
-                intent.putExtra("userId",uTitles);
-                startActivity(intent);
-            }
-        });
+
+
+            mPublish.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(myTeams != null && !myTeams.isEmpty()){
+                        Intent intent = new Intent(getActivity(), PublishActivity.class);
+                        intent.putExtra("userId",uTitles);
+                        startActivity(intent);
+                    }else{
+
+                        Toast.makeText(getContext(),"抱歉，你没有管理任何群组.",Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
+            });
+
+
 
         mRemind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PublishActivity.class);
+                Intent intent = new Intent(getActivity(), RemindActivity.class);
+                intent.putExtra("userId",uTitles);
                 startActivity(intent);
             }
         });
@@ -205,8 +238,24 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 从服务器查询Remind到本地
+     * @param userId
+     */
+    public void getRemoteRemind(final String userId){
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                RemindService rs = new RemindService();
+                rs.remoteToLocalService(userId);
+
+            }
+        }).start();
+    }
 
     public List<Reminder> getReminders(){
+        getRemoteRemind(uTitles);
         RemindUtil ru = new RemindUtil();
         List<Reminder> reminderList = new ArrayList<Reminder>();
         List<Remind>  list = new ArrayList<Remind>();

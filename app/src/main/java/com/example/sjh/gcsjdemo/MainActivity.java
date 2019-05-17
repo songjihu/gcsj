@@ -14,6 +14,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
 import com.example.sjh.gcsjdemo.base.BaseMainFragment;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
+import com.example.sjh.gcsjdemo.service.RemindService;
 import com.example.sjh.gcsjdemo.ui.fragment.first.BxzFirstFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstHomeFragment;
 import com.example.sjh.gcsjdemo.ui.fragment.fourth.BxzFourthFragment;
@@ -65,7 +66,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
 
         Bundle bundle = this.getIntent().getExtras();
         //从登陆activity获取用户名
-        String name = bundle.getString("name");
+        final String name = bundle.getString("name");
         Log.i("获取到的name值为",name);
 
         EventBus.getDefault().postSticky(name);
@@ -96,6 +97,20 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
         }
 
         initView();
+
+       /* //加载远程的Remind到本地的数据库
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+
+                String classId = null;
+                RemindService rs = new RemindService();
+                classId =  rs.getClass(name);
+                rs.remoteToLocalService(classId, name);
+
+            }
+        }).start();*/
+
     }
 
 
