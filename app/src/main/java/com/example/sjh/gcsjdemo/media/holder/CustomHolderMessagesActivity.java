@@ -37,11 +37,15 @@ import com.example.sjh.gcsjdemo.media.data.model.Message;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jivesoftware.smack.ReconnectionManager;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
 import org.jivesoftware.smack.chat.ChatMessageListener;
+import org.jivesoftware.smack.roster.Roster;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -61,6 +65,7 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
     private ChatManager chatManager;//会话管理
     private Chat chat[]=new Chat[20];//会话
     private static DaoSession daoSession;
+    private Roster roster;
 
     static ArrayList<String> avatars = new ArrayList<String>() {
         {
@@ -134,6 +139,9 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
         input.setInputListener(this);
         input.setAttachmentsListener(this);
 
+
+
+
     }
 
 
@@ -171,15 +179,37 @@ public class CustomHolderMessagesActivity extends DemoMessagesActivity
             chatManager = ChatManager.getInstanceFor(connection);
             chatManager.addChatListener(this);
         }
+        //配置自动断线重连
+        ReconnectionManager reconnectionManager=ReconnectionManager.getInstanceFor(connection);
+        reconnectionManager.enableAutomaticReconnection();
     }
 
     private void initChat(){
         if(chatManager != null){
-            //第一个参数是 用户的ID
-            //第二个参数是 ChatMessageListener，我们这里传null就好了
             //群组共计x个成员，建立会话
+            //若非好友，则先添加
+            roster = Roster.getInstanceFor(connection);
+
+            /**
+             * par1:好友在服务器中的 ID
+             * par2:好友在自己好友列表中的备注名称
+             * par3:好友所在的分组
+             */
+
+
             for (int i=0;i<f_number;i++)
             {
+                try {
+                    roster.createEntry(team_member_ex[i], team_member[i], new String[]{"Friends"});
+                } catch (SmackException.NotLoggedInException e) {
+                    e.printStackTrace();
+                } catch (SmackException.NoResponseException e) {
+                    e.printStackTrace();
+                } catch (XMPPException.XMPPErrorException e) {
+                    e.printStackTrace();
+                } catch (SmackException.NotConnectedException e) {
+                    e.printStackTrace();
+                }
                 chat[i]=chatManager.createChat(team_member_ex[i], null);
             }
 

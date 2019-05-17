@@ -111,7 +111,9 @@ public class FourthHomeFragment extends SupportFragment {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
         //接收用户id
-        uTitles=data;
+        if(data.length()>3){
+            uTitles=data;
+        }
         Log.i("----------------------",data);
     }
 
