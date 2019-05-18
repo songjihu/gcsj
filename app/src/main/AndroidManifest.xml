@@ -41,7 +41,7 @@
         <activity android:name=".media.CustomMediaMessagesActivity" />
         <activity android:name=".media.holder.CustomHolderDialogsActivity" />
         <activity android:name=".media.holder.CustomHolderMessagesActivity" />
-
+        <activity android:name=".RemindActivity" />
 
         <activity
             android:name=".person.AddCourseActivity"

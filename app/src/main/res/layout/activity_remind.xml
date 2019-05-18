@@ -61,7 +61,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="245dp">
+        android:layout_height="201dp">
 
 
         <TextView
@@ -90,20 +90,10 @@
             android:id="@+id/timeEditor"
             android:layout_width="266dp"
             android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:ems="10"
-            android:inputType="time" />
-
-        <EditText
-            android:id="@+id/teamEditor"
-            android:layout_width="266dp"
-            android:layout_height="wrap_content"
             android:layout_above="@+id/pub_button"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="-14dp"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="time" />
 
         <Button
             android:id="@+id/pub_button"
@@ -111,7 +101,6 @@
             android:layout_height="59dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="0dp"
             android:layout_weight="1"
             android:onClick="Pub"
             android:text="提交" />
@@ -120,26 +109,19 @@
             android:id="@+id/textView2"
             android:layout_width="92dp"
             android:layout_height="42dp"
-            android:layout_alignBaseline="@+id/dateEditor"
             android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/dateEditor"
             android:text="提醒日期" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="92dp"
-            android:layout_height="39dp"
-            android:layout_alignParentBottom="true"
+            android:layout_height="41dp"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="93dp"
+            android:layout_alignTop="@+id/timeEditor"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="3dp"
             android:text="提醒时间" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="94dp"
-            android:layout_height="29dp"
-            android:layout_above="@+id/pub_button"
-            android:layout_alignParentStart="true"
-            android:text="群组id" />
 
 
     </RelativeLayout>
