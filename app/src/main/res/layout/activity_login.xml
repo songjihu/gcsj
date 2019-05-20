@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -26,17 +27,14 @@
         android:id="@+id/imageview1"
         android:layout_width="331dp"
         android:layout_height="213dp"
-
         android:scaleType="center"
         android:src="@drawable/zzupicture1" />
 
-    <ImageView
-        android:id="@+id/imageview2"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-
-        android:scaleType="centerInside"
-        android:src="@drawable/loginbuttonpic" />
+    <pl.droidsonroids.gif.GifImageView
+    android:id="@+id/imagegifview"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    />
 
     <LinearLayout
         android:id="@+id/login_form"
@@ -115,24 +113,13 @@
                     android:scaleType="centerInside"
                     android:text="@string/action_sign_in"
                     android:textStyle="bold" />
-
-
-
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center"
                 android:text="由鸿软公司倾力开发@鸿软公司"/>
-
-
-
         </LinearLayout>
-
-
-
-
     </LinearLayout>
-
-
 </LinearLayout>
+
