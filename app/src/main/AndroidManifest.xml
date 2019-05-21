@@ -21,7 +21,7 @@
         <activity android:name=".group.MyGroup" />
         <activity android:name=".group.CreateGroup" />
         <activity
-            android:name=".activity.LoginActivity1"
+            android:name=".activity.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

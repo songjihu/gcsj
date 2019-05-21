@@ -94,16 +94,16 @@
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
-                    android:layout_width="333dp"
-                    android:layout_height="57dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/studentbuttonpic"
+                    android:background="@drawable/studentbuttonpic1"
                     android:scaleType="centerInside"
                     android:text="@string/action_sign_in"
                     android:textStyle="bold" />

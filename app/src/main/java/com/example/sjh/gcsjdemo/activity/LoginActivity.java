@@ -135,14 +135,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        gifImageView = findViewById(R.id.imagegifview);
+        /*gifImageView = findViewById(R.id.imagegifview);
         GifDrawable gifDrawable = null;
         try {
             gifDrawable = new GifDrawable(getResources(), R.drawable.timg);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        gifImageView.setImageDrawable(gifDrawable);
+        gifImageView.setImageDrawable(gifDrawable);*/
         initXMPPTCPConnection();
     }
 

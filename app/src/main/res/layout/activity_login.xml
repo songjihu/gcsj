@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/loginup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -27,14 +26,17 @@
         android:id="@+id/imageview1"
         android:layout_width="331dp"
         android:layout_height="213dp"
+
         android:scaleType="center"
         android:src="@drawable/zzupicture1" />
 
-    <pl.droidsonroids.gif.GifImageView
-    android:id="@+id/imagegifview"
-    android:layout_width="150dp"
-    android:layout_height="150dp"
-    />
+    <ImageView
+        android:id="@+id/imageview2"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+
+        android:scaleType="centerInside"
+        android:src="@drawable/loginbuttonpic" />
 
     <LinearLayout
         android:id="@+id/login_form"
@@ -50,13 +52,16 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
-                    android:layout_width="match_parent"
+                    android:layout_width="380dp"
                     android:layout_height="58dp"
+                    android:layout_gravity="center_horizontal"
                     android:background="@drawable/useridpicture"
                     android:hint="@string/prompt_email"
                     android:inputType="text"
@@ -68,12 +73,14 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
 
                 <AutoCompleteTextView
                     android:id="@+id/password"
-                    android:layout_width="match_parent"
+                    android:layout_width="380dp"
                     android:layout_height="58dp"
                     android:background="@drawable/pwdpicture"
                     android:hint="@string/prompt_email"
@@ -85,21 +92,20 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="500dp"
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
                     android:layout_width="150dp"
                     android:layout_height="55dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="start"
+                    android:layout_marginLeft="16dp"
                     android:background="@drawable/studentbuttonpic"
-                    android:scaleType="centerInside"
-                    android:text="@string/action_sign_in"
                     android:textStyle="bold" />
 
                 <Button
@@ -107,19 +113,29 @@
                     style="?android:textAppearanceSmall"
                     android:layout_width="150dp"
                     android:layout_height="55dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/teacherbuttonpic"
-                    android:scaleType="centerInside"
-                    android:text="@string/action_sign_in"
                     android:textStyle="bold" />
-            </LinearLayout>
+
+
+
+            </FrameLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center"
                 android:text="由鸿软公司倾力开发@鸿软公司"/>
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
 
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
