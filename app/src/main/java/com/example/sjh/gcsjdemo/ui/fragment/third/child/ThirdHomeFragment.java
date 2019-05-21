@@ -19,6 +19,7 @@ import com.example.sjh.gcsjdemo.adapter.ThirdHomeAdapter;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 import com.example.sjh.gcsjdemo.entity.Friend;
 import com.example.sjh.gcsjdemo.media.holder.CustomHolderDialogsActivity;
+import com.example.sjh.gcsjdemo.utils.JoinUtil;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnectionOnLine;
 
@@ -45,6 +46,7 @@ public class ThirdHomeFragment extends SupportFragment implements SwipeRefreshLa
     private List<Friend> friendsList;
     private Handler handler;
     private MyXMPPTCPConnectionOnLine connectionOnLine;//设置在线的连接
+    private JoinUtil join;
 
 
 

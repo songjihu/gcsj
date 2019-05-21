@@ -35,6 +35,7 @@ import com.example.sjh.gcsjdemo.media.holder.CustomHolderDialogsActivity;
 import com.example.sjh.gcsjdemo.media.holder.CustomHolderMessagesActivity;
 import com.example.sjh.gcsjdemo.media.holder.holders.dialogs.CustomDialogViewHolder;
 import com.example.sjh.gcsjdemo.utils.AppUtils;
+import com.example.sjh.gcsjdemo.utils.JoinUtil;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnectionOnLine;
 import com.mysql.jdbc.exceptions.MySQLQueryInterruptedException;
@@ -83,7 +84,7 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
     private MyXMPPTCPConnection connection;//离线的连接
     private MyXMPPTCPConnectionOnLine connection_online;//设置在线的连接
 
-    final CountDownLatch countDownLatch = new CountDownLatch(1);//进程结束标志
+    public CountDownLatch countDownLatch = new CountDownLatch(1);//进程结束标志
     final String team_id[] = new String[20];//加入的讨论组id
     final int team_location [] = new int[20];//加入的讨论组列的位置
     final String team_name[] = new String[20];//加入的讨论组name
@@ -95,6 +96,7 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
     private boolean mInAtTop = true;
     private int mScrollTotal;
     private String uTitles = new String();
+    private String join = "0";
 
     //显示好友列表
 
@@ -177,7 +179,13 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
         //接收用户姓名
-        uTitles=data;
+        if(data.length()>3){
+            uTitles=data;
+        }
+        else {
+            join=data;
+        }
+        //接受不同的参数
         //Log.i("（）（）（）（）（）（）",data);
     }
 
@@ -238,82 +246,87 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
         new Thread(new Runnable() {
             @Override
             public void run() {
-            try{
-                int team_number;//一共有几个讨论组
-                int i,j;
-                Class.forName("com.mysql.jdbc.Driver");
-                java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                Statement st=(Statement)cn.createStatement();
+                try{
+                    int team_number;//一共有几个讨论组
+                    int i,j;
+                    for(i=0;i<20;i++)
+                        for(j=0;j<20;j++)
+                        {
+                            team_member[i][j]=null;
+                        }
+                    Class.forName("com.mysql.jdbc.Driver");
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                    Statement st=(Statement)cn.createStatement();
 
 
-                //读取team的id
-                String sql="SELECT * FROM `user_team` WHERE user_id = "+uTitles;
-                ResultSet rs=st.executeQuery(sql);
-                //while(rs.next()){
-                rs.next();
-                for(j=2,i=0;j<14;j++)//根据课程数确定循环次数
-                {
-                    if(rs.getString(j)==null)
+                    //读取team的id
+                    String sql="SELECT * FROM `user_team` WHERE user_id = "+uTitles;
+                    ResultSet rs=st.executeQuery(sql);
+                    //while(rs.next()){
+                    rs.next();
+                    for(j=2,i=0;j<14;j++)//根据课程数确定循环次数
                     {
-                        //是空跳过，否则存入team_id
+                        if(rs.getString(j)==null)
+                        {
+                            //是空跳过，否则存入team_id
+                        }
+                        else{
+                            team_id[i]=rs.getString(j);//j为第几列
+                            team_location[i]=j;
+                            Log.i("-_-_-_-_-_-_-_-_",i+":"+rs.getString(j));
+                            i++;
+                        }
+
                     }
-                    else{
-                        team_id[i]=rs.getString(j);//j为第几列
-                        team_location[i]=j;
-                        Log.i("-_-_-_-_-_-_-_-_",i+":"+rs.getString(j));
-                        i++;
+                    team_number=i;
+
+                    //sql列名
+                    //while(rs.next()){
+
+                    //读取team名字
+                    for(i=0;i<team_number;i++)
+                    {
+                        sql="SELECT * FROM `team_info` WHERE team_id = "+team_id[i];
+                        rs=st.executeQuery(sql);
+                        if(rs.next()) ; else break;
+                        team_name[i]=rs.getString("team_name");
+                        Log.i("-_-_-_-_-_-_-_-_",i+":"+team_name[i]);
                     }
 
-                }
-                team_number=i;
-
-                //sql列名
-                //while(rs.next()){
-
-                //读取team名字
-                for(i=0;i<team_number;i++)
-                {
-                    sql="SELECT * FROM `team_info` WHERE team_id = "+team_id[i];
+                    //读取小组成员
+                    sql="SELECT * FROM `user_team`";
                     rs=st.executeQuery(sql);
-                    if(rs.next()) ; else break;
-                    team_name[i]=rs.getString("team_name");
-                    Log.i("-_-_-_-_-_-_-_-_",i+":"+team_name[i]);
-                }
 
-                //读取小组成员
-                sql="SELECT * FROM `user_team`";
-                rs=st.executeQuery(sql);
+                    while(rs.next()){
+                        for (i=0;i<team_number;i++){
+                            if(rs.getString(team_location[i])!=null&&rs.getString(team_location[i]).equals(team_id[i])){
+                                //加入二维数组
+                                if(rs.getString(team_location[i]).equals(uTitles))
+                                {
+                                    //跳过自己
+                                }else{
+                                    j=0;
+                                    while (team_member[i][j]!=null){j++;}//循环到为空的位置
+                                    team_member[i][j]=rs.getString(1);//加入学号
+                                    //Log.i("成员",j+":"+team_member[i][j]);
+                                }
 
-                while(rs.next()){
-                    for (i=0;i<team_number;i++){
-                        if(rs.getString(team_location[i])!=null&&rs.getString(team_location[i]).equals(team_id[i])){
-                            //加入二维数组
-                            if(rs.getString(team_location[i]).equals(uTitles))
-                            {
-                                //跳过自己
-                            }else{
-                                j=0;
-                                while (team_member[i][j]!=null){j++;}//循环到为空的位置
-                                team_member[i][j]=rs.getString(1);//加入学号
-                                //Log.i("成员",j+":"+team_member[i][j]);
+                            }else {
+                                //啥都不干
                             }
-
-                        }else {
-                            //啥都不干
                         }
                     }
-                }
 
-                //读取小组成员
-                sql="SELECT user_name FROM `user` WHERE user_id =" +uTitles;
-                rs=st.executeQuery(sql);
+                    //读取小组成员
+                    sql="SELECT user_name FROM `user` WHERE user_id =" +uTitles;
+                    rs=st.executeQuery(sql);
 
-                while(rs.next()){
-                    user_name=rs.getString("user_name");
-                    Log.i("11111111111111111111111",user_name);
-                }
+                    while(rs.next()){
+                        user_name=rs.getString("user_name");
+                        Log.i("11111111111111111111111",user_name);
+                    }
 
-                team_location[19]=team_number;//传出讨论组个数
+                    team_location[19]=team_number;//传出讨论组个数
 /*
                 for (i=0;i<team_number;i++)
                     for (j=0;j<20;j++)
@@ -325,15 +338,15 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
 */
 
 
-                //关闭
-                cn.close();
-                st.close();
-                rs.close();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                    //关闭
+                    cn.close();
+                    st.close();
+                    rs.close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 countDownLatch.countDown();
             }
 
@@ -368,6 +381,7 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
             e.printStackTrace();
         }
 
+        countDownLatch = new CountDownLatch(1);
 
         //结束离线状态，进入在线状态
         new Thread(new Runnable() {
@@ -416,16 +430,108 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
         //ChatUtil ru = new ChatUtil();
         //ru.insertMsg(new ChatMessage("132"));
 
-
         //实时刷新列表
+        countDownLatch.countDown();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 boolean flg = false;
                 while(!flg){
+                    if(join.equals("0"))continue;
+                    //如果没有加入新的群组，则不进行下一步
+                    try{
+                        int team_number;//一共有几个讨论组
+                        int i,j;
+                        for(i=0;i<20;i++)
+                            for(j=0;j<20;j++)
+                            {
+                                team_member[i][j]=null;
+                            }
+                        Class.forName("com.mysql.jdbc.Driver");
+                        java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                        Statement st=(Statement)cn.createStatement();
+
+
+                        //读取team的id
+                        String sql="SELECT * FROM `user_team` WHERE user_id = "+uTitles;
+                        ResultSet rs=st.executeQuery(sql);
+                        //while(rs.next()){
+                        rs.next();
+                        for(j=2,i=0;j<14;j++)//根据课程数确定循环次数
+                        {
+                            if(rs.getString(j)==null)
+                            {
+                                //是空跳过，否则存入team_id
+                            }
+                            else{
+                                team_id[i]=rs.getString(j);//j为第几列
+                                team_location[i]=j;
+                                Log.i("-_-_-_-_-_-_-_-_",i+":"+rs.getString(j));
+                                i++;
+                            }
+
+                        }
+                        team_number=i;
+
+                        //sql列名
+                        //while(rs.next()){
+
+                        //读取team名字
+                        for(i=0;i<team_number;i++)
+                        {
+                            sql="SELECT * FROM `team_info` WHERE team_id = "+team_id[i];
+                            rs=st.executeQuery(sql);
+                            if(rs.next()) ; else break;
+                            team_name[i]=rs.getString("team_name");
+                            Log.i("-_-_-_-_-_-_-_-_",i+":"+team_name[i]);
+                        }
+
+                        //读取小组成员
+                        sql="SELECT * FROM `user_team`";
+                        rs=st.executeQuery(sql);
+
+                        while(rs.next()){
+                            for (i=0;i<team_number;i++){
+                                if(rs.getString(team_location[i])!=null&&rs.getString(team_location[i]).equals(team_id[i])){
+                                    //加入二维数组
+                                    if(rs.getString(team_location[i]).equals(uTitles))
+                                    {
+                                        //跳过自己
+                                    }else{
+                                        j=0;
+                                        while (team_member[i][j]!=null){j++;}//循环到为空的位置
+                                        team_member[i][j]=rs.getString(1);//加入学号
+                                        //Log.i("成员",j+":"+team_member[i][j]);
+                                    }
+
+                                }else {
+                                    //啥都不干
+                                }
+                            }
+                        }
+
+                        //读取小组成员
+                        sql="SELECT user_name FROM `user` WHERE user_id =" +uTitles;
+                        rs=st.executeQuery(sql);
+
+                        while(rs.next()){
+                            user_name=rs.getString("user_name");
+                            Log.i("11111111111111111111111",user_name);
+                        }
+
+                        team_location[19]=team_number;//传出讨论组个数
+                        //关闭
+                        cn.close();
+                        st.close();
+                        rs.close();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     try {
                         handler.post(runnableUi);
-                        Thread.sleep(3000);
+                        Thread.sleep(40000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -447,10 +553,11 @@ public  class ThirdHomeFragmentChat extends SupportFragment implements DialogsLi
         @Override
         public void run() {
             //更新界面
-            //TODO: 修改函数，从数据库读取最新的聊天dialog，加载到适配器中
             dialogsAdapter.setItems(DialogsFixtures.getDialogsChat(team_name,team_member,team_location[19]));
+            Log.i("1000000000000000000","shuaixn ");
             //设置数据到适配器
             //dialogsList.setAdapter(dialogsAdapter);
+
             //mRecy.scrollToPosition(mAdapter.getItemCount()-1);//此句为设置显示
         }
 

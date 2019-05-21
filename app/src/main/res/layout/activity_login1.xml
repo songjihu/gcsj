@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="horizontal"
     android:background="@color/bg_app"
     tools:context=".activity.LoginActivity">
+
+    <com.example.sjh.gcsjdemo.entity.CustomVideoView
+        android:id="@+id/videoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
     <!-- Login progress -->
     <ProgressBar
@@ -22,26 +24,23 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/imageview1"
-        android:layout_width="331dp"
-        android:layout_height="213dp"
 
-        android:scaleType="center"
-        android:src="@drawable/zzupicture1" />
 
-    <ImageView
-        android:id="@+id/imageview2"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-
-        android:scaleType="centerInside"
-        android:src="@drawable/loginbuttonpic" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top|center"
+        android:layout_marginTop="20dp"
+        android:text="登录"
+        android:textSize="20dp"
+        android:textColor="@color/white"/>
 
     <LinearLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp">
 
 
         <LinearLayout
@@ -52,15 +51,14 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal">
+                android:orientation="vertical">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
-                    android:layout_width="380dp"
-                    android:layout_height="58dp"
+                    android:layout_width="333dp"
+                    android:layout_height="57dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/useridpicture"
                     android:hint="@string/prompt_email"
@@ -73,15 +71,16 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/password"
-                    android:layout_width="380dp"
-                    android:layout_height="58dp"
+                    android:layout_width="333dp"
+                    android:layout_height="57dp"
+                    android:layout_gravity="center_horizontal"
                     android:background="@drawable/pwdpicture"
                     android:hint="@string/prompt_email"
                     android:inputType="textPassword"
@@ -92,50 +91,34 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
-                    android:layout_width="150dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="start"
-                    android:layout_marginLeft="16dp"
-                    android:background="@drawable/studentbuttonpic"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/teacher_sign_in_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="150dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/teacherbuttonpic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/studentbuttonpic1"
+                    android:scaleType="centerInside"
+                    android:text="@string/action_sign_in"
                     android:textStyle="bold" />
 
 
-
-            </FrameLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:text="由鸿软公司倾力开发@鸿软公司"/>
-
+            </LinearLayout>
 
 
         </LinearLayout>
-
-
-
-
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center"
+        android:text="由鸿软公司倾力开发@鸿软公司" />
+</FrameLayout>
 
-</LinearLayout>
