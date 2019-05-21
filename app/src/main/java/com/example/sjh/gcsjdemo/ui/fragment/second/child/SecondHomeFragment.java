@@ -193,7 +193,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             public void run() {
                 mAdapter.setDatas(getReminders());
                 mRecy.setAdapter(mAdapter);
-                mRecy.scrollToPosition(mAdapter.getItemCount()-1);//此句为设置显示
+                mRecy.scrollToPosition(0);//此句为设置显示
                 mRefreshLayout.setRefreshing(false);
             }
         }, 2000);

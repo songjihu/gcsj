@@ -71,7 +71,7 @@ public class RemoteRemindDao {
             while (rs.next()){
                 rm = new Remind();
                 rm.setRemindId(rs.getString("remind_id"));
-                rm.setRemindTime(DateUtil.formatDate(rs.getDate("remind_time"),"yyyy-MM-dd hh:mm:ss"));
+                rm.setRemindTime(DateUtil.formatDate(rs.getTimestamp("remind_time"),"yyyy-MM-dd HH:mm:ss"));
                 rm.setTitle(rs.getString("title"));
                 rm.setCon(rs.getString("con"));
                 rm.setUserId(userId);
