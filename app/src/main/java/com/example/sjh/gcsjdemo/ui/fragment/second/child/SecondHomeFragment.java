@@ -85,7 +85,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         View view = inflater.inflate(R.layout.bxz_fragment_second_pager1, container, false);
         EventBusActivityScope.getDefault(_mActivity).register(this);
         EventBus.getDefault().register(this);
-        initView(view);
+//        initView(view);
         return view;
     }
 
@@ -170,7 +170,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             }
         });
         //设置数据到适配器
-        mAdapter.setDatas(getReminders());
+//        mAdapter.setDatas(getReminders());
 
         mRecy.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -252,7 +252,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         RemindUtil ru = new RemindUtil();
         List<Reminder> reminderList = new ArrayList<Reminder>();
         List<Remind>  list = new ArrayList<Remind>();
-        list =  ru.listReminds(DateUtil.getCurrentDateStr(),uTitles);
+    //    list =  ru.listReminds(DateUtil.getCurrentDateStr(),uTitles);
 
         // 显示所有查出来的remind item
         for(Remind r:list){

@@ -1,8 +1,13 @@
 package com.example.sjh.gcsjdemo.ui.fragment.first.child;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +34,7 @@ import java.util.*;//用来读取本地时间，进一步来更新今日课程
 import java.util.concurrent.CountDownLatch;
 import java.util.Calendar;
 
+import com.example.sjh.gcsjdemo.activity.CheckinActivity;
 import com.example.sjh.gcsjdemo.entity.StuInfo;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -54,9 +60,14 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     private boolean mInAtTop = true;
     private int mScrollTotal;
+    private int signIn[]=new int[5];
     private String uTitles = new String();
     private String classId=new String();
     private String subjectId=new String();
+    private String signInCode=new String();
+    private String signCode[]=new String[5];
+    public String qq;
+
 
 
     //5个item的标题
@@ -71,7 +82,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     //5个item的图片
     private String[] mCheck = new String[]{
-            "签到状态：未签到\n",
+            "签到状态：未开启\n",
             "签到状态：未开启\n",
             "签到状态：未开启\n",
             "签到状态：未开启\n",
@@ -79,7 +90,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     };
 
     private int[] mImgRes = new int[]{
-            R.drawable.linglingling, R.drawable.linglingling, R.drawable.linglingling, R.drawable.linglingling, R.drawable.linglingling
+            R.drawable.linglinglingu, R.drawable.linglinglingu, R.drawable.linglinglingu, R.drawable.linglinglingu, R.drawable.linglinglingu
     };
 
 
@@ -115,7 +126,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     public void onEvent(String data) {
         //接收用户姓名+得到用户所在班级进一步得到课程ID
         // StuInfo a=new StuInfo();
-        uTitles=data;
+        if(data.contains("20162430")){
+            uTitles=data;
+        }
         Log.i("**********",data);
     }
 
@@ -173,10 +186,15 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                if(position==0&&signIn[0]==1&&mCheck[0].equals("签到状态：已开启\n")){
+                    String c=subjectId.concat("/");
+                    String d=c.concat(uTitles);
+                    EventBus.getDefault().postSticky(d);
+                    Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                    startActivity(intent);
+
                 //初始化要加载的fragment
-                if(position==0)
-                {
-                FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
+               /* FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
                 //3个参数为  点击位置 无用 item的内容
                 // 这里是使用SharedElement的用例
                 // LOLLIPOP(5.0)系统的 SharedElement支持有 系统BUG， 这里判断大于 > LOLLIPOP
@@ -194,8 +212,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             .start(fragment);
                 } else {
                     start(fragment);
+                }*/
                 }
-            }}
+            }
         });
         //点击签到按钮的事件监听，开启新的fragment
 
@@ -233,25 +252,56 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     }
 
 
-    @Override
+    /*@Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.intent.action.CART_BROADCAST");
+        BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent){
+                String msg = intent.getStringExtra("data");
+                if("refresh".equals(msg)){
+                    updata();
+                }
+            }
+        };
+        broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);}*/
+
+
+
+        @Override
     public void onRefresh() {
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.i("***",signInCode);
+                //Log.i("*****",signCode[0]);
+
                 updata();
                 List<Article> articleList = new ArrayList<>();
                 for (int i = 0; i < 5; i++) {
                     int index = i % 5;
+                    //if(signIn[index]==0) fuzhi(mCheck[index],"签到状态：未开启\n");
+                  //  else fuzhi(mCheck[index],"签到状态：已开启\n");
                     if(nTitles[index]=="kong"){
                         nTitles[index]="";
                         mCheck[index]="";
 
                     }
                     else{
-                        if(mCheck[index].equals("签到状态：未开启\n"))
-                        {
-                            mImgRes[index]=R.drawable.linglinglingu;
-                        }}
+                        if(signIn[index]==0) mCheck[index]="签到状态：未开启\n";
+                         else mCheck[index]="签到状态：已开启\n";
+                        if(signCode[0].equals(signInCode)==true){
+                            mCheck[0]="签到状态：已签到\n";
+                            //fuzhi(mCheck[0],"签到状态：已签到\n");
+                            Log.i("*",mCheck[0]);
+                        }
+
+                        if(mCheck[index].equals("签到状态：已开启\n"))
+                        mImgRes[index]=R.drawable.linglingling;
+                        }
                     Article article = new Article(nTitles[index], mCheck[index], mImgRes[index]);
                     articleList.add(article);
                 }
@@ -278,7 +328,48 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         hour = dateString.substring(11, 13);
         return hour;
     }
-    public void updata(){
+
+    public void fuzhi(String a, String b){
+        StringBuffer m=new StringBuffer(b);
+        a=m.toString();
+
+    }
+
+    public void isSign(){
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Log.i("test", "注意注意注意注意");
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    java.sql.Connection cn = DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj", "root", "mypwd");
+                    String sql = "SELECT sign_in_code FROM `stu_info` WHERE stu_no = " + "20162430710";
+                    Statement st = (Statement) cn.createStatement();
+                    ResultSet rs = st.executeQuery(sql);
+                    while (rs.next()) {
+                        signInCode = rs.getString("sign_in_code");
+                    }
+
+                cn.close();
+                st.close();
+                rs.close();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+                countDownLatch.countDown();
+        }
+    }).start();
+        try {
+        countDownLatch.await();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+            }
+
+     public void updata(){
         condi();
         /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
         Calendar ca = Calendar.getInstance();
@@ -286,8 +377,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         final String hour1=getHour();
         final int hour=Integer.valueOf(hour1);
         int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
-        final String WeekOf=String.valueOf(WeekOfYear-1);
-        Log.i("****",hour1);
+        final String WeekOf=String.valueOf(WeekOfYear);
+        Log.i("****",WeekOf);
+         isSign();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
@@ -295,8 +387,8 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                 try {
                     int i=0;
                     int p= 0;
-                    String result[]=new String[5]
-                            ;                    Class.forName("com.mysql.jdbc.Driver");
+                    String result[]=new String[5];
+                    Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
                     String sql="SELECT * FROM `schedule_info` WHERE day = "+WeekOf+" and sch_id = "+subjectId;
                     // String sql="SELECT * FROM `schedule_info` WHERE day = 1 and sch_id = 2016301";
@@ -333,7 +425,10 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                                 //if(rs.getString(j)!=null) {
                                 String sql1="SElECT * FROM `schedule_con` where sc_id= "+result[h]+" and sch_id= "+subjectId+" and day ="+WeekOf;
                                 ResultSet re=st.executeQuery(sql1);
-                                if(re.next())
+                                if(re.next()) {
+                                    signIn[i] = re.getInt("sign_in");
+                                    signCode[i]=re.getString("sign_in_code");
+                                }
                                     nTitles[i] = "第"+(h+1)+"节\n"  +re.getString("course_name")+"\n"+re.getString("address")+"\n"+re.getString("teacher");
                                 i=i+1;
                             }

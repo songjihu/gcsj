@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -15,7 +16,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,8 +30,18 @@ import android.widget.TextView;
 
 import com.example.sjh.gcsjdemo.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -59,10 +72,29 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    public String sch_id=new String();
+    //public String day=new String();
+    public String subjectId=new String();
+    public String stu_id=new String();
+    public String qq;
+    public int b=0;
     public String UserName=new String();
     public static int getRequestReadContacts() {
         return REQUEST_READ_CONTACTS;
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEvent(String data) {
+        //接收用户姓名
+        String a[]=data.split("/");
+        subjectId=a[0];
+        stu_id=a[1];
+        Log.i("+++",data);
+        Log.i("+++",subjectId);
+        Log.i("+++",stu_id);
+        //Log.i("（）（）（）（）（）（）",data);
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +102,7 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         setContentView(R.layout.activity_checkin);
         // Set up the login form.
         populateAutoComplete();
+        EventBus.getDefault().register(this);
 
         mPasswordView = (EditText) findViewById(R.id.check_code);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -145,28 +178,34 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         // Store values at the time of the login attempt.
         //String email = mEmailView.getText().toString();
         // password = mPasswordView.getText().toString();
-        String checkincode = "111";
+        String checkincode= mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(checkincode) && !isCheckValid(checkincode)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (isCheckValid(checkincode)) {
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
+            Log.i("+++","gg");
             focusView = mPasswordView;
             cancel = true;
         }
-
+//!TextUtils.isEmpty(checkincode) ||
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
+            cancel=false;
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // 关闭当前activity
             //this.onDestroy();
             //关闭当前activity方法一
+            Log.i("++++","签到成功");
+            change(checkincode);
+            EventBus.getDefault().unregister(this);
+            //intent.putExtra("fragid",1);
             finish();
             //关闭当前界面方法二
             //android.os.Process.killProcess(android.os.Process.myPid());
@@ -183,9 +222,69 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         return email.contains("20162430");
     }
 
+    public void change(String checkincode){
+        final String a=checkincode;
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                    String sql="update stu_info set sign_in_code = ? where stu_no = ?";
+                    PreparedStatement st=cn.prepareStatement(sql);
+                    st.setString(1,a);
+                    st.setString(2,stu_id);
+                    st.executeUpdate();
+                    cn.close();
+                    st.close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                countDownLatch.countDown();
+            }
+        }).start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     //检测密码是否正确
     private boolean isCheckValid(String checkincode) {
-
+        b=0;
+        final String a=checkincode;
+        Log.i("+++",checkincode);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+        Class.forName("com.mysql.jdbc.Driver");
+        java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+        String sql="SELECT sign_in_code FROM `schedule_con` WHERE sc_id ="+subjectId;
+        Statement st=(Statement)cn.createStatement();
+        ResultSet rs=st.executeQuery(sql);
+        while(rs.next()){
+            final String l=rs.getString("sign_in_code");
+            if(a.equals(l)) {
+                b=1;
+            }
+        }
+                    cn.close();
+                    st.close();
+                    rs.close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                countDownLatch.countDown();
+            }
+        }).start();
         //final UserInfo uuu = new UserInfo();
         //uuu.setUserId(email);
         //final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -238,7 +337,10 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
 
            // Toast.makeText(getApplicationContext(),answer,Toast.LENGTH_LONG).show();
 */
+    if(b==1)
         return true;
+    else
+        return false;
     }
 
     /**
@@ -387,5 +489,6 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
             showProgress(false);
         }
     }
+
 }
 
