@@ -10,13 +10,14 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,31 +25,42 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sjh.gcsjdemo.R;
+import com.example.sjh.gcsjdemo.entity.CustomVideoView;
+import com.example.sjh.gcsjdemo.entity.UserInfo;
+import com.example.sjh.gcsjdemo.utils.MyXMPPTCPConnection;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterListener;
 
+import java.io.IOException;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity1 extends Activity implements LoaderCallbacks<Cursor> , ConnectionListener, RosterListener {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -57,7 +69,7 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
 
     /**
      * A dummy authentication store containing known user names and passwords.
-     *
+     * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -68,64 +80,87 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    //private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    public String sch_id=new String();
-    //public String day=new String();
-    public String subjectId=new String();
-    public String stu_id=new String();
-    public String qq;
-    public int b=0;
     public String UserName=new String();
     public static int getRequestReadContacts() {
         return REQUEST_READ_CONTACTS;
     }
+    private MyXMPPTCPConnection connection;//聊天服务连接
+    private Roster roster;
+    private Boolean isLogin = false;
+    private String name;
+    private String id;
+    private GifImageView gifImageView ;//动图
+    private CustomVideoView videoview;
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onEvent(String data) {
-        //接收用户姓名
-        String a[]=data.split("/");
-        subjectId=a[0];
-        stu_id=a[1];
-        Log.i("+++",data);
-        Log.i("+++",subjectId);
-        Log.i("+++",stu_id);
-        //Log.i("（）（）（）（）（）（）",data);
+    private void initXMPPTCPConnection(){
+        connection = MyXMPPTCPConnection.getInstance();
+        connection.addConnectionListener(this);
+        roster = Roster.getInstanceFor(connection);
+        roster.addRosterListener(this);
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkin);
+        setContentView(R.layout.activity_login1);
         // Set up the login form.
+        mEmailView = (AutoCompleteTextView) findViewById(R. id.email);
         populateAutoComplete();
-        EventBus.getDefault().register(this);
 
-        mPasswordView = (EditText) findViewById(R.id.check_code);
+        videoview = (CustomVideoView) findViewById(R.id.videoview);
+        videoview.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.loginback));
+
+        videoview.start();
+        //循环播放
+        videoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                videoview.start();
+                mediaPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                    @Override
+                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                        return false;
+                    }
+                });
+            }
+        });
+
+        mPasswordView = (EditText) findViewById(R.id.password);
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptCheckin();
+                    attemptLogin();
                     return true;
                 }
                 return false;
             }
         });
 
-        Button mCheckInButton = (Button) findViewById(R.id.check_in_button);
-        mCheckInButton.setOnClickListener(new OnClickListener() {
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptCheckin();
+                attemptLogin();
             }
         });
 
-        mLoginFormView = findViewById(R.id.check_in_form);
-        mProgressView = findViewById(R.id.check_in_progress);
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+        /*gifImageView = findViewById(R.id.imagegifview);
+        GifDrawable gifDrawable = null;
+        try {
+            gifDrawable = new GifDrawable(getResources(), R.drawable.timg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gifImageView.setImageDrawable(gifDrawable);*/
+        initXMPPTCPConnection();
     }
 
     private void populateAutoComplete() {
@@ -143,7 +178,18 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
-
+        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
+            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok, new OnClickListener() {
+                        @Override
+                        @TargetApi(Build.VERSION_CODES.M)
+                        public void onClick(View v) {
+                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+                        }
+                    });
+        } else {
+            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+        }
         return false;
     }
 
@@ -166,53 +212,71 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptCheckin() {
+    private void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
 
         // Reset errors.
-
+        mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        //String email = mEmailView.getText().toString();
-        // password = mPasswordView.getText().toString();
-        String checkincode= mPasswordView.getText().toString();
+        //Store values at the time of the login attempt.
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        //String email = "20162430710";
+        //String password = "123456";
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (isCheckValid(checkincode)) {
-            mPasswordView.setError(getString(R.string.error_incorrect_password));
-            Log.i("+++","gg");
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(email,password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
-//!TextUtils.isEmpty(checkincode) ||
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            cancel=false;
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
-            // 关闭当前activity
-            //this.onDestroy();
-            //关闭当前activity方法一
-            Log.i("++++","签到成功");
-            change(checkincode);
-            EventBus.getDefault().unregister(this);
-            //intent.putExtra("fragid",1);
-            finish();
-            //关闭当前界面方法二
-            //android.os.Process.killProcess(android.os.Process.myPid());
-            //关闭当前界面方法三
-            //System.exit(0);
-            //关闭当前界面方法四
-            //this.onDestroy();
+            // perform the user login attempt.
+
+            //连接聊天服务器
+            List<String> loginList = new ArrayList<String>();
+            //loginList.add(et_account.getText().toString());
+            //loginList.add(et_password.getText().toString());
+            loginList.add(email);
+            loginList.add(password);
+            new loginTask().execute(loginList);
+            showProgress(true);
+            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Void) null);
+            //用Bundle携带数据
+            //新建一个显式意图，第一个参数为当前Activity类对象，第二个参数为你要打开的Activity类
+            Intent intent =new Intent(LoginActivity1.this,MainActivity.class);
+
+            //用Bundle携带数据
+            Bundle bundle=new Bundle();
+            //传递name参数为name到下一层
+            bundle.putString("name",name);
+            bundle.putString("id",id);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
@@ -222,88 +286,35 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         return email.contains("20162430");
     }
 
-    public void change(String checkincode){
-        final String a=checkincode;
+    //检测密码是否正确
+    private boolean isPasswordValid(String email, String password) {
+
+        final UserInfo uuu = new UserInfo();
+        uuu.setUserId(email);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                    String sql="update stu_info set sign_in_code = ? where stu_no = ?";
-                    PreparedStatement st=cn.prepareStatement(sql);
-                    st.setString(1,a);
-                    st.setString(2,stu_id);
-                    st.executeUpdate();
-                    cn.close();
-                    st.close();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                countDownLatch.countDown();
-            }
-        }).start();
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //检测密码是否正确
-    private boolean isCheckValid(String checkincode) {
-        b=0;
-        final String a=checkincode;
-        Log.i("+++",checkincode);
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-        Class.forName("com.mysql.jdbc.Driver");
-        java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-        String sql="SELECT sign_in_code FROM `schedule_con` WHERE sc_id ="+subjectId;
-        Statement st=(Statement)cn.createStatement();
-        ResultSet rs=st.executeQuery(sql);
-        while(rs.next()){
-            final String l=rs.getString("sign_in_code");
-            if(a.equals(l)) {
-                b=1;
-            }
-        }
-                    cn.close();
-                    st.close();
-                    rs.close();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                countDownLatch.countDown();
-            }
-        }).start();
-        //final UserInfo uuu = new UserInfo();
-        //uuu.setUserId(email);
-        //final CountDownLatch countDownLatch = new CountDownLatch(1);
-
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
-                    String sql="SELECT userpwd FROM `user` WHERE userid = "+uuu.getUserId();
+                    String sql="SELECT * FROM `user` WHERE user_id = "+uuu.getUserId();
                     Statement st=(Statement)cn.createStatement();
                     ResultSet rs=st.executeQuery(sql);
                     while(rs.next()){
-                        uuu.setRpwd(rs.getString("userpwd"));
+                        uuu.setRpwd(rs.getString("passwd"));
+                        uuu.setUserName(rs.getString("user_name"));
 
-                        Log.i("LoginActivity",uuu.getRpwd());
                     }
+
+                    name=uuu.getUserName();
+                    id=uuu.getUserId();
+
+
+
+
                     cn.close();
                     st.close();
                     rs.close();
@@ -336,11 +347,8 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         }
 
            // Toast.makeText(getApplicationContext(),answer,Toast.LENGTH_LONG).show();
-*/
-    if(b==1)
-        return true;
-    else
-        return false;
+
+        //return true;
     }
 
     /**
@@ -416,10 +424,10 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(CheckinActivity.this,
+                new ArrayAdapter<>(LoginActivity1.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        //mEmailView.setAdapter(adapter);
+        mEmailView.setAdapter(adapter);
     }
 
 
@@ -439,17 +447,17 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-       // private final String mEmail;
-       // private final String mPassword;
+        private final String mEmail;
+        private final String mPassword;
 
-        UserLoginTask(String chec) {
-           // mEmail = email;
-           // mPassword = password;
+        UserLoginTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            //
+            // TODO: attempt authentication against a network service.
 
             try {
                 // Simulate network access.
@@ -460,13 +468,13 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-               // if (pieces[0].equals(mEmail)) {
+                if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                 //   return pieces[1].equals(mPassword);
-               // }
+                    return pieces[1].equals(mPassword);
+                }
             }
 
-            //
+            // TODO: register the new account here.
             return true;
         }
 
@@ -489,6 +497,125 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
             showProgress(false);
         }
     }
+    //ConnectionListener
+    @Override
+    public void connected(XMPPConnection connection) {
 
+    }
+
+    @Override
+    public void authenticated(XMPPConnection connection, boolean resumed) {
+
+    }
+
+    @Override
+    public void connectionClosed() {
+
+    }
+
+    @Override
+    public void connectionClosedOnError(Exception e) {
+
+    }
+
+    @Override
+    public void reconnectionSuccessful() {
+
+    }
+
+    @Override
+    public void reconnectingIn(int seconds) {
+
+    }
+
+    @Override
+    public void reconnectionFailed(Exception e) {
+
+    }
+
+    //RosterListener
+    @Override
+    public void entriesAdded(Collection<String> addresses) {
+
+    }
+
+    @Override
+    public void entriesUpdated(Collection<String> addresses) {
+
+    }
+
+    @Override
+    public void entriesDeleted(Collection<String> addresses) {
+
+    }
+
+    @Override
+    public void presenceChanged(Presence presence) {
+
+    }
+
+    private class loginTask extends AsyncTask<List<String>, Object, Short>{
+
+
+        //此次连接登录服务器为离线状态
+        @Override
+        protected Short doInBackground(List<String>... params) {
+            if(connection != null){
+                try{
+                    //如果没有连接openfire服务器，则连接；若已连接openfire服务器则跳过。
+                    if(!connection.isConnected()){
+                        connection.connect();
+                    }
+
+                    if(TextUtils.isEmpty(params[0].get(0))){
+                        return 0;
+                    }else if(TextUtils.isEmpty(params[0].get(1))){
+                        return 1;
+                    }else{
+                        if(isLogin){
+                            connection.login(params[0].get(0), params[0].get(1));
+                            return 2;
+                        }else{
+                            if(connection.isConnected()){
+                                connection.login(params[0].get(0), params[0].get(1));
+                                Log.i("++++++++"+params[0].get(0), params[0].get(1));
+                                return 2;
+                            }
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return 3;
+                }
+            }
+            Log.i("+++++++++++++"+params[0].get(0), params[0].get(1));
+            return 3;
+        }
+
+        @Override
+        protected void onPostExecute(Short state) {
+            switch (state){
+                case 0:
+                    Toast.makeText(LoginActivity1.this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(LoginActivity1.this, "请输入密码", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    isLogin = false;
+                    //activity跳转到下一层
+                    Toast.makeText(LoginActivity1.this, "登录聊天成功", Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(LoginActivity.this, FriendsActivity.class));
+                    break;
+                case 3:
+                    isLogin = false;
+                    Toast.makeText(LoginActivity1.this, "登录出现错误", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
 }
 

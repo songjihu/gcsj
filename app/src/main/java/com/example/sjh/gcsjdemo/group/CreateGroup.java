@@ -32,6 +32,7 @@ public class CreateGroup extends AppCompatActivity {
 
     private  String mUserid=null;
     private String grp_name=null;
+    private String courseid;
     //群号grpno=课程号course_id+随机数grpid
     private  RandomN randomN=new RandomN();
     String grpid=null;
@@ -70,7 +71,7 @@ public class CreateGroup extends AppCompatActivity {
         spinner_course =findViewById(R.id.course_choice);
         final Spinner spinner_minnum =findViewById(R.id.Minnum);
         final Spinner spinner_maxnum =findViewById(R.id.Maxnum);
-        String[] maxnum={"4","8","12","16","20","24","28","32","36","40"};
+        String[] maxnum={"4","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40"};
         String[] minnum={"2","3","4","5","6","7","8","9"};
         ArrayList<String> max=new ArrayList<>();
         ArrayList<String> min=new ArrayList<>();
@@ -229,6 +230,7 @@ public class CreateGroup extends AppCompatActivity {
             for(int i= 0;i<course_name.size();i++)
                 if(result_course_name==course_name.get(i)) {
                     grpno = course_id.get(i) + grpid;
+                    courseid=course_id.get(i);
                     grp_c = course_id.get(i);
                 }
         }//群组号生成结束
@@ -257,7 +259,7 @@ public class CreateGroup extends AppCompatActivity {
                                 try {
                                     Class.forName("com.mysql.jdbc.Driver");
                                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                                    String sql="insert into team_info values ('"+ grpno+"','"+grp_name+"','"+mUserid+"', "+r_min+","+r_max+","+currentnum+","+status+")";
+                                    String sql="insert into team_info values ('"+ grpno+"','"+grp_name+"','"+mUserid+"', "+r_min+","+r_max+","+currentnum+","+status+",'"+courseid+"')";
                                     Statement st=(Statement)cn.createStatement();
                                     st.execute(sql);
                                     String sql1="update user_team set C_"+grp_c+" = '"+grpno+"' where user_id="+mUserid;

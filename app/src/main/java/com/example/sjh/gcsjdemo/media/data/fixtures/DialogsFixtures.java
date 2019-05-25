@@ -61,7 +61,7 @@ public final class DialogsFixtures extends FixturesData {
                 //"",//群聊图片，为空加载默认图片
                 users,//群聊用户组成
                 getMessage(lastMessageCreatedAt),//群聊的最后一条消息
-                i < 3 ? 3 - i : 0);//未读的消息数
+                0);//未读的消息数
     }
 
 
@@ -97,9 +97,12 @@ public final class DialogsFixtures extends FixturesData {
 
     private static Message getMessage(final Date date) {
         return new Message(
-                getRandomId(),
+                "",
                 getUser(),
-                getRandomMessage(),
+                "",
+                //getRandomId(),
+                //getUser(),
+                //getRandomMessage(),
                 date);
     }
 }

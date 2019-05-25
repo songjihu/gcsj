@@ -41,6 +41,7 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,6 +55,9 @@ import java.sql.Statement;
 import java.util.concurrent.CountDownLatch;
 
 import com.example.sjh.gcsjdemo.entity.UserInfo;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * A login screen that offers login via email/password.
@@ -91,6 +95,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
     private Boolean isLogin = false;
     private String name;
     private String id;
+    private GifImageView gifImageView ;//动图
 
     private void initXMPPTCPConnection(){
         connection = MyXMPPTCPConnection.getInstance();
@@ -108,6 +113,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -129,6 +135,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        /*gifImageView = findViewById(R.id.imagegifview);
+        GifDrawable gifDrawable = null;
+        try {
+            gifDrawable = new GifDrawable(getResources(), R.drawable.timg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gifImageView.setImageDrawable(gifDrawable);*/
         initXMPPTCPConnection();
     }
 

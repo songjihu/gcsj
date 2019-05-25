@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.example.sjh.gcsjdemo.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,6 +88,7 @@ public class ShowGroupInfo extends AppCompatActivity {
                 if(isempty){
 
                     showjoin();
+                    EventBus.getDefault().postSticky("1");
                     Toast.makeText(ShowGroupInfo.this,"加入成功",Toast.LENGTH_SHORT).show();
                 }
                 else{

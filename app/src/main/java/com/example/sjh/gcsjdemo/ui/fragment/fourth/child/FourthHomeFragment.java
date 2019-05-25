@@ -23,6 +23,7 @@ import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.entity.Reminder;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
+import com.example.sjh.gcsjdemo.group.CreateGroup;
 import com.example.sjh.gcsjdemo.person.DBUtils;
 
 import com.example.sjh.gcsjdemo.person.dCourse;
@@ -111,7 +112,9 @@ public class FourthHomeFragment extends SupportFragment {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
         //接收用户id
-        uTitles=data;
+        if(data.contains("20162430")){
+            uTitles=data;
+        }
         Log.i("----------------------",data);
     }
 
@@ -328,7 +331,7 @@ public class FourthHomeFragment extends SupportFragment {
         mNewChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MyGroup.class);//将该页面的学号传递至下个页面
+                Intent intent = new Intent(getActivity(), CreateGroup.class);//将该页面的学号传递至下个页面
                 Bundle  bundle =new Bundle();
                 bundle.putString("userid",  uTitles);
                 intent.putExtras(bundle);
