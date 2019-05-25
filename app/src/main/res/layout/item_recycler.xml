@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.sjh.gcsjdemo.ui.fragment.second.recycleview.RecyclerItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginLeft="12dp"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/slide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/layout_left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/other"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_yellow"
+                android:gravity="center"
+                android:text="其 他" />
+
+            <TextView
+                android:id="@+id/delete"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_red"
+                android:gravity="center"
+                android:text="删 除" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/content_white">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="80dp"
+                android:layout_height="149dp"
+                android:layout_gravity="center"
+                android:src="@drawable/linglingling1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="android开发交流群"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:text="11:44"
+                        android:textColor="#747373"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="89dp"
+                    android:text="广州-悠悠哉：RecyclerView很容易"
+                    android:textColor="#747373"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/remind_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                    android:text="2019-05-24 08:00:00"
+                    android:textColor="#747373"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.example.sjh.gcsjdemo.ui.fragment.second.recycleview.RecyclerItemView>

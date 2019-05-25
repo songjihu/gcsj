@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -295,7 +296,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                     int p= 0;
                     String result[]=new String[5]
                             ;                    Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
+                    Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
                     String sql="SELECT * FROM `schedule_info` WHERE day = "+WeekOf+" and sch_id = "+subjectId;
                     // String sql="SELECT * FROM `schedule_info` WHERE day = 1 and sch_id = 2016301";
                     //String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)"+"and sch_id="+"re.getString(`sch_id`)";
@@ -361,10 +362,12 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             re.close();
                         }*/
                     }
-                    cn.close();
-                    st.close();
+
+
                     //re.close();
                     rs.close();
+                    st.close();
+                    cn.close();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {

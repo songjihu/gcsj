@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:orientation="vertical">
 
@@ -89,13 +90,13 @@
 
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy2"
-            android:clipChildren="false"
-            android:paddingLeft="-12dp"
-            android:paddingRight="-12dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_app"/>
+        android:id="@+id/recy2"
+        android:clipChildren="false"
+        android:paddingLeft="-12dp"
+        android:paddingRight="-12dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_app"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
