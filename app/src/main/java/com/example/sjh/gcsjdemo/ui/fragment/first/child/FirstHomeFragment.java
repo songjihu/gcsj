@@ -187,18 +187,18 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
                 if(position==0&&signIn[0]==1&&mCheck[0].equals("签到状态：已开启\n")){
-                    String c=subjectId.concat("/");
+                   /* String c=subjectId.concat("/");
                     String d=c.concat(uTitles);
                     EventBus.getDefault().postSticky(d);
                     Intent intent = new Intent(getActivity(), CheckinActivity.class);
-                    startActivity(intent);
+                    startActivity(intent);*/
 
                 //初始化要加载的fragment
-               /* FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
+               FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
                 //3个参数为  点击位置 无用 item的内容
                 // 这里是使用SharedElement的用例
                 // LOLLIPOP(5.0)系统的 SharedElement支持有 系统BUG， 这里判断大于 > LOLLIPOP
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+               /* if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                     setExitTransition(new Fade());
                     fragment.setEnterTransition(new Fade());
                     fragment.setSharedElementReturnTransition(new DetailTransition());
@@ -210,9 +210,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             .addSharedElement(((FirstHomeAdapter.VH) vh).checkinmsg, getString(R.string.image_transition))
                             .addSharedElement(((FirstHomeAdapter.VH) vh).checkinstatus, "tv")
                             .start(fragment);
-                } else {
+                } else {*/
                     start(fragment);
-                }*/
+                //}
                 }
             }
         });
