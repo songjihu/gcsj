@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +13,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +38,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.Calendar;
 
 import com.example.sjh.gcsjdemo.activity.CheckinActivity;
+import com.example.sjh.gcsjdemo.activity.LoginActivity;
 import com.example.sjh.gcsjdemo.entity.StuInfo;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -46,6 +50,8 @@ import com.example.sjh.gcsjdemo.entity.Article;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.helper.DetailTransition;
 import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
+
+import static org.jivesoftware.smack.packet.IQ.Type.get;
 
 /**
  * Created by YoKeyword on 16/6/5.
@@ -61,9 +67,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     private boolean mInAtTop = true;
     private int mScrollTotal;
     private int signIn[]=new int[5];
-    private String uTitles = new String();
-    private String classId=new String();
-    private String subjectId=new String();
+    private String uTitles[] = new String[10];//id+name
+    //private String subjectId[]=new String[10];//所有老师要教的课程id
+    private List<String> subjectId = new ArrayList<String>();
     private String signInCode=new String();
     private String signCode[]=new String[5];
     public String qq;
@@ -126,22 +132,23 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     public void onEvent(String data) {
         //接收用户姓名+得到用户所在班级进一步得到课程ID
         // StuInfo a=new StuInfo();
-        if(data.contains("20162430")){
-            uTitles=data;
+        if(data.contains(":")){
+            uTitles=data.split(":");
+            Log.i("**********0",uTitles[0]);
+            Log.i("**********1",uTitles[1]);
         }
-        Log.i("**********",data);
     }
 
 
 
     public void initView(View view) {
-
+        EventBus.getDefault().postSticky(uTitles[0]);
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mRecy = (RecyclerView) view.findViewById(R.id.recy);//循环显示的多个item
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);//下拉循环布局
         welcomeView = (TextView) view.findViewById(R.id.welcomemsg);//欢迎信息：欢迎+同学/老师
         //在最上面打印欢迎XXX
-        welcomeView.setText("欢迎"+uTitles);//设置欢迎信息姓名
+        welcomeView.setText("欢迎"+uTitles[1]);//设置欢迎信息姓名
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);//设置下拉刷新的颜色
         mRefreshLayout.setOnRefreshListener(this);//设置下拉刷新的对象
         mAdapter = new FirstHomeAdapter(_mActivity);//定义item的适配器
@@ -149,70 +156,23 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mRecy.setLayoutManager(manager);//循环显示的多个item的布局管理
         mRecy.setAdapter(mAdapter);//循环显示的多个item的适配器设置
         //点击item的事件监听，开启新的fragment
-        StuInfo a=new StuInfo();
-        classId=a.getclassId(uTitles);
-        Log.i("+++++",classId);
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("test","注意注意注意注意");
-                try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                    String sql="SELECT class_sch_id FROM `class_info` WHERE class_id = "+classId;
-                    Statement st=(Statement)cn.createStatement();
-                    ResultSet rs=st.executeQuery(sql);
-                    while(rs.next()){
-                        subjectId=rs.getString("class_sch_id");
-                    }
-                    Log.i("SSS",subjectId);
-                    cn.close();
-                    st.close();
-                    rs.close();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                countDownLatch.countDown();
-            }
-        }).start();
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+
+        List<String> loginList = new ArrayList<String>();
+        //loginList.add(et_account.getText().toString());
+        //loginList.add(et_password.getText().toString());
+        loginList.add(uTitles[1]);
+        loginList.add(uTitles[1]);
+        new selectTask().execute(loginList);
+
+
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
                 if(position==0&&signIn[0]==1&&mCheck[0].equals("签到状态：已开启\n")){
-                   /* String c=subjectId.concat("/");
-                    String d=c.concat(uTitles);
-                    EventBus.getDefault().postSticky(d);
-                    Intent intent = new Intent(getActivity(), CheckinActivity.class);
-                    startActivity(intent);*/
-
                 //初始化要加载的fragment
                FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
-                //3个参数为  点击位置 无用 item的内容
-                // 这里是使用SharedElement的用例
-                // LOLLIPOP(5.0)系统的 SharedElement支持有 系统BUG， 这里判断大于 > LOLLIPOP
-               /* if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    setExitTransition(new Fade());
-                    fragment.setEnterTransition(new Fade());
-                    fragment.setSharedElementReturnTransition(new DetailTransition());
-                    fragment.setSharedElementEnterTransition(new DetailTransition());
-
-                    // 25.1.0以下的support包,Material过渡动画只有在进栈时有,返回时没有;
-                    // 25.1.0+的support包，SharedElement正常
-                    extraTransaction()
-                            .addSharedElement(((FirstHomeAdapter.VH) vh).checkinmsg, getString(R.string.image_transition))
-                            .addSharedElement(((FirstHomeAdapter.VH) vh).checkinstatus, "tv")
-                            .start(fragment);
-                } else {*/
                     start(fragment);
-                //}
                 }
             }
         });
@@ -246,32 +206,12 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
             }
         });
-        onRefresh();
+        //onRefresh();
 
 
     }
 
-
-    /*@Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.intent.action.CART_BROADCAST");
-        BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent){
-                String msg = intent.getStringExtra("data");
-                if("refresh".equals(msg)){
-                    updata();
-                }
-            }
-        };
-        broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);}*/
-
-
-
-        @Override
+    @Override
     public void onRefresh() {
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
@@ -335,6 +275,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
     }
 
+    //是否签到的检查函数
     public void isSign(){
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
@@ -390,7 +331,9 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                     String result[]=new String[5];
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                    String sql="SELECT * FROM `schedule_info` WHERE day = "+WeekOf+" and sch_id = "+subjectId;
+                    //String sql="SELECT * FROM `schedule_info` WHERE day = "+WeekOf;//获取所有当天的课程信息
+                    String sql="SELECT * FROM `schedule_info` WHERE day = "+WeekOf;//获取所有当天的课程信息
+                    Log.i("今天星期",WeekOf);
                     // String sql="SELECT * FROM `schedule_info` WHERE day = 1 and sch_id = 2016301";
                     //String sql2="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`two`)"+"and sch_id="+"re.getString(`sch_id`)";
                     // String sql3="SElECT course_name FROM `schedule_con where sc="+"rs.getString(`three`)"+"and sch_id="+"re.getString(`sch_id`)";
@@ -404,7 +347,20 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             if(rs.getString(j)==null)
                                 result[j-3]="kong";
                             else
-                                result[j-3]=rs.getString(j);
+                            {
+                                for (int m=0;m<subjectId.size();m++){
+                                    Log.i("9999",subjectId.get(m));
+                                    if(rs.getString(j).equals(subjectId.get(m))){
+                                        //如果是这个老师的课则加入
+                                        result[j-3]=rs.getString(j);//不为空则读取课程id号
+                                    }else {
+                                        //不是这个老师的课也置为空
+                                        result[j-3]="kong";
+                                    }
+                                }
+
+                            }
+
                         }
                         if(hour>20) p=5;
                         else{
@@ -421,9 +377,10 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             }
                         }
                         for(int h=p;h<=4;h++){
+                            //遍历结果，不为空的
                             if(result[h]!="kong"){
                                 //if(rs.getString(j)!=null) {
-                                String sql1="SElECT * FROM `schedule_con` where sc_id= "+result[h]+" and sch_id= "+subjectId+" and day ="+WeekOf;
+                                String sql1="SElECT * FROM `schedule_con` where sc_id= "+result[h]+" and day ="+WeekOf;
                                 ResultSet re=st.executeQuery(sql1);
                                 if(re.next()) {
                                     signIn[i] = re.getInt("sign_in");
@@ -508,5 +465,141 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         EventBus.getDefault().unregister(this);
     }
 
+    private class selectTask extends AsyncTask<List<String>, Object, Short> {
 
+
+        //此次连接登录服务器为离线状态
+        @Override
+        protected Short doInBackground(List<String>... params) {
+            condi();
+            /*读取本地时间，然后读取单天对应的课表，放入相应的结构中。*/
+            Calendar ca = Calendar.getInstance();
+            /* final int hour=ca.get(Calendar.HOUR);//小时 */
+            final String hour1=getHour();
+            final int hour=Integer.valueOf(hour1);
+            short c_num=0;
+            int WeekOfYear = ca.get(Calendar.DAY_OF_WEEK);
+            final String WeekOf=String.valueOf(WeekOfYear);
+            Log.i("****",WeekOf);
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj?useUnicode=true&characterEncoding=utf-8","root","mypwd");
+                String sql="SELECT sc_id FROM `schedule_con` WHERE teacher = \""+uTitles[1]+"\"";//根据教师姓名选择教授的课程id
+                Statement st=(Statement)cn.createStatement();
+                ResultSet rs=st.executeQuery(sql);
+                Log.i("-----sql-----",sql);
+                int i=0;
+                while(rs.next()){
+                    subjectId.add(rs.getString(1));
+                    Log.i("-----subjectid-----",rs.getString(1));
+                    i++;
+                }
+                Log.i("-----结束查询-----","");
+
+                i=0;
+                int p=0;
+                String result[]=new String[5];
+                Class.forName("com.mysql.jdbc.Driver");
+                sql="SELECT * FROM `schedule_info` WHERE day = "+WeekOf;//获取所有当天的课程信息
+                Log.i("今天星期",WeekOf);
+                st=(Statement)cn.createStatement();
+                rs=st.executeQuery(sql);
+                // ResultSet re;
+                while(rs.next()){
+                    for(int j=3;j<=7;j++) {
+                        if(rs.getString(j)==null)
+                            result[j-3]="kong";
+                        else
+                        {
+                            Log.i("长度为",""+subjectId.size());
+                            for (int m=0;m<subjectId.size();m++){
+                                Log.i("9999",subjectId.get(m));
+                                if(rs.getString(j).equals(subjectId.get(m))){
+                                    //如果是这个老师的课则加入
+                                    result[j-3]=rs.getString(j);//不为空则读取课程id号
+                                }else {
+                                    //不是这个老师的课也置为空
+                                    result[j-3]="kong";
+                                }
+                            }
+
+                        }
+
+                    }
+                    if(hour>20) p=5;
+                    else{
+                        if(hour>18) p=4;
+                        else {
+                            if(hour>16)p=3;
+                            else{
+                                if(hour>12) p=2;
+                                else{
+                                    if(hour>10) p=1;
+                                    else p=0;
+                                }
+                            }
+                        }
+                    }
+                    i=0;
+                    for(int h=p;h<=4;h++){
+                        //遍历结果，不为空的
+                        if(!result[h].equals("kong")){
+                            //if(rs.getString(j)!=null) {
+                            String sql1="SElECT * FROM `schedule_con` where sc_id= "+result[h]+" and day ="+WeekOf;
+                            ResultSet re=st.executeQuery(sql1);
+                            if(re.next()) {
+                                signIn[i] = re.getInt("sign_in");
+                                signCode[i]=re.getString("sign_in_code");
+                            }
+                            nTitles[i] = "第"+(h+1)+"节\n"  +re.getString("course_name")+"\n"+re.getString("address")+"\n"+re.getString("teacher");
+                            Log.i("打印",nTitles[i]);
+                            i=i+1;
+                        }
+                    }
+                    c_num=(short)i;
+                }
+                cn.close();
+                st.close();
+                rs.close();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Log.i("数量为",""+c_num);
+            return c_num;
+        }
+
+        @Override
+        protected void onPostExecute(Short state) {
+            Toast.makeText(getActivity(), "查询完成", Toast.LENGTH_SHORT).show();
+            List<Article> articleList = new ArrayList<>();
+            for (int i = 0; i <state; i++) {
+                int index = i;
+                //if(signIn[index]==0) fuzhi(mCheck[index],"签到状态：未开启\n");
+                //  else fuzhi(mCheck[index],"签到状态：已开启\n");
+                if(nTitles[index]=="kong"){
+                    nTitles[index]="";
+                    mCheck[index]="";
+
+                }
+                else{
+                    if(signIn[index]==0) mCheck[index]="签到状态：未开启\n";
+                    else mCheck[index]="签到状态：已开启\n";
+
+                    if(mCheck[index].equals("签到状态：已开启\n"))
+                        mImgRes[index]=R.drawable.linglingling;
+                }
+                Article article = new Article(nTitles[index], mCheck[index], mImgRes[index]);
+                articleList.add(article);
+            }
+            //设置数据到适配器
+            mAdapter.setDatas(articleList);
+            mRecy.setAdapter(mAdapter);
+            mRecy.scrollToPosition(0);
+            mRefreshLayout.setRefreshing(false);
+
+
+        }
+    }
 }

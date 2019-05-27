@@ -65,6 +65,7 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
         id = bundle.getString("id");
         Log.i("获取到的name值为",name);
 
+        id=id+":"+name;
         EventBus.getDefault().postSticky(id);
 
         //EventBus.getDefault().post(new MessageEvent("Hello everyone!"));
@@ -162,15 +163,4 @@ public class MainActivity extends SupportActivity implements BaseMainFragment.On
         mBottomBar.setCurrentItem(0);
     }
 
-    /**
-     * 这里暂没实现,忽略
-     */
-//    @Subscribe
-//    public void onHiddenBottombarEvent(boolean hidden) {
-//        if (hidden) {
-//            mBottomBar.hide();
-//        } else {
-//            mBottomBar.show();
-//        }
-//    }
 }

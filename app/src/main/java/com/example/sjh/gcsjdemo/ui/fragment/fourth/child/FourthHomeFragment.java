@@ -111,7 +111,10 @@ public class FourthHomeFragment extends SupportFragment {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
         //接收用户id
-        if(data.contains("20162430")){
+        if(data.contains(":")){
+            uTitles=data.split(":")[1];
+        }
+        if(data.contains("243")){
             uTitles=data;
         }
         Log.i("----------------------",data);

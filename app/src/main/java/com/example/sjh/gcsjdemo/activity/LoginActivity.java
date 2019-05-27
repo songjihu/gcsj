@@ -125,7 +125,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.teacher_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -266,7 +266,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
     //检测登录名是否有效
     private boolean isEmailValid(String email) {
 
-        return email.contains("20162430");
+        return email.contains("2");
     }
 
     //检测密码是否正确
@@ -291,13 +291,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> ,
                         uuu.setUserName(rs.getString("user_name"));
 
                     }
-
                     name=uuu.getUserName();
                     id=uuu.getUserId();
-
-
-
-
                     cn.close();
                     st.close();
                     rs.close();
