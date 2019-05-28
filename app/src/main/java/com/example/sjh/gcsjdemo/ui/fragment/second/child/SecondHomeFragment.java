@@ -59,7 +59,8 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
 
     private boolean mInAtTop = true;
     private int mScrollTotal;
-    private String uTitles;//接收用户id
+    private String uTitles[] = new String[10];//id+name
+
 
     private List<String> myTeams;
 
@@ -100,7 +101,11 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(String data) {
         //接收用户id
-        uTitles=data;
+        if(data.contains(":")){
+            uTitles=data.split(":");
+            Log.i("**********0",uTitles[0]);
+            Log.i("**********1",uTitles[1]);
+        }
         Log.i("----------------------",data);
     }
 
@@ -125,7 +130,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             public void run() {
                 RemindService rs = new RemindService();
                 try {
-                    myTeams =  rs.getMyManageTeamService(uTitles);
+                    myTeams =  rs.getMyManageTeamService(uTitles[0]);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -248,7 +253,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
     }
 
     public List<Reminder> getReminders(){
-        getRemoteRemind(uTitles);
+        getRemoteRemind(uTitles[0]);
         RemindUtil ru = new RemindUtil();
         List<Reminder> reminderList = new ArrayList<Reminder>();
         List<Remind>  list = new ArrayList<Remind>();
