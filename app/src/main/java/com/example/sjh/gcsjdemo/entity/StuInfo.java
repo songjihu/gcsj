@@ -42,6 +42,7 @@ public class StuInfo {
         this.classId=email;
     }
 
+    //根据教师号获取班级id
     public String getclassId(String email){
         final StuInfo a=new StuInfo();
         a.setClassId(email);

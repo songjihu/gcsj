@@ -59,8 +59,8 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
-                    android:layout_width="380dp"
-                    android:layout_height="58dp"
+                    android:layout_width="333dp"
+                    android:layout_height="51dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/useridpicture"
                     android:hint="@string/prompt_email"
@@ -75,13 +75,14 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_gravity="center_horizontal">
 
 
                 <AutoCompleteTextView
                     android:id="@+id/password"
-                    android:layout_width="380dp"
-                    android:layout_height="58dp"
+                    android:layout_width="333dp"
+                    android:layout_height="51dp"
                     android:background="@drawable/pwdpicture"
                     android:hint="@string/prompt_email"
                     android:inputType="textPassword"
@@ -104,7 +105,7 @@
                     android:layout_height="55dp"
                     android:layout_marginTop="20dp"
                     android:layout_gravity="start"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@drawable/studentbuttonpic"
                     android:textStyle="bold" />
 
@@ -115,7 +116,7 @@
                     android:layout_height="55dp"
                     android:layout_marginTop="20dp"
                     android:layout_gravity="right"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/teacherbuttonpic"
                     android:textStyle="bold" />
 

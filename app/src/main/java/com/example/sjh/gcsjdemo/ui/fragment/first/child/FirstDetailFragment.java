@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +30,9 @@ public class FirstDetailFragment extends BaseBackFragment {
     private Toolbar mToolbar;
     private ImageView mImgDetail;
     private TextView mTvTitle;
-    private FloatingActionButton mFab;
+    private Button button01;
+    private Button button02;
+    //private FloatingActionButton mFab;
 
     public static FirstDetailFragment newInstance(Article article) {
 
@@ -44,6 +47,7 @@ public class FirstDetailFragment extends BaseBackFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mArticle = getArguments().getParcelable(ARG_ITEM);
+
     }
 
     @Nullable
@@ -59,7 +63,9 @@ public class FirstDetailFragment extends BaseBackFragment {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //mImgDetail = (ImageView) view.findViewById(R.id.img_detail);
         mTvTitle = (TextView) view.findViewById(R.id.tv_content);
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        button01=(Button)view.findViewById(R.id.button_first);
+        button02=(Button)view.findViewById(R.id.button_second);
+        //mFab = (FloatingActionButton) view.findViewById(R.id.fab);
 
 
 
@@ -68,12 +74,18 @@ public class FirstDetailFragment extends BaseBackFragment {
         //mImgDetail.setImageResource(mArticle.getImgRes());
         mTvTitle.setText(mArticle.getTitle());
 
-        mFab.setOnClickListener(new View.OnClickListener() {
+         button01.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CheckinActivity.class);
                 startActivity(intent);
             }
         });
+         button02.setOnClickListener(new Button.OnClickListener(){
+             @Override
+             public void onClick(View view) {
+
+             }
+         });
     }
 }
