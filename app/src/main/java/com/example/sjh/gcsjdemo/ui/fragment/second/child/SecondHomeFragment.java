@@ -250,7 +250,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
     @Override
     public void onItemClick(View view, int position) {
         //在这里可以做出一些反应（跳转界面、弹出弹框之类）
-        Toast.makeText(getContext(),"点击了：" + position,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"点击了：" + position,Toast.LENGTH_SHORT).show();
     }
 
     //点击删除按钮时，根据传入的 position 调用 RecyclerAdapter 中的 removeData() 方法

@@ -16,13 +16,13 @@
             android:layout_toRightOf="@+id/layout_left"
             android:orientation="horizontal">
 
-            <TextView
+          <!--  <TextView
                 android:id="@+id/other"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_yellow"
                 android:gravity="center"
-                android:text="其 他" />
+                android:text="其 他" />-->
 
             <TextView
                 android:id="@+id/delete"
@@ -49,7 +49,7 @@
                 android:src="@drawable/linglingling1" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="216dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -70,7 +70,7 @@
                         android:textColor="#000000"
                         android:textSize="18sp" />
 
-                    <TextView
+                    <!-- <TextView
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                         android:paddingTop="10dp"
                         android:text="11:44"
                         android:textColor="#747373"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" />-->
 
                 </LinearLayout>
 
@@ -87,7 +87,7 @@
                     android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="89dp"
-                    android:text="广州-悠悠哉：RecyclerView很容易"
+                    android:text="人工智能"
                     android:textColor="#747373"
                     android:textSize="14sp" />
 

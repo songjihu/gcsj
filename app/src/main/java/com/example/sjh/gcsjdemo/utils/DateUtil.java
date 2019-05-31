@@ -27,6 +27,7 @@ public class DateUtil {
 		return result;
 	}
 
+
 	/**
 	 *	把给定的一个时间字符串str按给定的格式format转换成date类型并返回
 	 * @param str :要转换的时间字符串
@@ -49,7 +50,7 @@ public class DateUtil {
 	 */
 	public static String getCurrentDateStr(){
 		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(date);
 	}
 	/**
@@ -59,7 +60,7 @@ public class DateUtil {
 	 */
 	public static String getNowDateStr(){
 		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddhhmmss");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
 		return sdf.format(date);
 	}
 

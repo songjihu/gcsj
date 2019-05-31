@@ -83,7 +83,7 @@ public class SecondHomeAdapter extends RecyclerView.Adapter<SecondHomeAdapter.VH
         holder.layout_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"做出操作，进入新的界面或弹框",Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context,"做出操作，进入新的界面或弹框",Toast.LENGTH_SHORT).show();
                 //判断是否有删除菜单打开
                 if (menuIsOpen()) {
                     closeMenu();//关闭菜单
@@ -94,12 +94,12 @@ public class SecondHomeAdapter extends RecyclerView.Adapter<SecondHomeAdapter.VH
                 }
             }
         });
-        holder.other.setOnClickListener(new View.OnClickListener() {
+       /* holder.other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context,"其他："+position,Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +146,7 @@ public class SecondHomeAdapter extends RecyclerView.Adapter<SecondHomeAdapter.VH
             content = (TextView) itemView.findViewById(R.id.content);
             remind_time = (TextView) itemView.findViewById(R.id.remind_time);
             layout_left = (LinearLayout) itemView.findViewById(R.id.layout_left);
-            other = (TextView) itemView.findViewById(R.id.other);
+          //  other = (TextView) itemView.findViewById(R.id.other);
             delete = (TextView) itemView.findViewById(R.id.delete);
             ((RecyclerItemView)itemView).setSlidingButtonListener(SecondHomeAdapter.this);
         }

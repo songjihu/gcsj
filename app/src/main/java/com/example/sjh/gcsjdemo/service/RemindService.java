@@ -8,7 +8,9 @@ import com.example.sjh.gcsjdemo.remotedao.RemoteRemindDao;
 import com.example.sjh.gcsjdemo.utils.DateUtil;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +39,16 @@ public class RemindService {
 
         if(con.length()==0) return 2;
 
-        if(time.length()!=19) return 3;
+
+        try {
+            Date dt1 = DateUtil.formatString(time,"yyyy-MM-dd HH:mm:ss");
+            Date dt2 = new Date();
+
+            Log.v("Date 比较",dt1+":"+dt2);
+            if(dt1.before(dt2)) return 3;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return 0;
     }
@@ -47,7 +58,13 @@ public class RemindService {
 
         if(con.length()==0) return 2;
 
-        if(time.length()!=19) return 3;
+        try {
+            Date dt1 = DateUtil.formatString(time,"yyyy-MM-dd HH:mm:ss");
+            Date dt2 = new Date();
+            if(dt1.before(dt2)) return 3;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         if(teamId.length()==0) return 4;
 

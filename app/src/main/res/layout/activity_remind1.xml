@@ -44,7 +44,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="275dp">
+        android:layout_height="312dp">
 
         <EditText
             android:id="@+id/pub_text"
@@ -100,31 +100,9 @@
             android:padding="8dp"
             android:textSize="18sp" />
 
-
-
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="94dp"
-            android:layout_height="29dp"
-            android:layout_above="@+id/pub_button"
-            android:layout_alignParentStart="true"
-            android:layout_weight="1"
-            android:text="群组id" />
-
-        <EditText
-            android:id="@+id/teamEditor"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -144,4 +122,3 @@
 
 
 </LinearLayout>
-
