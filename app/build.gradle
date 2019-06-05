@@ -63,6 +63,5 @@ dependencies {
     implementation 'com.github.stfalcon:chatkit:0.3.3'
     implementation files('libs/kxml2-2.3.0.jar')
 
-
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
 }

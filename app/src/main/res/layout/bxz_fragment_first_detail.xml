@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,67 +7,50 @@
 
     <Button
         android:id="@+id/button_first"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dip"
-        android:layout_marginTop="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
         android:text="发起签到"
         android:textColor="@color/blue"
-
         Android:textSize="30sp" />
 
-        <Button
-            android:id="@+id/button_second"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="240dip"
-            android:layout_marginTop="200dp"
-            android:text="签到情况"
-            android:textColor="@color/blue"
+    <Button
+        android:id="@+id/button_second"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="120dp"
+        android:text="签到情况"
+        android:textColor="@color/blue"
+        Android:textSize="30sp" />
 
-            Android:textSize="30sp" />
-   <!-- <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <Button
+        android:id="@+id/button_third"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="240dp"
+        android:text="签到关闭"
+        android:textColor="@color/blue"
+        Android:textSize="30sp" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout_check"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:background="@android:color/white"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
+        android:layout_marginTop="150dp"
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_check"
+            android:clipChildren="false"
+            android:paddingLeft="-12dp"
+            android:paddingRight="-12dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary">
+            android:background="@color/bg_app"/>
 
-            <ImageView
-                android:id="@+id/img_detail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bg_zero"
-                android:transitionName="image_transition" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_detail" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="mini"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_arrow_forward_white_24dp" />-->
-
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

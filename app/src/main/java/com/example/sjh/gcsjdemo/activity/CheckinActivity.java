@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sjh.gcsjdemo.R;
 
@@ -76,33 +77,23 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
     //public String day=new String();
     public String subjectId=new String();
     public String stu_id=new String();
-    public String qq;
-    public int b=0;
-    public String UserName=new String();
+    private static String signinClassid;
     public static int getRequestReadContacts() {
         return REQUEST_READ_CONTACTS;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onEvent(String data) {
-        //接收用户姓名
-        String a[]=data.split("/");
-        subjectId=a[0];
-        stu_id=a[1];
-        Log.i("+++",data);
-        Log.i("+++",subjectId);
-        Log.i("+++",stu_id);
-        //Log.i("（）（）（）（）（）（）",data);
-    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent =getIntent();
+        Bundle bundle=intent.getExtras();
+        //mUserid= bundle.getString("userid");
+        signinClassid=bundle.getString("signinClassid");
         setContentView(R.layout.activity_checkin);
         // Set up the login form.
         populateAutoComplete();
-        EventBus.getDefault().register(this);
 
         mPasswordView = (EditText) findViewById(R.id.check_code);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -183,58 +174,29 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (isCheckValid(checkincode)) {
-            mPasswordView.setError(getString(R.string.error_incorrect_password));
-            Log.i("+++","gg");
-            focusView = mPasswordView;
-            cancel = true;
-        }
-//!TextUtils.isEmpty(checkincode) ||
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            cancel=false;
-            focusView.requestFocus();
+        if (checkincode.isEmpty()) {
+            Toast.makeText(getApplicationContext(), getString(R.string.checkinerror),Toast.LENGTH_SHORT).show();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // 关闭当前activity
-            //this.onDestroy();
-            //关闭当前activity方法一
             Log.i("++++","签到成功");
-            change(checkincode);
-            EventBus.getDefault().unregister(this);
-            //intent.putExtra("fragid",1);
+            change(checkincode,signinClassid);
             finish();
-            //关闭当前界面方法二
-            //android.os.Process.killProcess(android.os.Process.myPid());
-            //关闭当前界面方法三
-            //System.exit(0);
-            //关闭当前界面方法四
-            //this.onDestroy();
         }
     }
 
-    //检测登录名是否有效
-    private boolean isEmailValid(String email) {
-
-        return email.contains("20162430");
-    }
-
-    public void change(String checkincode){
-        final String a=checkincode;
+    public void change(final String checkincode, final String signinClassid){
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-                    String sql="update stu_info set sign_in_code = ? where stu_no = ?";
+                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj?useUnicode=true&characterEncoding=utf-8","root","mypwd");
+                    String sql="update schedule_con set sign_in_code = ? , sign_in = 1 where sc_id = ?";
                     PreparedStatement st=cn.prepareStatement(sql);
-                    st.setString(1,a);
-                    st.setString(2,stu_id);
+                    Log.i("--------sql-------",sql);
+                    st.setString(1,checkincode);
+                    st.setString(2,signinClassid);
                     st.executeUpdate();
                     cn.close();
                     st.close();
@@ -251,96 +213,6 @@ public class CheckinActivity extends Activity implements LoaderCallbacks<Cursor>
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    //检测密码是否正确
-    private boolean isCheckValid(String checkincode) {
-        b=0;
-        final String a=checkincode;
-        Log.i("+++",checkincode);
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-        Class.forName("com.mysql.jdbc.Driver");
-        java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/gcsj","root","mypwd");
-        String sql="SELECT sign_in_code FROM `schedule_con` WHERE sc_id ="+subjectId;
-        Statement st=(Statement)cn.createStatement();
-        ResultSet rs=st.executeQuery(sql);
-        while(rs.next()){
-            final String l=rs.getString("sign_in_code");
-            if(a.equals(l)) {
-                b=1;
-            }
-        }
-                    cn.close();
-                    st.close();
-                    rs.close();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                countDownLatch.countDown();
-            }
-        }).start();
-        //final UserInfo uuu = new UserInfo();
-        //uuu.setUserId(email);
-        //final CountDownLatch countDownLatch = new CountDownLatch(1);
-
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    java.sql.Connection cn= DriverManager.getConnection("jdbc:mysql://182.254.161.189/kcsj","root","mypwd");
-                    String sql="SELECT userpwd FROM `user` WHERE userid = "+uuu.getUserId();
-                    Statement st=(Statement)cn.createStatement();
-                    ResultSet rs=st.executeQuery(sql);
-                    while(rs.next()){
-                        uuu.setRpwd(rs.getString("userpwd"));
-
-                        Log.i("LoginActivity",uuu.getRpwd());
-                    }
-                    cn.close();
-                    st.close();
-                    rs.close();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                countDownLatch.countDown();
-            }
-        }).start();
-
-        //LoginThread thread = new LoginThread(email,password);
-        //thread.start();
-        //uuu=thread.getUu();
-
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        //return password.length() > 4;
-        if(uuu.getRpwd().equals(password)){
-            Toast.makeText(getApplicationContext(),"登陆成功",Toast.LENGTH_LONG).show();
-            return true;
-        }
-        else{
-            return false;
-        }
-
-           // Toast.makeText(getApplicationContext(),answer,Toast.LENGTH_LONG).show();
-*/
-    if(b==1)
-        return true;
-    else
-        return false;
     }
 
     /**

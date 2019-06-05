@@ -44,6 +44,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
 
     private boolean mInAtTop = true;
+    private static boolean ischeckon;
     private int mScrollTotal;
     private int signIn[]=new int[5];
     private String uTitles[] = new String[10];//id+name
@@ -53,6 +54,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     private String signCode[]=new String[5];
     private selectTask selectTask= new selectTask();
     private List<String> sign_in_flag= new ArrayList<String>();
+    private String signinClassid[]=new String[5];
     public String qq;
 
 
@@ -69,7 +71,6 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
     public static FirstHomeFragment newInstance() {
 
         Bundle args = new Bundle();
-
         FirstHomeFragment fragment = new FirstHomeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -118,10 +119,11 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
-                if(position==0&&signIn[0]==1&&mCheck[0].equals("签到状态：已开启\n")){
+                if(position==0&&!signinClassid[0].isEmpty()){
                 //初始化要加载的fragment
-               FirstDetailFragment fragment = FirstDetailFragment.newInstance(mAdapter.getItem(position));
-                    start(fragment);
+               FirstDetailFragment fragment = FirstDetailFragment.newInstance(signinClassid[0],ischeckon);
+               Log.i("=======ischeckon======", String.valueOf(ischeckon));
+               start(fragment);
                 }
             }
         });
@@ -265,6 +267,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
                             if(re.next()) {
                                 signIn[i] = re.getInt("sign_in");
                                 signCode[i]=re.getString("sign_in_code");
+                                signinClassid[0]=result[h];//加入item对应的课程号
                             }
                             nTitles[i] = "第"+(h+1)+"节\n"  +re.getString("course_name")+"\n"+re.getString("address")+"\n"+re.getString("teacher");
                             Log.i("打印",nTitles[i]);
@@ -298,11 +301,15 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
                 }
                 else{
-                    if(signIn[i]==0) mCheck[i]="签到状态：未开启\n";
-                    else mCheck[i]="签到状态：已开启\n";
+                    if(signIn[i]==0){
+                        mCheck[i]="签到状态：未开启\n";
+                        ischeckon=false;
+                    }
+                    else {
+                        mCheck[i]="签到状态：已开启\n";
+                        ischeckon=true;
+                    }
 
-                    if(mCheck[i].equals("签到状态：已开启\n"))
-                        mImgRes[i]=R.drawable.linglingling;
                 }
                 Article article = new Article(nTitles[i], mCheck[i], mImgRes[i]);
                 articleList.add(article);
