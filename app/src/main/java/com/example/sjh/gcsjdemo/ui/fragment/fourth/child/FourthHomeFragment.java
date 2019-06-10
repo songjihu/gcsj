@@ -57,7 +57,7 @@ public class FourthHomeFragment extends SupportFragment {
     private Button mAddChat;//加入群聊
     private Button mNewChat;//创建群聊
 
-    private String uTitles;//接收用户id
+    private String uTitles[] = new String[10];//id+name
 
     //刷新课表定义变量
     ArrayList<dCourse> cou_list =new ArrayList<>();
@@ -113,10 +113,9 @@ public class FourthHomeFragment extends SupportFragment {
     public void onEvent(String data) {
         //接收用户id
         if(data.contains(":")){
-            uTitles=data.split(":")[1];
-        }
-        if(data.contains("243")){
-            uTitles=data;
+            uTitles=data.split(":");
+            Log.i("**********0",uTitles[0]);
+            Log.i("**********1",uTitles[1]);
         }
         Log.i("----------------------",data);
     }
@@ -131,7 +130,7 @@ public class FourthHomeFragment extends SupportFragment {
         mNewChat = (Button) view.findViewById(R.id.new_chat_button) ;
         mUserid = (TextView) view.findViewById(R.id.user_text);//欢迎信息：欢迎+同学/老师
         //在最上面打印欢迎XXX
-        mUserid.setText(uTitles);//设置欢迎信息姓名
+        mUserid.setText(uTitles[1]);//设置欢迎信息姓名
 
         //3个按钮的监听事件
         mUser.setOnClickListener(new View.OnClickListener() {
@@ -323,7 +322,7 @@ public class FourthHomeFragment extends SupportFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MyGroup.class);//将该页面的学号传递至下个页面
                 Bundle  bundle =new Bundle();
-                bundle.putString("userid",  uTitles);
+                bundle.putString("userid",  uTitles[0]);
                 intent.putExtras(bundle);
                 //bundle.putCharSequence("userid",  mUserid.toString());
                 startActivity(intent);
@@ -336,7 +335,7 @@ public class FourthHomeFragment extends SupportFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CreateGroup.class);//将该页面的学号传递至下个页面
                 Bundle  bundle =new Bundle();
-                bundle.putString("userid",  uTitles);
+                bundle.putString("userid",  uTitles[0]);
                 intent.putExtras(bundle);
                 //bundle.putCharSequence("userid",  mUserid.toString());
                 startActivity(intent);

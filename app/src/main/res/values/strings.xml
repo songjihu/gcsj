@@ -167,5 +167,7 @@
     <string name="more">更多</string>
     <string name="me">我的</string>
     <string name="home">首页</string>
+    <string name="checkinerror">签到码过短</string>
+    <string name="pcheckinerror">签到已开启</string>
 
 </resources>
