@@ -66,7 +66,10 @@ public class RemindService {
         List<Remind> remindList = null;
         try {
             obj = rrd.getMyTeams(userId);
-            remindList =  rrd.getMyRemoteReminds(obj,userId, DateUtil.getCurrentDateStr());
+            if(obj!= null && !obj.isEmpty()){
+                remindList =  rrd.getMyRemoteReminds(obj,userId, DateUtil.getCurrentDateStr());
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

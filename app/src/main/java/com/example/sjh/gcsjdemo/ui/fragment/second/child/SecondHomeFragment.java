@@ -15,18 +15,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.sjh.gcsjdemo.RemindActivity;
 import com.example.sjh.gcsjdemo.activity.MainActivity;
 import com.example.sjh.gcsjdemo.activity.PublishActivity;
 import com.example.sjh.gcsjdemo.R;
-import com.example.sjh.gcsjdemo.RemindActivity;
 import com.example.sjh.gcsjdemo.activity.TimeActivity;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.dbmanager.RemindUtil;
 import com.example.sjh.gcsjdemo.entity.Remind;
-import com.example.sjh.gcsjdemo.entity.Reminder;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
 import com.example.sjh.gcsjdemo.service.RemindService;
-import com.example.sjh.gcsjdemo.ui.fragment.second.recycleview.RecyclerItemView;
 import com.example.sjh.gcsjdemo.utils.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
