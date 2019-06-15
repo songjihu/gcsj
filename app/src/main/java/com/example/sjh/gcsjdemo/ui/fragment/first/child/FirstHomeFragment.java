@@ -301,6 +301,7 @@ public class FirstHomeFragment extends SupportFragment implements SwipeRefreshLa
 
                         if(mCheck[index].equals("签到状态：已开启\n"))
                         mImgRes[index]=R.drawable.linglingling;
+                        else mImgRes[index]=R.drawable.linglinglingu;
                         }
                     Article article = new Article(nTitles[index], mCheck[index], mImgRes[index]);
                     articleList.add(article);
