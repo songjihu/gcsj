@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,22 +15,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.sjh.gcsjdemo.activity.CheckinActivity;
 import com.example.sjh.gcsjdemo.activity.MainActivity;
 import com.example.sjh.gcsjdemo.activity.PublishActivity;
 import com.example.sjh.gcsjdemo.R;
 import com.example.sjh.gcsjdemo.RemindActivity;
-import com.example.sjh.gcsjdemo.adapter.FirstHomeAdapter;
 import com.example.sjh.gcsjdemo.activity.TimeActivity;
 import com.example.sjh.gcsjdemo.adapter.SecondHomeAdapter;
 import com.example.sjh.gcsjdemo.dbmanager.RemindUtil;
 import com.example.sjh.gcsjdemo.entity.Remind;
 import com.example.sjh.gcsjdemo.entity.Reminder;
 import com.example.sjh.gcsjdemo.event.TabSelectedEvent;
-import com.example.sjh.gcsjdemo.helper.DetailTransition;
-import com.example.sjh.gcsjdemo.listener.OnItemClickListener;
 import com.example.sjh.gcsjdemo.service.RemindService;
-import com.example.sjh.gcsjdemo.ui.fragment.first.child.FirstDetailFragment;
+import com.example.sjh.gcsjdemo.ui.fragment.second.recycleview.RecyclerItemView;
 import com.example.sjh.gcsjdemo.utils.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,7 +45,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * 修改于 19/4/14
  * 用于展示提醒的item
  */
-public class SecondHomeFragment extends SupportFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SecondHomeFragment extends SupportFragment implements SwipeRefreshLayout.OnRefreshListener,SecondHomeAdapter.onSlidingViewClickListener {
 
     private RecyclerView mRecy;
     private SwipeRefreshLayout mRefreshLayout;
@@ -63,14 +60,6 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
 
     private List<String> myTeams;
 
-    //5个item的标题
-    private String[] mRemindermsg = new String[]{
-            "第2节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第2节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第2节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第2节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-            "第2节\n" + "人工智能（ 北一101）\n" + "柴玉梅\n" + "待交作业：\n" + "①\n" + "②\n" + "③",
-    };
 
     public static SecondHomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -85,7 +74,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         View view = inflater.inflate(R.layout.bxz_fragment_second_pager1, container, false);
         EventBusActivityScope.getDefault(_mActivity).register(this);
         EventBus.getDefault().register(this);
-//        initView(view);
+        initView(view);
         return view;
     }
 
@@ -113,13 +102,15 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         mRefreshLayout.setOnRefreshListener(this);//设置下拉刷新的对象
         mAdapter = new SecondHomeAdapter(_mActivity);//定义item的适配器
         LinearLayoutManager manager = new LinearLayoutManager(_mActivity);//设置为流布局并定义manger
+        mAdapter.setOnSlidListener(this);
         mRecy.setLayoutManager(manager);//循环显示的多个item的布局管理
         mRecy.setAdapter(mAdapter);//循环显示的多个item的适配器设置
+        mRecy.setItemAnimator(new DefaultItemAnimator());
         mStudylog = (Button) view.findViewById(R.id.study_log) ;
         mPublish = (Button) view.findViewById(R.id.publish_notice) ;
         mRemind = (Button) view.findViewById(R.id.publish_remind) ;
 
-        //3个按钮的监听事件
+
         new Thread(new Runnable(){
             @Override
             public void run() {
@@ -133,7 +124,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
         }).start();
 
 
-
+        //3个按钮的监听事件
         mStudylog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,8 +161,8 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             }
         });
         //设置数据到适配器
-//        mAdapter.setDatas(getReminders());
-
+        mAdapter.setDatas(getReminders());
+        mAdapter.setOnSlidListener((SecondHomeAdapter.onSlidingViewClickListener) this);
         mRecy.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -193,6 +184,7 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             public void run() {
                 mAdapter.setDatas(getReminders());
                 mRecy.setAdapter(mAdapter);
+                mRecy.setItemAnimator(new DefaultItemAnimator());
                 mRecy.scrollToPosition(0);//此句为设置显示
                 mRefreshLayout.setRefreshing(false);
             }
@@ -242,24 +234,28 @@ public class SecondHomeFragment extends SupportFragment implements SwipeRefreshL
             public void run() {
                 RemindService rs = new RemindService();
                 rs.remoteToLocalService(userId);
-
             }
         }).start();
     }
 
-    public List<Reminder> getReminders(){
+    public List<Remind> getReminders(){
         getRemoteRemind(uTitles);
         RemindUtil ru = new RemindUtil();
-        List<Reminder> reminderList = new ArrayList<Reminder>();
         List<Remind>  list = new ArrayList<Remind>();
-    //    list =  ru.listReminds(DateUtil.getCurrentDateStr(),uTitles);
+        list =  ru.listReminds(DateUtil.getCurrentDateStr(),uTitles);
 
-        // 显示所有查出来的remind item
-        for(Remind r:list){
-            Reminder reminder = new Reminder(r.toTypeString());
-            reminderList.add(reminder);
-        }
-        return reminderList;
+        return list;
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        //在这里可以做出一些反应（跳转界面、弹出弹框之类）
+        //Toast.makeText(getContext(),"点击了：" + position,Toast.LENGTH_SHORT).show();
+    }
+
+    //点击删除按钮时，根据传入的 position 调用 RecyclerAdapter 中的 removeData() 方法
+    @Override
+    public void onDeleteBtnCilck(View view, int position) {
+        mAdapter.removeData(position);
+    }
 }

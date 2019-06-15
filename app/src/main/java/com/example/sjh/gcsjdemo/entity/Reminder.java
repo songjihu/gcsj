@@ -34,7 +34,7 @@ public class Reminder implements Parcelable {
         return msg;
     }
 
-    public void setMsg(String title) {
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 
